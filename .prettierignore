@@ -10,3 +10,5 @@ reports/*.json
 reports/*.html
 # Applied migration SQL, journal and snapshots are immutable.
 drizzle/
+# Third-party agent skills are kept exactly as published.
+.claude/
