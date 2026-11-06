@@ -1,0 +1,76 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageIntro from '../components/PageIntro.astro';
+import PricingCards from '../components/PricingCards.astro';
+import FAQ from '../components/FAQ.astro';
+import ServiceChooser from '../components/ServiceChooser.astro';
+import { business } from '../config/business';
+---
+
+<Layout
+  title="Website support pricing"
+  description={`One-off website and Google profile improvements from £${business.prices.oneOff}, or ongoing support from £${business.prices.ongoing}/month. New websites are quoted separately.`}
+>
+  <PageIntro
+    title="Choose a one-off project or ongoing support."
+    description="The right arrangement depends on the work you need. These are starting prices, with a written scope and quote to consider before you commit."
+  />
+  <section class="container pricing-main" aria-label="Compare support options">
+    <ServiceChooser />
+    <PricingCards />
+    <p class="pricing-disclaimer">
+      Enquiring does not place an order. The final quote depends on the platform, condition of the
+      website, access and agreed requirements.
+    </p>
+  </section>
+  <section class="section container agreement-section" aria-labelledby="agreement-heading">
+    <div>
+      <h2 id="agreement-heading">What we agree before starting</h2>
+      <dl class="agreement-details">
+        <div>
+          <dt>The work and cost</dt>
+          <dd>
+            We set out the tasks, deliverables, timing and payment arrangements. Substantial extra
+            work is discussed and quoted before it goes ahead.
+          </dd>
+        </div>
+        <div>
+          <dt>Access and your input</dt>
+          <dd>
+            You keep ownership of your accounts, provide accurate business information and approve
+            relevant changes. We explain which permissions, content or photographs are needed.
+          </dd>
+        </div>
+        <div>
+          <dt>Ongoing arrangements</dt>
+          <dd>
+            For monthly support, the proposal confirms the scope, communication and cancellation
+            terms. Hosting, subscriptions and advertising costs are separate unless expressly
+            included.
+          </dd>
+        </div>
+      </dl>
+    </div>
+    <aside class="new-website-note">
+      <h3>Need a new website?</h3>
+      <p>
+        We’ll discuss the pages, content and functions you need and prepare a separate quote. A full
+        website or major rebuild is not included in the £{business.prices.oneOff} improvement
+        starting price.
+      </p>
+      <a class="inline-link" href="/contact/?service=new-website">
+        Ask about a website project
+      </a>
+    </aside>
+  </section>
+  <FAQ />
+  <div class="container page-next-step">
+    <p>
+      If you’re unsure what work is needed,{' '}
+      <a class="inline-link" href="/contact/">
+        request a free audit
+      </a>{' '}
+      before choosing a paid option.
+    </p>
+  </div>
+</Layout>

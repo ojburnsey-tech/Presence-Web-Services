@@ -1,0 +1,28 @@
+---
+import { faqs } from '../config/business';
+---
+
+<section class="section container faq-section" aria-labelledby="faq-heading">
+  <div class="section-heading">
+    <h2 id="faq-heading">Questions before you decide</h2>
+    <p>
+      <a href="/contact/" class="inline-link">
+        Ask about your own website
+      </a>{' '}
+      if your question isn’t covered here.
+    </p>
+  </div>
+  <div class="faq-list">
+    {faqs.map((item) => (
+      <details class="faq">
+        <summary>
+          {item.question}
+          <span class="faq-symbol" aria-hidden="true"></span>
+        </summary>
+        <div class="faq-answer">
+          <p>{item.answer}</p>
+        </div>
+      </details>
+    ))}
+  </div>
+</section>

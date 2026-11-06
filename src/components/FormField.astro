@@ -1,0 +1,47 @@
+---
+interface Props {
+  name: string;
+  label: string;
+  type?: 'text' | 'email' | 'url' | 'tel';
+  required?: boolean;
+  help?: string;
+  autocomplete?: string;
+  wide?: boolean;
+  placeholder?: string;
+  maxlength?: number;
+}
+const {
+  name,
+  label,
+  type = 'text',
+  required = false,
+  help,
+  autocomplete,
+  wide = false,
+  placeholder,
+  maxlength = 200,
+} = Astro.props;
+---
+
+<div class:list={['form-field', { 'form-field--wide': wide }]}>
+  <label for={name}>
+    {label} <span>{required ? '(required)' : '(optional)'}</span>
+  </label>
+  <input
+    id={name}
+    name={name}
+    type={type}
+    required={required}
+    autocomplete={autocomplete}
+    maxlength={maxlength}
+    placeholder={placeholder}
+    pattern={type === 'url' ? 'https?://.+' : type === 'text' && required ? '.*\\S.*' : undefined}
+    aria-describedby={[help ? `${name}-help` : '', `${name}-error`].filter(Boolean).join(' ')}
+  />
+  {help && (
+    <p class="field-help" id={`${name}-help`}>
+      {help}
+    </p>
+  )}
+  <p class="field-error" id={`${name}-error`} aria-live="polite"></p>
+</div>

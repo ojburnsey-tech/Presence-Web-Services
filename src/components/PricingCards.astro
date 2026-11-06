@@ -1,0 +1,61 @@
+---
+import Button from './Button.astro';
+import { business } from '../config/business';
+const plans = [
+  {
+    id: 'one-off',
+    name: 'One-off improvements',
+    price: business.prices.oneOff,
+    unit: 'one-off',
+    label: 'For a defined piece of work',
+    summary: 'Fix an agreed set of issues without taking on monthly support.',
+    items: [
+      'Review the website or profile and agree the fixes',
+      'Complete the selected page, form or profile changes',
+      'Explain what changed and any work still recommended',
+    ],
+    cta: 'Discuss a one-off project',
+  },
+  {
+    id: 'ongoing',
+    name: 'Ongoing partnership',
+    price: business.prices.ongoing,
+    unit: '/ month',
+    label: 'For regular management and development',
+    summary:
+      'Keep your website and Google profile maintained, with improvements agreed as priorities change.',
+    items: [
+      'Agree the website checks, updates and profile management needed',
+      'Include review monitoring and enquiry improvements where agreed',
+      'Report completed work, available measures and next priorities',
+    ],
+    cta: 'Discuss ongoing support',
+  },
+];
+---
+
+<div class="pricing-grid">
+  {plans.map((plan) => (
+    <article class:list={['price-card', { 'price-card--featured': plan.id === 'ongoing' }]}>
+      <p class="price-label">{plan.label}</p>
+      <h3>{plan.name}</h3>
+      <p class="price-from">From</p>
+      <p class="price">
+        £{plan.price} <span>{plan.unit}</span>
+      </p>
+      <p class="price-summary">{plan.summary}</p>
+      <ul class="check-list">
+        {plan.items.map((item) => (
+          <li>{item}</li>
+        ))}
+      </ul>
+      <Button
+        href={`/contact/?service=${plan.id}`}
+        variant={plan.id === 'ongoing' ? 'primary' : 'secondary'}
+      >
+        {plan.cta}
+      </Button>
+    </article>
+  ))}
+</div>
+{business.vatStatement && <p class="pricing-disclaimer">{business.vatStatement}</p>}

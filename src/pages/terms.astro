@@ -1,0 +1,138 @@
+---
+import LegalLayout from '../layouts/LegalLayout.astro';
+const sections = [
+  { id: 'website', label: 'Using this website' },
+  { id: 'review', label: 'The free public audit' },
+  { id: 'agreement', label: 'Paid work and proposals' },
+  { id: 'scope', label: 'Scope and costs' },
+  { id: 'ownership', label: 'Ownership and access' },
+  { id: 'results', label: 'Expectations and results' },
+  { id: 'questions', label: 'Questions and rights' },
+];
+---
+
+<LegalLayout
+  title="Terms of service"
+  description="How enquiries and public audits work, and the matters agreed in writing before any paid Presence Web Services project begins."
+  sections={sections}
+>
+  <section id="website">
+    <h2>1. Using this website</h2>
+    <p>
+      This website introduces the services offered by Presence Web Services and lets interested
+      business owners make an enquiry. It does not provide an online checkout. Submitting the form
+      does not purchase a service, start a paid contract or authorise work on your accounts.
+    </p>
+    <p>
+      Please use the website lawfully and provide accurate information. Do not submit passwords,
+      harmful content, confidential client records or information you are not entitled to share.
+    </p>
+  </section>
+  <section id="review">
+    <h2>2. The free public audit</h2>
+    <p>
+      The free audit is a thorough assessment of publicly available business information, such as a
+      website or Google Business Profile. It considers usability, service information, visible
+      business details and enquiry routes, with findings and recommended priorities. It does not
+      cover private systems, invasive security testing, or a complete technical, legal or
+      accessibility audit.
+    </p>
+    <p>
+      The audit is free and carries no obligation to purchase. It does not guarantee a response
+      within a particular time, availability to undertake a project, improved search rankings or a
+      particular business result. Any account access or implementation work is discussed separately.
+    </p>
+  </section>
+  <section id="agreement">
+    <h2>3. Written agreements for paid work</h2>
+    <p>
+      Before paid work begins, an individual written proposal should confirm the parties, agreed
+      services, deliverables, price, tax treatment, timing, access requirements and
+      responsibilities. Payment terms, duration, cancellation, notice, complaint handling and any
+      relevant liability provisions must be agreed there.
+    </p>
+    <p>
+      These website terms describe the enquiry process. They are not a substitute for the final
+      service agreement. No standard minimum contract term, setup fee or cancellation policy is
+      imposed by this website.
+    </p>
+  </section>
+  <section id="scope">
+    <h2>4. Scope, quotations and additional costs</h2>
+    <p>
+      Website prices are starting prices. The final quote depends on the website platform,
+      condition, access, complexity and agreed needs. Exact deliverables are agreed before work
+      begins.
+    </p>
+    <p>
+      One-off improvements cover a defined set of tasks. An ongoing partnership covers agreed
+      continuing support and priorities, rather than unlimited work. New websites, major redesigns,
+      extensive redevelopment, complicated repairs and substantial additional projects require a
+      separate quotation.
+    </p>
+    <p>
+      Hosting, domains, third-party subscriptions and advertising expenditure are separate unless
+      explicitly included in the written proposal. Any additional work or charge should be approved
+      before it is incurred.
+    </p>
+    <p>
+      Presence does not currently offer large custom software projects, specialist paid advertising
+      or enterprise SEO campaigns. Platform limitations or third-party decisions may affect what can
+      be delivered.
+    </p>
+  </section>
+  <section id="ownership">
+    <h2>5. Ownership, access and cooperation</h2>
+    <p>
+      Clients retain ownership of their existing websites, domains and Google Business Profiles.
+      Access should be granted using appropriate permissions where supported, with the client
+      retaining owner access. Passwords should not be sent through the public enquiry form.
+    </p>
+    <p>
+      The client is responsible for authorising changes, supplying accurate business information and
+      ensuring it has permission to use supplied content and images. The proposal should set out how
+      access, backups, content approval, any newly created work and handover will be handled.
+    </p>
+    <p>
+      A Google Business Profile is free to own. Presence charges for professional management and
+      improvement work. Presence is an independent service. Google controls its own services,
+      policies and verification.
+    </p>
+  </section>
+  <section id="results">
+    <h2>6. Realistic expectations</h2>
+    <p>
+      The purpose of the service is to improve the clarity, accuracy and usefulness of a business’s
+      online presence and customer contact journeys. Google rankings, website traffic, enquiries,
+      revenue and jobs cannot be guaranteed.
+    </p>
+    <p>
+      Third-party platforms control their own availability, verification, listings and policies.
+      Review support concerns authentic customer feedback and professional responses. Presence does
+      not offer purchased reviews, rating manipulation or removal of legitimate negative feedback.
+    </p>
+    <p>
+      Reports use available information. A change in a metric does not by itself prove that Presence
+      caused a business result.
+    </p>
+  </section>
+  <section id="questions">
+    <h2>7. Questions and legal rights</h2>
+    <p>
+      If you have a question about these terms, an enquiry or a proposed service, use the{' '}
+      <a class="inline-link" href="/contact/">
+        contact form
+      </a>
+      . Personal information is handled as described in the{' '}
+      <a class="inline-link" href="/privacy/">
+        privacy policy
+      </a>
+      .
+    </p>
+    <p>
+      Nothing on this website excludes rights or liabilities that cannot lawfully be excluded. The
+      final agreement for paid services should be reviewed for the relevant business circumstances
+      and jurisdiction before acceptance.
+    </p>
+  </section>
+</LegalLayout>

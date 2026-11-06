@@ -1,0 +1,17 @@
+---
+interface Props {
+  footer?: boolean;
+}
+const { footer = false } = Astro.props;
+---
+
+<a
+  href="/"
+  class:list={['wordmark', { 'wordmark--footer': footer }]}
+  aria-label="Presence Web Services home"
+>
+  <span>
+    presence<span class="wordmark-dot">.</span>
+  </span>
+  <span class="wordmark-sub">WEB SERVICES</span>
+</a>

@@ -1,0 +1,25 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Button from '../components/Button.astro';
+---
+
+<Layout
+  title="Page not found"
+  description="This page could not be found. Return to Presence Web Services or explore our services."
+  noindex
+>
+  <section class="container message-page">
+    <p class="section-label">Error 404</p>
+    <h1>We couldn’t find that page.</h1>
+    <p class="intro-copy">
+      The address may have changed, or the link may be incomplete. You can return to the homepage or
+      browse the services below.
+    </p>
+    <div class="hero-actions">
+      <Button href="/">Back to the homepage</Button>
+      <Button href="/services/" variant="text">
+        Explore our services
+      </Button>
+    </div>
+  </section>
+</Layout>

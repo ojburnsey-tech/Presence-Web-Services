@@ -147,3 +147,16 @@ vite.config.ts.timestamp-*
 
 # Turbo Repo
 .turbo
+
+# Local verification outputs
+work/
+test-results/
+playwright-report/
+
+# Server-local state
+*.sqlite
+*.sqlite-shm
+*.sqlite-wal
+.dev.vars*
+.wrangler/
+.lighthouseci/

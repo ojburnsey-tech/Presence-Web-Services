@@ -1,0 +1,33 @@
+---
+import { business, navigation } from '../config/business';
+---
+
+<footer class="compact-footer">
+  <div class="container">
+    <nav id="footer-navigation" aria-label="Footer navigation" tabindex="-1">
+      {navigation.map(({ href, label }) => (
+        <a href={href}>{label}</a>
+      ))}
+    </nav>
+    <div class="compact-footer-bottom">
+      <span>
+        © {new Date().getUTCFullYear()} {business.name}
+      </span>
+      <div>
+        <a href="/privacy/">Privacy policy</a>
+        <a href="/terms/">Terms of service</a>
+        {business.email && <a href={`mailto:${business.email}`}>{business.email}</a>}
+        {business.telephone && <a href={`tel:${business.telephone}`}>{business.telephone}</a>}
+      </div>
+    </div>
+    {business.legalName && (
+      <p class="legal-identification">
+        {business.legalName}
+        {business.legalStatus && ` · ${business.legalStatus}`}
+        {business.correspondenceAddress && ` · ${business.correspondenceAddress}`}
+        {business.companyNumber && ` · Company no. ${business.companyNumber}`}
+        {business.vatNumber && ` · VAT no. ${business.vatNumber}`}
+      </p>
+    )}
+  </div>
+</footer>

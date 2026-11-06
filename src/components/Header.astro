@@ -1,0 +1,76 @@
+---
+import Wordmark from './Wordmark.astro';
+import Button from './Button.astro';
+import { navigation } from '../config/business';
+const path = Astro.url.pathname;
+const descriptions = {
+  '/': 'Start with a free public audit',
+  '/services/': 'Website care, Google profiles and enquiries',
+  '/pricing/': 'One-off work and ongoing support',
+  '/about/': 'Who you’ll be working with',
+  '/contact/': 'Tell us about your business',
+};
+---
+
+<header class:list={['site-chrome', { 'site-chrome--landing': path === '/' }]}>
+  <div class="container chrome-inner">
+    <a class="menu-control" href="#footer-navigation" data-menu-fallback>
+      <span class="menu-control-icon" aria-hidden="true"></span>Menu
+    </a>
+    <button
+      type="button"
+      class="menu-control"
+      aria-label="Open menu"
+      aria-haspopup="dialog"
+      aria-controls="site-menu"
+      aria-expanded="false"
+      data-menu-open
+      hidden
+    >
+      <span class="menu-control-icon" aria-hidden="true"></span>Menu
+    </button>
+    {path !== '/' && <Wordmark />}
+  </div>
+  <dialog id="site-menu" class="sidebar-dialog" aria-labelledby="menu-title">
+    <button
+      type="button"
+      class="menu-control sidebar-dismiss"
+      aria-label="Close menu"
+      data-menu-toggle
+    >
+      <span class="menu-control-icon" aria-hidden="true"></span>
+      <span data-menu-label>Close</span>
+    </button>
+    <div class="sidebar-scrim" data-menu-backdrop aria-hidden="true"></div>
+    <div class="sidebar-panel" data-menu-panel>
+      <div class="sidebar-heading">
+        <p>Presence Web Services</p>
+        <h2 id="menu-title" class="sr-only">
+          Site navigation
+        </h2>
+      </div>
+      <nav class="sidebar-navigation" aria-label="Main navigation">
+        {navigation.map(({ href, label }) => (
+          <a href={href} aria-current={path === href ? 'page' : undefined}>
+            <span>{label}</span>
+            <small>{descriptions[href]}</small>
+          </a>
+        ))}
+      </nav>
+      <div class="sidebar-audit">
+        <Button href="/contact/" variant="light">
+          Request a free audit
+        </Button>
+        <p>A thorough look at what customers can see online. No account access needed.</p>
+      </div>
+      <div class="sidebar-legal">
+        <a href="/privacy/">Privacy</a>
+        <a href="/terms/">Terms</a>
+      </div>
+    </div>
+  </dialog>
+</header>
+<script>
+  import { setupMenu } from '../scripts/menu';
+  setupMenu();
+</script>

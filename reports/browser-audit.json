@@ -1,0 +1,576 @@
+{
+  "date": "2026-11-06T00:43:10.723Z",
+  "browser": "155.0.8059.79",
+  "routes": [
+    {
+      "path": "/",
+      "width": 390,
+      "violations": []
+    },
+    {
+      "path": "/services/",
+      "width": 390,
+      "violations": []
+    },
+    {
+      "path": "/pricing/",
+      "width": 390,
+      "violations": []
+    },
+    {
+      "path": "/about/",
+      "width": 390,
+      "violations": []
+    },
+    {
+      "path": "/contact/",
+      "width": 390,
+      "violations": []
+    },
+    {
+      "path": "/privacy/",
+      "width": 390,
+      "violations": []
+    },
+    {
+      "path": "/terms/",
+      "width": 390,
+      "violations": []
+    },
+    {
+      "path": "/thank-you/",
+      "width": 390,
+      "violations": []
+    },
+    {
+      "path": "/404.html",
+      "width": 390,
+      "violations": []
+    },
+    {
+      "path": "/",
+      "width": 1440,
+      "violations": []
+    },
+    {
+      "path": "/services/",
+      "width": 1440,
+      "violations": []
+    },
+    {
+      "path": "/pricing/",
+      "width": 1440,
+      "violations": []
+    },
+    {
+      "path": "/about/",
+      "width": 1440,
+      "violations": []
+    },
+    {
+      "path": "/contact/",
+      "width": 1440,
+      "violations": []
+    },
+    {
+      "path": "/privacy/",
+      "width": 1440,
+      "violations": []
+    },
+    {
+      "path": "/terms/",
+      "width": 1440,
+      "violations": []
+    },
+    {
+      "path": "/thank-you/",
+      "width": 1440,
+      "violations": []
+    },
+    {
+      "path": "/404.html",
+      "width": 1440,
+      "violations": []
+    }
+  ],
+  "reflow": [
+    {
+      "path": "/",
+      "width": 320,
+      "overflow": false
+    },
+    {
+      "path": "/services/",
+      "width": 320,
+      "overflow": false
+    },
+    {
+      "path": "/pricing/",
+      "width": 320,
+      "overflow": false
+    },
+    {
+      "path": "/about/",
+      "width": 320,
+      "overflow": false
+    },
+    {
+      "path": "/contact/",
+      "width": 320,
+      "overflow": false
+    },
+    {
+      "path": "/privacy/",
+      "width": 320,
+      "overflow": false
+    },
+    {
+      "path": "/terms/",
+      "width": 320,
+      "overflow": false
+    },
+    {
+      "path": "/thank-you/",
+      "width": 320,
+      "overflow": false
+    },
+    {
+      "path": "/404.html",
+      "width": 320,
+      "overflow": false
+    },
+    {
+      "path": "/",
+      "width": 375,
+      "overflow": false
+    },
+    {
+      "path": "/services/",
+      "width": 375,
+      "overflow": false
+    },
+    {
+      "path": "/pricing/",
+      "width": 375,
+      "overflow": false
+    },
+    {
+      "path": "/about/",
+      "width": 375,
+      "overflow": false
+    },
+    {
+      "path": "/contact/",
+      "width": 375,
+      "overflow": false
+    },
+    {
+      "path": "/privacy/",
+      "width": 375,
+      "overflow": false
+    },
+    {
+      "path": "/terms/",
+      "width": 375,
+      "overflow": false
+    },
+    {
+      "path": "/thank-you/",
+      "width": 375,
+      "overflow": false
+    },
+    {
+      "path": "/404.html",
+      "width": 375,
+      "overflow": false
+    },
+    {
+      "path": "/",
+      "width": 390,
+      "overflow": false
+    },
+    {
+      "path": "/services/",
+      "width": 390,
+      "overflow": false
+    },
+    {
+      "path": "/pricing/",
+      "width": 390,
+      "overflow": false
+    },
+    {
+      "path": "/about/",
+      "width": 390,
+      "overflow": false
+    },
+    {
+      "path": "/contact/",
+      "width": 390,
+      "overflow": false
+    },
+    {
+      "path": "/privacy/",
+      "width": 390,
+      "overflow": false
+    },
+    {
+      "path": "/terms/",
+      "width": 390,
+      "overflow": false
+    },
+    {
+      "path": "/thank-you/",
+      "width": 390,
+      "overflow": false
+    },
+    {
+      "path": "/404.html",
+      "width": 390,
+      "overflow": false
+    },
+    {
+      "path": "/",
+      "width": 768,
+      "overflow": false
+    },
+    {
+      "path": "/services/",
+      "width": 768,
+      "overflow": false
+    },
+    {
+      "path": "/pricing/",
+      "width": 768,
+      "overflow": false
+    },
+    {
+      "path": "/about/",
+      "width": 768,
+      "overflow": false
+    },
+    {
+      "path": "/contact/",
+      "width": 768,
+      "overflow": false
+    },
+    {
+      "path": "/privacy/",
+      "width": 768,
+      "overflow": false
+    },
+    {
+      "path": "/terms/",
+      "width": 768,
+      "overflow": false
+    },
+    {
+      "path": "/thank-you/",
+      "width": 768,
+      "overflow": false
+    },
+    {
+      "path": "/404.html",
+      "width": 768,
+      "overflow": false
+    },
+    {
+      "path": "/",
+      "width": 1024,
+      "overflow": false
+    },
+    {
+      "path": "/services/",
+      "width": 1024,
+      "overflow": false
+    },
+    {
+      "path": "/pricing/",
+      "width": 1024,
+      "overflow": false
+    },
+    {
+      "path": "/about/",
+      "width": 1024,
+      "overflow": false
+    },
+    {
+      "path": "/contact/",
+      "width": 1024,
+      "overflow": false
+    },
+    {
+      "path": "/privacy/",
+      "width": 1024,
+      "overflow": false
+    },
+    {
+      "path": "/terms/",
+      "width": 1024,
+      "overflow": false
+    },
+    {
+      "path": "/thank-you/",
+      "width": 1024,
+      "overflow": false
+    },
+    {
+      "path": "/404.html",
+      "width": 1024,
+      "overflow": false
+    },
+    {
+      "path": "/",
+      "width": 1440,
+      "overflow": false
+    },
+    {
+      "path": "/services/",
+      "width": 1440,
+      "overflow": false
+    },
+    {
+      "path": "/pricing/",
+      "width": 1440,
+      "overflow": false
+    },
+    {
+      "path": "/about/",
+      "width": 1440,
+      "overflow": false
+    },
+    {
+      "path": "/contact/",
+      "width": 1440,
+      "overflow": false
+    },
+    {
+      "path": "/privacy/",
+      "width": 1440,
+      "overflow": false
+    },
+    {
+      "path": "/terms/",
+      "width": 1440,
+      "overflow": false
+    },
+    {
+      "path": "/thank-you/",
+      "width": 1440,
+      "overflow": false
+    },
+    {
+      "path": "/404.html",
+      "width": 1440,
+      "overflow": false
+    },
+    {
+      "path": "/",
+      "width": 1920,
+      "overflow": false
+    },
+    {
+      "path": "/services/",
+      "width": 1920,
+      "overflow": false
+    },
+    {
+      "path": "/pricing/",
+      "width": 1920,
+      "overflow": false
+    },
+    {
+      "path": "/about/",
+      "width": 1920,
+      "overflow": false
+    },
+    {
+      "path": "/contact/",
+      "width": 1920,
+      "overflow": false
+    },
+    {
+      "path": "/privacy/",
+      "width": 1920,
+      "overflow": false
+    },
+    {
+      "path": "/terms/",
+      "width": 1920,
+      "overflow": false
+    },
+    {
+      "path": "/thank-you/",
+      "width": 1920,
+      "overflow": false
+    },
+    {
+      "path": "/404.html",
+      "width": 1920,
+      "overflow": false
+    },
+    {
+      "path": "/",
+      "condition": "landscape",
+      "width": 844,
+      "overflow": false
+    },
+    {
+      "path": "/services/",
+      "condition": "landscape",
+      "width": 844,
+      "overflow": false
+    },
+    {
+      "path": "/pricing/",
+      "condition": "landscape",
+      "width": 844,
+      "overflow": false
+    },
+    {
+      "path": "/about/",
+      "condition": "landscape",
+      "width": 844,
+      "overflow": false
+    },
+    {
+      "path": "/contact/",
+      "condition": "landscape",
+      "width": 844,
+      "overflow": false
+    },
+    {
+      "path": "/privacy/",
+      "condition": "landscape",
+      "width": 844,
+      "overflow": false
+    },
+    {
+      "path": "/terms/",
+      "condition": "landscape",
+      "width": 844,
+      "overflow": false
+    },
+    {
+      "path": "/thank-you/",
+      "condition": "landscape",
+      "width": 844,
+      "overflow": false
+    },
+    {
+      "path": "/404.html",
+      "condition": "landscape",
+      "width": 844,
+      "overflow": false
+    },
+    {
+      "path": "/",
+      "condition": "200-percent-text",
+      "width": 640,
+      "overflow": false
+    },
+    {
+      "path": "/services/",
+      "condition": "200-percent-text",
+      "width": 640,
+      "overflow": false
+    },
+    {
+      "path": "/pricing/",
+      "condition": "200-percent-text",
+      "width": 640,
+      "overflow": false
+    },
+    {
+      "path": "/about/",
+      "condition": "200-percent-text",
+      "width": 640,
+      "overflow": false
+    },
+    {
+      "path": "/contact/",
+      "condition": "200-percent-text",
+      "width": 640,
+      "overflow": false
+    },
+    {
+      "path": "/privacy/",
+      "condition": "200-percent-text",
+      "width": 640,
+      "overflow": false
+    },
+    {
+      "path": "/terms/",
+      "condition": "200-percent-text",
+      "width": 640,
+      "overflow": false
+    },
+    {
+      "path": "/thank-you/",
+      "condition": "200-percent-text",
+      "width": 640,
+      "overflow": false
+    },
+    {
+      "path": "/404.html",
+      "condition": "200-percent-text",
+      "width": 640,
+      "overflow": false
+    },
+    {
+      "path": "/",
+      "condition": "400-percent-reflow",
+      "width": 320,
+      "overflow": false
+    },
+    {
+      "path": "/services/",
+      "condition": "400-percent-reflow",
+      "width": 320,
+      "overflow": false
+    },
+    {
+      "path": "/pricing/",
+      "condition": "400-percent-reflow",
+      "width": 320,
+      "overflow": false
+    },
+    {
+      "path": "/about/",
+      "condition": "400-percent-reflow",
+      "width": 320,
+      "overflow": false
+    },
+    {
+      "path": "/contact/",
+      "condition": "400-percent-reflow",
+      "width": 320,
+      "overflow": false
+    },
+    {
+      "path": "/privacy/",
+      "condition": "400-percent-reflow",
+      "width": 320,
+      "overflow": false
+    },
+    {
+      "path": "/terms/",
+      "condition": "400-percent-reflow",
+      "width": 320,
+      "overflow": false
+    },
+    {
+      "path": "/thank-you/",
+      "condition": "400-percent-reflow",
+      "width": 320,
+      "overflow": false
+    },
+    {
+      "path": "/404.html",
+      "condition": "400-percent-reflow",
+      "width": 320,
+      "overflow": false
+    }
+  ],
+  "errors": []
+}

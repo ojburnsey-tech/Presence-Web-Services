@@ -1,0 +1,171 @@
+---
+import LegalLayout from '../layouts/LegalLayout.astro';
+import { business } from '../config/business';
+const sections = [
+  { id: 'responsibility', label: 'Who is responsible' },
+  { id: 'information', label: 'Information collected' },
+  { id: 'purpose', label: 'How information is used' },
+  { id: 'providers', label: 'Storage and providers' },
+  { id: 'retention', label: 'Retention' },
+  { id: 'rights', label: 'Your rights' },
+  { id: 'cookies', label: 'Cookies and changes' },
+];
+---
+
+<LegalLayout
+  title="Privacy policy"
+  description="How Presence Web Services handles information shared through an enquiry, and the choices you have about your personal information."
+  sections={sections}
+>
+  <section id="responsibility">
+    <h2>1. Who is responsible</h2>
+    {!business.launchReady && (
+      <p class="service-note">
+        Private test policy. The controller’s complete legal identity, correspondence address,
+        retention schedule and provider arrangements are awaiting confirmation before public launch.
+      </p>
+    )}
+    <p>
+      Presence Web Services uses enquiry information to respond to people asking about its website
+      and online presence services. This policy covers enquiries through this website, rather than
+      the processing arrangements for a paid client project.
+    </p>
+    {business.legalName && (
+      <p>
+        The data controller is {business.legalName}
+        {business.correspondenceAddress && `, ${business.correspondenceAddress}`}.
+      </p>
+    )}
+    <p>
+      For privacy questions, use the{' '}
+      <a class="inline-link" href="/contact/">
+        contact form
+      </a>
+      {business.email && (
+        <>
+          {' '}
+          or email{' '}
+          <a class="inline-link" href={`mailto:${business.email}`}>
+            {business.email}
+          </a>
+        </>
+      )}
+      . Explain that your message concerns personal information. Do not include identity documents,
+      passwords or sensitive information in the form.
+    </p>
+  </section>
+  <section id="information">
+    <h2>2. Information collected</h2>
+    <p>
+      The enquiry form asks for your contact name, business name, email address and main goal or
+      concern. You may also choose to provide a website address, Google Business Profile or Maps
+      link, location, service preference and telephone number.
+    </p>
+    <p>
+      If you request a review, Presence may look at publicly available business information that you
+      identify, such as your website and Google profile. Correspondence and notes relevant to your
+      enquiry may be kept with your submission.
+    </p>
+    <p>
+      The hosting infrastructure may process IP addresses and request details. The application uses
+      a keyed hash of the request IP for short-lived rate limits and does not store the raw IP with
+      enquiries. Please only share personal information you are entitled to provide.
+    </p>
+  </section>
+  <section id="purpose">
+    <h2>3. How and why information is used</h2>
+    <p>
+      Information is used to respond to your message, carry out a requested public audit, discuss
+      suitable support and prepare a proposal if you want one. It is also used where necessary to
+      keep the service secure or meet a legal obligation.
+    </p>
+    <p>
+      Where you enquire on your own behalf about a possible contract, the lawful basis is taking
+      steps at your request before entering a contract. For business enquiries made on behalf of an
+      organisation, and for appropriate record keeping and security, Presence relies on legitimate
+      interests in responding to relevant enquiries and running a safe service, balanced against
+      your rights. Legal obligations apply where records must be retained by law.
+    </p>
+    <p>
+      Sending an enquiry does not sign you up to marketing. Presence does not sell enquiry
+      information or use it to make automated decisions with legal or similarly significant effects.
+    </p>
+  </section>
+  <section id="providers">
+    <h2>4. Storage, service providers and transfers</h2>
+    <p>
+      The private test website runs on OpenAI Sites using Cloudflare hosting and a Cloudflare D1
+      database. Valid enquiry details are saved in that database. Only authorised owner access can
+      retrieve or delete them. A successful save does not send an email notification.
+    </p>
+    <p>
+      Email sent directly to contact@presencewebservices.co.uk is forwarded by Cloudflare Email
+      Routing to the owner's Gmail inbox. This is separate from the website form. OpenAI, Cloudflare
+      and Google process information under their own applicable service terms. Their contractual
+      roles, processing locations, subprocessors and international transfer safeguards must be
+      confirmed before the public service starts. No UK-only storage claim is made.
+    </p>
+    <p>
+      Presence limits access to information to what is needed for the enquiry or agreed work. No
+      enquiry information is published on this website, and the form does not store your details in
+      browser storage.
+    </p>
+  </section>
+  <section id="retention">
+    <h2>5. Keeping and deleting information</h2>
+    <p>
+      Private test enquiries have a one-day expiry. Expired rows are excluded and deleted on the
+      next submission, owner review or explicit owner purge. This does not guarantee deletion at the
+      exact expiry time. Only dummy details should be used during this test.
+    </p>
+    {business.privacyRetention && <p>{business.privacyRetention}</p>}
+    <p>
+      The production enquiry retention period is awaiting owner approval; public launch is blocked
+      until it is configured and published. When information is no longer needed, it should be
+      deleted from the database and any related correspondence, subject to provider backup cycles
+      and legal obligations. If you become a client, a separate agreement may explain the records
+      needed for the paid service.
+    </p>
+  </section>
+  <section id="rights">
+    <h2>6. Your rights</h2>
+    <p>
+      Depending on the circumstances, you may request access to your personal information,
+      correction of inaccurate information, erasure, restriction or portability. You may object to
+      processing based on legitimate interests. These rights have legal limits and may not apply to
+      every record.
+    </p>
+    <p>
+      Use the{' '}
+      <a class="inline-link" href="/contact/">
+        contact form
+      </a>{' '}
+      to make a request, with enough information to locate your enquiry. Proportionate identity
+      verification may be needed before information is disclosed. A request will be handled within
+      the applicable statutory time limit.
+    </p>
+    <p>
+      You can also complain to the UK Information Commissioner’s Office. Visit{' '}
+      <a class="inline-link" href="https://ico.org.uk/make-a-complaint/" rel="external">
+        ico.org.uk
+      </a>{' '}
+      for information about raising a data protection concern.
+    </p>
+  </section>
+  <section id="cookies">
+    <h2>7. Cookies and policy changes</h2>
+    <p>
+      This website does not include advertising trackers or analytics scripts. After a saved
+      enquiry, an essential, signed receipt cookie lasts ten minutes so the confirmation page can
+      show a genuine receipt. It contains an opaque record identifier, expiry and signature, not the
+      enquiry details. It is HttpOnly, SameSite=Lax and Secure over HTTPS. The private hosting
+      sign-in service may set its own authentication cookies. Hosting infrastructure may use
+      technical measures needed to deliver and secure the service. If optional analytics or other
+      tracking is introduced, this policy and any required consent controls must be updated first.
+    </p>
+    <p>
+      The policy should be reviewed when the website, enquiry process or service providers change.
+      The version available on this page describes the current website implementation.
+    </p>
+  </section>
+</LegalLayout>
