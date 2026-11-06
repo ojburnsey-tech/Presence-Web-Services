@@ -21,16 +21,40 @@ The source `.openai/hosting.json` declares the D1 logical binding. Sites owns ac
 
 ## Runtime variables
 
-| Key                      | Value / handling                                                                  |
-| ------------------------ | --------------------------------------------------------------------------------- |
-| `APP_SECRET`             | Random at least 32 characters; secret, HMAC for receipts/fingerprints/rate hashes |
-| `OWNER_REVIEW_TOKEN`     | Separate high-entropy at least 32 characters; secret, owner-only API bearer       |
-| `ENQUIRIES_ENABLED`      | `true` only when storage and owner access are configured                          |
-| `DEPLOYMENT_STAGE`       | `staging` for private candidate; `production` only after approval                 |
-| `ENQUIRY_RETENTION_DAYS` | Owner-approved integer 1–3650 for production; no default production choice        |
-| `PUBLIC_LAUNCH_APPROVED` | Leave false/absent until explicit public launch approval                          |
+| Key                      | Value / handling                                                                      |
+| ------------------------ | ------------------------------------------------------------------------------------- |
+| `APP_SECRET`             | Random at least 32 characters; secret, HMAC for receipts/fingerprints/rate hashes     |
+| `OWNER_REVIEW_TOKEN`     | Separate high-entropy at least 32 characters; secret, owner-only API bearer           |
+| `ENQUIRIES_ENABLED`      | `true` only when storage and owner access are configured                              |
+| `DEPLOYMENT_STAGE`       | `staging` for private candidate; `production` only after approval                     |
+| `ENQUIRY_RETENTION_DAYS` | `365` in production (12 months, as the privacy policy states). Staging stays at 1 day |
+| `RESEND_API_KEY`         | Secret. Resend API key with "Sending access" only. Without it no emails are sent      |
+| `MAIL_FROM`              | Optional. Defaults to `Presence Web Services <audits@mail.presencewebservices.co.uk>` |
+| `NOTIFY_EMAIL`           | Optional. Defaults to `contact@presencewebservices.co.uk`                             |
+| `PUBLIC_LAUNCH_APPROVED` | Leave false/absent until explicit public launch approval                              |
 
 `BUILD_PUBLIC_RELEASE` is forcibly supplied by the build from `business.launchReady`; a hosted runtime value cannot override the bundled false value. Production refuses to serve when either approval gate is false. Missing storage/secrets fail safely with 503. Staging uses a one-day dummy-record expiry. Runtime changes require deploying a saved version to apply the new revision.
+
+## Enquiry emails (Resend)
+
+Each new enquiry is saved first, then two emails are sent in the background:
+
+- **Owner alert** to `contact@presencewebservices.co.uk` (forwarded to Gmail by Cloudflare Email Routing). It contains every submitted field, Reply-To is the customer, and it links to PageSpeed Insights, Google search and Google Maps for the audit.
+- **Customer confirmation** from the same sender, Reply-To `contact@`. It contains no text the visitor typed, and each address receives at most two per day.
+
+Delivery never blocks or loses an enquiry. The outcome is stored on the row (`notify_status`, `confirm_status`) and shown by the owner API as `emailToOwner` and `emailToCustomer` (`sent:<id>`, `failed:<status>`, `skipped:<reason>` or `pending`). Resend idempotency keys (`alert-<id>`, `confirm-<id>`) stop retries sending duplicates.
+
+Setup (owner):
+
+1. Create a free account at resend.com. The Free plan allows 3,000 emails a month and 100 a day.
+2. **Domains → Add domain** and enter `mail.presencewebservices.co.uk`. Resend recommends a sending subdomain so the main domain's reputation is protected.
+3. In Cloudflare **DNS → Records**, add exactly the records Resend shows (DKIM and SPF; TXT and MX on the subdomain). Set any CNAME to **DNS only**. Do not edit the existing apex MX, SPF or `cf2024-1._domainkey` records: they run `contact@` forwarding.
+4. Wait for Resend to show the domain as **Verified** (it can take up to 72 hours).
+5. **API Keys → Create API key** with **Sending access** for that domain only. Copy it once.
+6. In ChatGPT Sites runtime settings, add `RESEND_API_KEY` as a **secret**, and set `ENQUIRY_RETENTION_DAYS` to `365` for production. Deploy a new saved version so the runtime picks them up.
+7. Submit a test enquiry using an inbox you own. Confirm both emails arrive, that Reply works from Gmail, and that the owner API shows `sent:` for both.
+
+Never paste the API key into chat, source code or a commit. Rotate it in Resend if it is exposed. Optional later: add a DMARC record (`_dmarc` TXT, starting with `v=DMARC1; p=none`) once both forwarding and Resend sending are verified.
 
 ## Hosted acceptance
 

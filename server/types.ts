@@ -16,6 +16,16 @@ export interface AppEnv {
   ENQUIRY_RETENTION_DAYS?: string;
   PUBLIC_LAUNCH_APPROVED?: string;
   BUILD_PUBLIC_RELEASE?: string;
+  /** Resend API key (secret). Without it, enquiries are saved but no emails are sent. */
+  RESEND_API_KEY?: string;
+  /** Optional sender override, e.g. "Presence Web Services <audits@mail.example.co.uk>". */
+  MAIL_FROM?: string;
+  /** Optional alert recipient override; defaults to the business contact address. */
+  NOTIFY_EMAIL?: string;
+}
+/** The part of the Workers execution context used to finish work after responding. */
+export interface WorkerContext {
+  waitUntil(promise: Promise<unknown>): void;
 }
 export interface StaticAsset {
   body: string;
@@ -42,4 +52,6 @@ export interface EnquiryRow {
   created_at: number;
   expires_at: number;
   data_json: string;
+  notify_status?: string | null;
+  confirm_status?: string | null;
 }

@@ -4,6 +4,13 @@ export interface BusinessConfig {
   description: string;
   siteUrl: string;
   email: string;
+  /**
+   * Sender for website emails. Resend recommends a dedicated sending subdomain so the main
+   * domain's reputation is protected; replies always go to `email`.
+   */
+  mailFrom: string;
+  /** How long the website keeps enquiries, in days. Must match ENQUIRY_RETENTION_DAYS. */
+  enquiryRetentionDays: number;
   telephone: string;
   legalName: string;
   legalStatus: string;
@@ -34,6 +41,8 @@ export const business: BusinessConfig = {
     'Websites, ongoing website care and Google Business Profile management for independent businesses in Northern Ireland and across the UK.',
   siteUrl: 'https://presencewebservices.co.uk', // Owner-confirmed intended production origin.
   email: 'contact@presencewebservices.co.uk',
+  mailFrom: 'Presence Web Services <audits@mail.presencewebservices.co.uk>',
+  enquiryRetentionDays: 365,
   telephone: '',
   legalName: '',
   legalStatus: '',
@@ -41,7 +50,8 @@ export const business: BusinessConfig = {
   companyNumber: '',
   vatNumber: '',
   vatStatement: '', // Confirm tax treatment before accepting paid work.
-  privacyRetention: '', // Confirm and publish a justified retention schedule before launch.
+  privacyRetention:
+    'Enquiries sent through the website are deleted automatically 12 months after they are received. Emails about an enquiry are deleted from our inbox once they are no longer needed to respond to you or to manage work you have agreed.',
   launchReady: false, // Keeps every page noindex and robots disallowed until reviewed.
   prices: { oneOff: 149, ongoing: 129 },
   founder: {

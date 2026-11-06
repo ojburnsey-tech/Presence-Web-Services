@@ -1,5 +1,13 @@
 import { InputError, readSubmission, validateSubmission } from './validation.ts';
-import type { AppEnv, AssetMap, EnquiryRow, Database } from './types.ts';
+import type {
+  AppEnv,
+  AssetMap,
+  EnquiryData,
+  EnquiryRow,
+  Database,
+  WorkerContext,
+} from './types.ts';
+import { customerConfirmation, mailConfig, ownerAlert, sendEmail } from './email.ts';
 const encoder = new TextEncoder();
 const cookieName = 'presence_receipt';
 const json = (data: unknown, status = 200, headers: HeadersInit = {}) =>
@@ -108,7 +116,52 @@ async function accepted(
     headers: { ...headers, Location: '/thank-you/', 'Cache-Control': 'no-store' },
   });
 }
-async function submit(request: Request, env: AppEnv, now: number): Promise<Response> {
+/** Confirmations allowed per recipient address per day, to stop the form being used to spam. */
+const CONFIRMATIONS_PER_ADDRESS_PER_DAY = 2;
+
+/**
+ * Sends the owner alert and the customer confirmation for a newly saved enquiry, then records
+ * the outcome on the row. The enquiry is already stored, so failures here are recorded rather
+ * than reported to the visitor.
+ */
+async function deliver(env: AppEnv, row: EnquiryRow, data: EnquiryData, now: number) {
+  const db = env.DB!;
+  const record = (notify: string, confirm: string) =>
+    db
+      .prepare('UPDATE enquiries SET notify_status = ?, confirm_status = ? WHERE id = ?')
+      .bind(notify, confirm, row.id)
+      .run();
+  const config = mailConfig(env);
+  if (!config) {
+    await record('skipped:not-configured', 'skipped:not-configured');
+    return;
+  }
+  const notify = await sendEmail(
+    config,
+    ownerAlert(data, { id: row.id, createdAt: row.created_at, expiresAt: row.expires_at }, config),
+    `alert-${row.id}`,
+  );
+  const day = 86400000;
+  const recipientKey = await hmac(env.APP_SECRET!, `confirm:${data.email.toLowerCase()}`);
+  const count = await db
+    .prepare(
+      'INSERT INTO enquiry_rate_limits (rate_key,window_start,attempts) VALUES (?, ?, 1) ON CONFLICT(rate_key,window_start) DO UPDATE SET attempts = attempts+1 RETURNING attempts',
+    )
+    .bind(`${recipientKey}:confirm`, Math.floor(now / day) * day)
+    .first<{ attempts: number }>();
+  const confirm =
+    count && count.attempts > CONFIRMATIONS_PER_ADDRESS_PER_DAY
+      ? 'skipped:daily-limit'
+      : await sendEmail(config, customerConfirmation(data.email, config), `confirm-${row.id}`);
+  await record(notify, confirm);
+}
+
+async function submit(
+  request: Request,
+  env: AppEnv,
+  now: number,
+  ctx?: WorkerContext,
+): Promise<Response> {
   if (!originAllowed(request))
     return json({ accepted: false, message: 'This request must come from the enquiry page.' }, 403);
   if (!configReady(env))
@@ -207,7 +260,17 @@ async function submit(request: Request, env: AppEnv, now: number): Promise<Respo
       },
       409,
     );
-  return accepted(request, env, saved, saved.id !== id, now);
+  const duplicate = saved.id !== id;
+  if (!duplicate) {
+    // Email only for a genuinely new enquiry. On the hosted Worker the visitor gets their
+    // response straight away and delivery finishes in the background via waitUntil.
+    const delivery = deliver(env, saved, data, now).catch(() => {
+      /* The row keeps a null status, which the owner API reports as "pending". */
+    });
+    if (ctx?.waitUntil) ctx.waitUntil(delivery);
+    else await delivery;
+  }
+  return accepted(request, env, saved, duplicate, now);
 }
 async function owner(request: Request, env: AppEnv, url: URL, now: number): Promise<Response> {
   const token = request.headers.get('authorization')?.replace(/^Bearer /, '') || '';
@@ -244,6 +307,8 @@ async function owner(request: Request, env: AppEnv, url: URL, now: number): Prom
         createdAt: new Date(row.created_at).toISOString(),
         expiresAt: new Date(row.expires_at).toISOString(),
         ...JSON.parse(row.data_json),
+        emailToOwner: row.notify_status ?? 'pending',
+        emailToCustomer: row.confirm_status ?? 'pending',
       })),
       nextCursor: results.length === Number(raw) ? results.at(-1)?.seq : null,
     });
@@ -294,6 +359,7 @@ export async function handleRequest(
   env: AppEnv,
   assets: AssetMap,
   now = Date.now(),
+  ctx?: WorkerContext,
 ): Promise<Response> {
   const url = new URL(request.url);
   let response: Response;
@@ -314,7 +380,7 @@ export async function handleRequest(
     else if (url.pathname === '/api/enquiries')
       response =
         request.method === 'POST'
-          ? await submit(request, env, now)
+          ? await submit(request, env, now, ctx)
           : json({ message: 'Method not allowed.' }, 405, { Allow: 'POST' });
     else if (url.pathname.startsWith('/api/owner/')) response = await owner(request, env, url, now);
     else if (url.pathname === '/api/health') {
