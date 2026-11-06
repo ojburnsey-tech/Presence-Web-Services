@@ -5,3 +5,8 @@ work/
 test-results/
 playwright-report/
 package-lock.json
+# Preserve generated measurement reports exactly as emitted by their tools.
+reports/*.json
+reports/*.html
+# Applied migration SQL, journal and snapshots are immutable.
+drizzle/

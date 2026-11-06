@@ -1,0 +1,153 @@
+{
+  "version": "6",
+  "dialect": "sqlite",
+  "id": "fbbdf41a-e304-4c0b-a478-a7ccdac11c5b",
+  "prevId": "00000000-0000-0000-0000-000000000000",
+  "tables": {
+    "enquiries": {
+      "name": "enquiries",
+      "columns": {
+        "seq": {
+          "name": "seq",
+          "type": "integer",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "request_key": {
+          "name": "request_key",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "payload_hash": {
+          "name": "payload_hash",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "expires_at": {
+          "name": "expires_at",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "data_json": {
+          "name": "data_json",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {
+        "enquiries_id_unique": {
+          "name": "enquiries_id_unique",
+          "columns": [
+            "id"
+          ],
+          "isUnique": true
+        },
+        "enquiries_request_key_unique": {
+          "name": "enquiries_request_key_unique",
+          "columns": [
+            "request_key"
+          ],
+          "isUnique": true
+        },
+        "enquiries_created": {
+          "name": "enquiries_created",
+          "columns": [
+            "created_at"
+          ],
+          "isUnique": false
+        },
+        "enquiries_expiry": {
+          "name": "enquiries_expiry",
+          "columns": [
+            "expires_at"
+          ],
+          "isUnique": false
+        },
+        "enquiries_fingerprint": {
+          "name": "enquiries_fingerprint",
+          "columns": [
+            "payload_hash",
+            "created_at"
+          ],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraints": {}
+    },
+    "enquiry_rate_limits": {
+      "name": "enquiry_rate_limits",
+      "columns": {
+        "rate_key": {
+          "name": "rate_key",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "window_start": {
+          "name": "window_start",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "attempts": {
+          "name": "attempts",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {
+        "enquiry_rate_limits_rate_key_window_start_pk": {
+          "columns": [
+            "rate_key",
+            "window_start"
+          ],
+          "name": "enquiry_rate_limits_rate_key_window_start_pk"
+        }
+      },
+      "uniqueConstraints": {},
+      "checkConstraints": {}
+    }
+  },
+  "views": {},
+  "enums": {},
+  "_meta": {
+    "schemas": {},
+    "tables": {},
+    "columns": {}
+  },
+  "internal": {
+    "indexes": {}
+  }
+}

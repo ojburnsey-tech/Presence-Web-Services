@@ -4,7 +4,7 @@ import { handleRequest } from '../server/runtime.ts';
 import { openLocalDatabase } from './local-db.mjs';
 import { readAssets } from './assets.mjs';
 const localPort = Number(process.env.TEST_PORT || 4331);
-const database = openLocalDatabase(process.env.LOCAL_DB_PATH || 'work/local-enquiries.sqlite');
+const database = openLocalDatabase(process.env.LOCAL_DB_PATH || 'work/enquiries-v2.sqlite');
 const assets = readAssets();
 const env = {
   DB: database.binding,

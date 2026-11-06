@@ -8,20 +8,20 @@ Node 24.22.1, npm 11.9.0, Astro 7.4.5, strict TypeScript, ESLint, Playwright 1.6
 
 ## Checks and actual results
 
-| Check | Command / evidence | Result |
-| --- | --- | --- |
-| Astro diagnostics | `npm run check` | 0 errors, warnings or hints |
-| Whole-project types | `npx tsc --noEmit` | Passed |
-| Lint | `npm run lint` | Passed after correcting an unused cleanup assignment |
-| Artifact build | `npm run build:sites` | Nine pages + Worker ESM; no inline executable script/style or source maps |
-| Site/backend tests | `npm test` | Generated HTML/link checks, DOM/axe, validation, SQLite persistence, access and failures; see final run count below |
-| Real browser journeys | `npx playwright test --project=chromium --project=mobile-chromium` | Desktop/mobile projects; see final run result below |
-| Rendered browser audit | `node scripts/browser-audit.mjs` | 90 reflow checks, zero overflow; 18 full rendered axe runs (nine pages × 390/1440px), zero violations; no page/CSP console errors |
-| Full dependency audit | `npm audit --json` | Zero known vulnerabilities, including development dependencies; `reports/npm-audit.json` |
-| Production dependency audit | `npm audit --omit=dev --json` | Zero known vulnerabilities |
-| Firefox / WebKit | `npx playwright install firefox webkit`, then separate WebKit attempt | Download blocked by workspace proxy (403 Domain forbidden) from official browser CDNs; neither engine was run |
-| Direct hosted HTTP | curl to exact private preview | Proxy CONNECT 403 before origin; no hosted receipt inferred |
-| Domain settings | Native Sites list_custom_domains | Empty; no production domain attachment made |
+| Check                       | Command / evidence                                                    | Result                                                                                                                            |
+| --------------------------- | --------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| Astro diagnostics           | `npm run check`                                                       | 0 errors, warnings or hints                                                                                                       |
+| Whole-project types         | `npx tsc --noEmit`                                                    | Passed                                                                                                                            |
+| Lint                        | `npm run lint`                                                        | Passed after correcting an unused cleanup assignment                                                                              |
+| Artifact build              | `npm run build:sites`                                                 | Nine pages + Worker ESM; no inline executable script/style or source maps                                                         |
+| Site/backend tests          | `npm test`                                                            | 33 groups passed: generated HTML/link checks, DOM/axe, validation, SQLite persistence, access and failures                        |
+| Real browser journeys       | `npx playwright test --project=chromium --project=mobile-chromium`    | 20 journeys passed across desktop/mobile Chromium projects                                                                        |
+| Rendered browser audit      | `node scripts/browser-audit.mjs`                                      | 90 reflow checks, zero overflow; 18 full rendered axe runs (nine pages × 390/1440px), zero violations; no page/CSP console errors |
+| Full dependency audit       | `npm audit --json`                                                    | Zero known vulnerabilities, including development dependencies; `reports/npm-audit.json`                                          |
+| Production dependency audit | `npm audit --omit=dev --json`                                         | Zero known vulnerabilities                                                                                                        |
+| Firefox / WebKit            | `npx playwright install firefox webkit`, then separate WebKit attempt | Download blocked by workspace proxy (403 Domain forbidden) from official browser CDNs; neither engine was run                     |
+| Direct hosted HTTP          | curl to exact private preview                                         | Proxy CONNECT 403 before origin; no hosted receipt inferred                                                                       |
+| Domain settings             | Native Sites list_custom_domains                                      | Empty; no production domain attachment made                                                                                       |
 
 ## Form/security scenarios
 
@@ -45,19 +45,25 @@ Screenshots: `reports/screenshots/` contains all nine routes at 390 and 1440px p
 
 Lighthouse CLI used installed Chromium on the local Worker, no analytics/remote fonts. Mobile uses Lighthouse's default simulated mobile throttling; desktop uses its desktop preset. Reports preserve exact settings and audit details.
 
-| Metric | Mobile | Desktop |
-| --- | --- | --- |
-| Performance | 100 | 100 |
-| Accessibility | 100 | 100 |
-| Best practices | 100 | 100 |
-| SEO | 63 | 63 |
-| LCP | 0.9s | 0.2s |
-| CLS | 0 | 0 |
-| Total blocking time | 0ms | 0ms |
+| Metric              | Mobile | Desktop |
+| ------------------- | ------ | ------- |
+| Performance         | 100    | 100     |
+| Accessibility       | 100    | 100     |
+| Best practices      | 100    | 100     |
+| SEO                 | 63     | 63      |
+| LCP                 | 0.9s   | 0.2s    |
+| CLS                 | 0      | 0       |
+| Total blocking time | 0ms    | 0ms     |
 
 SEO is intentionally below the requested 95 target because private staging is noindex/disallowed; do not remove those protections to improve a score. Final production SEO, canonical/schema/OG, robots/sitemap and HTTPS must be tested after approved configuration. LCP/CLS meet the stated lab targets in these runs. TBT is not INP; **no field INP or real-user Core Web Vitals are available**. Real hosted latency and traffic may differ. Local lab scores do not establish live performance.
 
 Reports: `reports/lighthouse-mobile.report.json/html`, `reports/lighthouse-desktop.report.json/html`, `reports/browser-audit.json`. Lighthouse notes a back/forward cache limitation from no-store and rendering/dependency opportunities despite performance 100; caching private/receipt data safely takes priority.
+
+## Native staging evidence
+
+Sites version 6 deployed privately on 6 November 2026. Native schema inspection confirms binding `DB` and tables `enquiries` / `enquiry_rate_limits`; a native read confirms the enquiry table is empty. Migration discovery required the generated Drizzle SQL/journal in the artifact root. The earlier version 5 provisioned a binding without applying the prototype migration; version 6 corrects that packaging. Exact IDs and source are recorded in reports/RELEASE-RECORD.md.
+
+A private hosted-verification script was attempted with supported site service access and the separate owner token. It failed before an HTTP request reached the site (`getaddrinfo EAI_AGAIN`); curl independently fails at the proxy with CONNECT 403. No dummy row was created remotely and no hosted form receipt is claimed. `scripts/verify-hosted.mjs` is ready for re-running after network access is available.
 
 ## Release evidence to finish
 

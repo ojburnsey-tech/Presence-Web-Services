@@ -47,8 +47,8 @@ const staging = !import.meta.env.PROD || !process.env.PUBLIC_RELEASE;
         )}
         {backendEnabled && staging && (
           <p class="preview-notice">
-            Private test: use dummy details. Requests are saved to staging for up to one day. No
-            email notification is sent.
+            Private test: use dummy details. Test requests expire after one day. No email
+            notification is sent.
           </p>
         )}
       </div>
@@ -96,7 +96,7 @@ const staging = !import.meta.env.PROD || !process.env.PUBLIC_RELEASE;
             label="Website address"
             type="url"
             placeholder="https://"
-            help="No website yet? Leave this empty. A bare domain is accepted with JavaScript; otherwise include https://."
+            help="No website yet? Leave this empty. Otherwise include the full address, such as https://example.co.uk."
             wide
             maxlength={2048}
           />

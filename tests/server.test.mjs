@@ -85,6 +85,7 @@ test('missing required fields, invalid email, URLs, service and length limits fa
       ['business-name', ''],
       ['goal', ''],
       ['email', 'invalid'],
+      ['goal', 'bad\u0000control'],
       ['website', 'javascript:alert(1)'],
       ['website', 'https://user:secret@example.com'],
       ['website', 'http://127.0.0.1'],

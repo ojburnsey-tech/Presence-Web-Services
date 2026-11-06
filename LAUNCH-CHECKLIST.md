@@ -17,7 +17,7 @@ Status: **BLOCKED for public launch**. No public launch or DNS/email change is a
 
 ## Verification required before public approval
 
-- [ ] Native Worker artifact accepted, schema migrations deployed and runtime configured correctly; record saved version/deployment.
+- [x] Native Worker artifact accepted, generated Drizzle migrations deployed and runtime secrets/configuration saved; DB tables independently inspected. Hosted HTTP health/receipt remains below.
 - [ ] Actual hosted dummy submission independently confirmed in D1/owner review, duplicate checked and dummy deleted.
 - [ ] Hosted anonymous app access vs owner-only data access checked separately without opening staging publicly.
 - [ ] Hosted unavailable/error/success and confirmation states checked over HTTPS, with no PII cache/log exposure.

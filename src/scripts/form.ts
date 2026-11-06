@@ -9,8 +9,8 @@ export function setupReviewForm() {
   if (select && serviceValues.includes(service as (typeof serviceValues)[number]))
     select.value = service!;
   const fields = [
-    ...form.querySelectorAll<HTMLInputElement | HTMLTextAreaElement>(
-      'input:not([type="hidden"]):not([name="bot-field"]), textarea',
+    ...form.querySelectorAll<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>(
+      'input:not([type="hidden"]):not([name="bot-field"]), textarea, select',
     ),
   ];
   const status = form.querySelector<HTMLElement>('.form-status')!;
@@ -23,7 +23,10 @@ export function setupReviewForm() {
     status.textContent = text;
     status.focus();
   };
-  const validate = (field: HTMLInputElement | HTMLTextAreaElement, show: boolean) => {
+  const validate = (
+    field: HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement,
+    show: boolean,
+  ) => {
     field.setCustomValidity('');
     if (field.required && !field.value.trim())
       field.setCustomValidity('Please complete this field.');

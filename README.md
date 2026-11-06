@@ -20,7 +20,9 @@ npm run build:sites
 npm run serve:test
 ```
 
-Open http://127.0.0.1:4331 on the same machine. This server binds only to loopback, uses clearly labelled local test credentials and stores dummy records in ignored `work/local-enquiries.sqlite`. Restart it after rebuilding. Never expose it to the internet. Local SQLite tests exercise the same SQL, but do not prove hosted D1 behaviour.
+Open http://127.0.0.1:4331 on the same machine. This server binds only to loopback, uses clearly labelled local test credentials and stores dummy records in ignored `work/enquiries-v2.sqlite`. Restart it after rebuilding. Never expose it to the internet. Local SQLite tests exercise the same SQL, but do not prove hosted D1 behaviour.
+
+The Drizzle schema generator is development-only; runtime queries use bound SQL. Keep the generated SQL/journal/snapshots in `drizzle/` immutable after application. The legacy `migrations/` file is retained as a local prototype record, not an additional hosted migration.
 
 ## Commands
 
@@ -47,7 +49,7 @@ Playwright Chromium defaults to `/usr/bin/chromium`; set `PLAYWRIGHT_CHROMIUM_EX
 - `src/styles/global.css`: colour/type/spacing tokens and responsive layout.
 - `server/runtime.ts`: submission, protected owner endpoints, receipt checks, headers and static serving.
 - `server/validation.ts`, `src/lib/enquiry.ts`: input limits, normalisation and validation.
-- `migrations/`: immutable schema migrations; never apply schema changes in a request handler.
+- `db/schema.ts`, `drizzle/`: generated immutable schema migrations; never apply schema changes in a request handler.
 - `scripts/build-sites.mjs`: embeds only generated public assets in a Worker ESM module.
 - `scripts/local-db.mjs`: local SQLite D1 adapter with migration checksums.
 - `public/`: original wordmark, favicon, touch icon and social sharing image.

@@ -114,9 +114,10 @@ const sections = [
   <section id="retention">
     <h2>5. Keeping and deleting information</h2>
     <p>
-      Private test enquiries have a one-day expiry. Expired rows are excluded and deleted on the
-      next submission, owner review or explicit owner purge. This does not guarantee deletion at the
-      exact expiry time. Only dummy details should be used during this test.
+      Private test enquiries have a one-day expiry. Expired rows are deleted on the next submission,
+      owner API review or explicit owner purge. Without activity, records may remain stored until
+      that purge runs. This does not guarantee deletion at the exact expiry time. Only dummy details
+      should be used during this test.
     </p>
     {business.privacyRetention && <p>{business.privacyRetention}</p>}
     <p>

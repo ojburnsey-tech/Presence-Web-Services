@@ -31,6 +31,7 @@ export default [
         URL: 'readonly',
         URLSearchParams: 'readonly',
         AbortController: 'readonly',
+        AbortSignal: 'readonly',
         console: 'readonly',
         document: 'readonly',
         window: 'readonly',

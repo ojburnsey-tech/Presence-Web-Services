@@ -1,5 +1,5 @@
 import { execFileSync } from 'node:child_process';
-import { readFileSync, writeFileSync, mkdirSync, copyFileSync, readdirSync } from 'node:fs';
+import { readFileSync, writeFileSync, mkdirSync, copyFileSync, cpSync, rmSync } from 'node:fs';
 import { resolve, join } from 'node:path';
 import { build } from 'esbuild';
 import { readAssets } from './assets.mjs';
@@ -16,9 +16,10 @@ execFileSync(process.execPath, [resolve('node_modules/astro', bin), 'build'], {
   },
 });
 const output = resolve('work/sites-artifact');
-mkdirSync(join(output, 'server'), { recursive: true });
+rmSync(output, { recursive: true, force: true });
+mkdirSync(join(output, 'dist/server'), { recursive: true });
 mkdirSync(join(output, '.openai'), { recursive: true });
-mkdirSync(join(output, 'server/migrations'), { recursive: true });
+cpSync('drizzle', join(output, 'drizzle'), { recursive: true });
 const assets = readAssets();
 await build({
   stdin: {
@@ -33,23 +34,22 @@ await build({
   target: 'es2022',
   minify: true,
   sourcemap: false,
-  outfile: join(output, 'server/index.js'),
+  outfile: join(output, 'dist/server/index.js'),
 });
 const manifest = JSON.parse(readFileSync('.openai/hosting.json', 'utf8'));
 if (manifest.static)
   throw new Error('Worker publication must not retain a static hosting declaration.');
 copyFileSync('.openai/hosting.json', join(output, '.openai/hosting.json'));
-for (const file of readdirSync('migrations').filter((x) => x.endsWith('.sql')))
-  copyFileSync(join('migrations', file), join(output, 'server/migrations', file));
+
 writeFileSync(
-  join(output, 'server/wrangler.json'),
+  join(output, 'dist/server/wrangler.json'),
   JSON.stringify(
     {
       name: 'presence-web-services',
       main: 'index.js',
       compatibility_date: '2026-11-01',
       d1_databases: [
-        { binding: 'DB', database_name: 'presence-enquiries', migrations_dir: 'migrations' },
+        { binding: 'DB', database_name: 'presence-enquiries', migrations_dir: '../../drizzle' },
       ],
     },
     null,

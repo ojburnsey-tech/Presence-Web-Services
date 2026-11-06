@@ -8,10 +8,10 @@ export function openLocalDatabase(filename = ':memory:') {
   db.exec(
     'PRAGMA foreign_keys=ON; CREATE TABLE IF NOT EXISTS _presence_migrations (name TEXT PRIMARY KEY, hash TEXT NOT NULL)',
   );
-  for (const file of readdirSync(resolve('migrations'))
+  for (const file of readdirSync(resolve('drizzle'))
     .filter((name) => name.endsWith('.sql'))
     .sort()) {
-    const sql = readFileSync(resolve('migrations', file), 'utf8');
+    const sql = readFileSync(resolve('drizzle', file), 'utf8');
     const hash = createHash('sha256').update(sql).digest('hex');
     const applied = db.prepare('SELECT hash FROM _presence_migrations WHERE name = ?').get(file);
     if (applied) {

@@ -32,7 +32,7 @@ No external paid monitoring service is installed. Native deployment status and r
 - For broken form/storage: disable enquiries, deploy that setting, confirm users get an unavailable message and can email. Investigate platform limits/status/configuration; re-enable only after persistence and owner access pass.
 - For abuse: inspect aggregate rates without exporting legitimate enquiries, reduce traffic with provider-supported controls if authorised, disable intake if necessary, rotate exposed credentials and assess whether any personal information was accessed. Existing per-IP limits/honeypot reduce simple abuse; they do not prevent distributed attacks.
 - For a privacy incident: contain access, preserve minimal evidence, assess UK reporting/notification duties and seek appropriate advice. Do not claim no breach without evidence.
-- Monthly or after advisories: npm audit, review Astro/Node support, update lockfile in a branch, then all checks/browser journeys before release. minimatch override 11.0.4 fixes the earlier toolchain advisory; revisit when upstream resolves it.
+- Monthly or after advisories: npm audit, review Astro/Node support, update lockfile in a branch, then all checks/browser journeys before release. minimatch 11.0.4 and the shared esbuild override fix earlier toolchain advisories; revisit them when upstream resolves the transitive dependencies.
 - Track registrar/domain renewal and billing contacts. Check certificate renewal/expiry and routing periodically; hosting-managed issuance is not a permanent verification.
 
 ## Backups and restore
@@ -42,3 +42,7 @@ Full source and lockfile belong in the existing private GitHub repository; no PI
 D1 data backup access is separate from source. Confirm what Sites exposes for backup/export and recovery before collecting production enquiries. If the owner has direct Cloudflare D1 access, use provider-supported export/Time Travel in the correct account; do not invent credentials or assume the managed database is in your own zone account. Encrypt exports, restrict access, keep them outside Git, apply an approved backup retention period and log deletions without copying enquiry content. Restore a dummy export to a separate private test database and verify counts/field values/owner isolation before calling recovery proven. A code rollback does not restore deleted rows. The provider backup/restore drill remains a launch action until verified.
 
 Official D1 backup documentation: https://developers.cloudflare.com/d1/reference/time-travel/.
+
+## Hosted acceptance script
+
+`node scripts/verify-hosted.mjs` performs a dummy save, independently reads it through the owner API, verifies duplicate/confirmation/error/header behaviour and deletes that exact dummy record. Supply credentials through its hidden JSON stdin prompt (keys `owner` and optional private `service`) or a secure environment using `PRESENCE_OWNER_TOKEN` / `PRESENCE_SITE_SERVICE_TOKEN`. It is restricted to the exact private preview hostname. It never prints credentials or enquiry fields. The resulting report contains only check labels, not PII. The workspace needs approved network access to that host. If a run stops after a save but before cleanup, remove the matching “Presence release test only” dummy record through owner review; staging expiry also applies.

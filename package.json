@@ -20,7 +20,8 @@
     "build:sites": "node scripts/build-sites.mjs",
     "serve:test": "node scripts/serve-local.mjs",
     "test:server": "node --test tests/server.test.mjs",
-    "test:all": "npm run check && npm run lint && npm run build:sites && npm test && npm run test:server"
+    "test:all": "npm run check && npm run lint && npm run build:sites && npm test && npm run test:server",
+    "db:generate": "drizzle-kit generate"
   },
   "dependencies": {
     "astro": "^7.4.5"
@@ -31,6 +32,8 @@
     "@playwright/test": "^1.64.1",
     "@types/node": "^26.6.6",
     "axe-core": "^4.14.0",
+    "drizzle-kit": "^0.31.11",
+    "drizzle-orm": "^0.45.4",
     "esbuild": "^0.28.2",
     "eslint": "^10.14.0",
     "eslint-plugin-astro": "^3.2.1",
@@ -42,6 +45,7 @@
     "typescript-eslint": "^8.72.1"
   },
   "overrides": {
-    "minimatch": "11.0.4"
+    "minimatch": "11.0.4",
+    "esbuild": "$esbuild"
   }
 }
