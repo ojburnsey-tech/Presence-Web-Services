@@ -28,7 +28,8 @@ export function setupMenu() {
   // Apple-style response of roughly 0.35s, critical damping and no ornamental bounce.
   const omega = (2 * Math.PI) / 0.35;
   const render = () => {
-    panel.style.transform = `translate3d(${(position - 1) * 100}%, 0, 0)`;
+    // The panel enters from the right, beside the Menu button that opened it.
+    panel.style.transform = `translate3d(${(1 - position) * 100}%, 0, 0)`;
     scrim.style.opacity = String(Math.max(0, Math.min(1, position)));
   };
   const cancelFrame = () => {

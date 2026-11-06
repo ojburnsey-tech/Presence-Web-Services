@@ -2,16 +2,8 @@
 import { faqs } from '../config/business';
 ---
 
-<section class="section container faq-section" aria-labelledby="faq-heading">
-  <div class="section-heading">
-    <h2 id="faq-heading">Questions before you decide</h2>
-    <p>
-      <a href="/contact/" class="inline-link">
-        Ask about your own website
-      </a>{' '}
-      if your question isn’t covered here.
-    </p>
-  </div>
+<section class="section container prose-section" aria-labelledby="faq-heading">
+  <h2 id="faq-heading">Common questions</h2>
   <div class="faq-list">
     {faqs.map((item) => (
       <details class="faq">
@@ -25,4 +17,10 @@ import { faqs } from '../config/business';
       </details>
     ))}
   </div>
+  <p class="section-footnote">
+    <a href="/contact/" class="inline-link">
+      Ask about your own website
+    </a>{' '}
+    if your question isn’t answered here.
+  </p>
 </section>

@@ -13,7 +13,7 @@ const { title, description, sections } = Astro.props;
   <PageIntro title={title} description={description} />
   <div class="container legal-layout">
     <nav class="legal-nav" aria-label="On this page">
-      <p class="section-label">On this page</p>
+      <p class="meta">On this page</p>
       {sections.map((section) => (
         <a href={`#${section.id}`}>{section.label}</a>
       ))}

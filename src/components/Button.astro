@@ -1,12 +1,16 @@
 ---
 interface Props {
   href: string;
-  variant?: 'primary' | 'secondary' | 'text' | 'light';
+  variant?: 'primary' | 'secondary' | 'text';
+  size?: 'regular' | 'small';
   class?: string;
 }
-const { href, variant = 'primary', class: className } = Astro.props;
+const { href, variant = 'primary', size = 'regular', class: className } = Astro.props;
 ---
 
-<a href={href} class:list={['button', `button--${variant}`, className]}>
+<a
+  href={href}
+  class:list={['button', `button--${variant}`, { 'button--small': size === 'small' }, className]}
+>
   <slot />
 </a>

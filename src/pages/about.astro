@@ -1,103 +1,110 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import PageIntro from '../components/PageIntro.astro';
+import Button from '../components/Button.astro';
+import { business } from '../config/business';
+const { founder } = business;
 ---
 
 <Layout
-  title="Independent website support"
-  description="Presence Web Services is a new independent business supporting local websites and Google profiles, with direct communication, agreed work and client-owned accounts."
+  title="About Presence"
+  description={`Presence Web Services is an independent business run by ${business.founder.name}, looking after websites and Google profiles with direct communication, agreed work and client-owned accounts.`}
 >
   <PageIntro
-    title="Independent website support, with a direct point of contact."
-    description="Presence Web Services is a new independent service for businesses in Northern Ireland and across the UK. You deal directly with the person responsible for the work."
+    title="About Presence"
+    description="An independent website and online presence service for businesses in Northern Ireland and across the UK."
   />
-  <section class="container about-editorial">
-    <div class="about-opening">
-      <h2>Why Presence exists</h2>
-      <p class="large-copy">
-        A business owner may know their website needs attention without having time to investigate
-        every outdated page, inconsistent listing or missing enquiry.
-      </p>
-      <p>
-        Presence takes on that work. The starting point is a conversation about the business: which
-        services you want to promote, where customers come from and what information they need
-        before contacting you.
-      </p>
-      <p>
-        Those details affect the recommendation. A garage may need clearer service information. A
-        landscaper may need to explain its coverage area before asking for a quote. Neither problem
-        is solved by sending an automated report without following it up.
+
+  <section
+    class:list={['container', 'founder', { 'founder--with-photo': founder.photo }]}
+    aria-labelledby="founder-heading"
+  >
+    <div class="founder-identity">
+      {founder.photo && (
+        <img
+          class="founder-photo"
+          src={founder.photo}
+          alt={`${founder.name}, ${founder.role.toLowerCase()} of ${business.name}`}
+          width={founder.photoWidth}
+          height={founder.photoHeight}
+          decoding="async"
+        />
+      )}
+      <h2 id="founder-heading">Run by {founder.name}</h2>
+      <p class="founder-meta">
+        {founder.role} · {founder.region}
       </p>
     </div>
-    <aside class="about-context">
-      <h3>Who the service is for</h3>
-      <p>
-        Trades, independent garages, landscaping, detailing, cleaning and other service businesses,
-        including businesses in Belfast and elsewhere in Northern Ireland.
+    <div class="founder-copy">
+      <p class="lead">
+        Most small business owners know their website could be doing more. Few have the time to work
+        out what is holding it back, or much patience for a service that makes a few token edits
+        each month and sends an automated report.
       </p>
       <p>
-        You can ask for help with an existing site, a new website or your Google business
+        {founder.name} started Presence to offer the alternative: one person who takes a genuine
+        interest in your business and keeps improving how it shows up online. That starts with a
+        conversation about which services you want more of, where your customers come from and what
+        they need to know before they get in touch.
+      </p>
+      <p>
+        When you work with Presence, {founder.name} is the person who reviews your website, does the
+        work and replies to your emails.
+      </p>
+    </div>
+  </section>
+
+  <section class="section container" aria-labelledby="principles-heading">
+    <h2 id="principles-heading">How we work</h2>
+    <dl class="term-rows">
+      <div>
+        <dt>You approve the priorities</dt>
+        <dd>
+          Every proposal sets out what’s included and what needs further assessment. You know your
+          business best, so you decide which changes are worth making.
+        </dd>
+      </div>
+      <div>
+        <dt>You always know what changed</dt>
+        <dd>
+          Updates explain the work completed and what still needs attention. Where figures are
+          available, we separate website activity from genuine enquiries and confirmed jobs.
+        </dd>
+      </div>
+      <div>
+        <dt>Your accounts stay in your name</dt>
+        <dd>
+          You keep ownership of your website, domain and Google Business Profile. We use delegated
+          access wherever the platform supports it.
+        </dd>
+      </div>
+      <div>
+        <dt>What we won’t promise</dt>
+        <dd>
+          Google decides its own rankings and customers decide whom to hire. We won’t guarantee
+          either. We will tell you what we changed, why, and what the figures show afterwards.
+        </dd>
+      </div>
+    </dl>
+  </section>
+
+  <section class="section container prose-section" aria-labelledby="audience-heading">
+    <h2 id="audience-heading">Who we work with</h2>
+    <div>
+      <p class="lead">
+        Trades, independent garages, landscapers, detailers, cleaning companies and other service
+        businesses, in Belfast, across Northern Ireland and further afield in the UK.
+      </p>
+      <p>
+        You can ask for help with an existing website, a new website or your Google business
         information.
       </p>
-      <a href="/services/" class="inline-link">
-        See the work we can take on
-      </a>
-    </aside>
-  </section>
-  <section class="relationship-section">
-    <div class="container relationship-layout">
-      <div>
-        <h2>How client work is handled</h2>
-        <p>
-          We agree what needs doing, explain the cost and keep a record of the changes. If something
-          needs your input or a separate quote, we discuss it.
-        </p>
+      <div class="scope-actions">
+        <Button href="/contact/">Request a free audit</Button>
+        <a class="link-arrow" href="/services/">
+          Explore the services
+        </a>
       </div>
-      <dl class="relationship-details">
-        <div>
-          <dt>You approve the priorities</dt>
-          <dd>
-            The proposal should explain what is included and what needs further assessment. Your
-            knowledge of the business helps decide which changes are worth making.
-          </dd>
-        </div>
-        <div>
-          <dt>You can ask what changed</dt>
-          <dd>
-            Updates explain the work completed and what still needs attention. Where figures are
-            available, we distinguish website activity from genuine enquiries and confirmed jobs.
-          </dd>
-        </div>
-        <div>
-          <dt>Your accounts stay in your name</dt>
-          <dd>
-            You retain ownership of your website, domain and Google Business Profile. We agree the
-            access needed and use delegated permissions where the platform supports them.
-          </dd>
-        </div>
-      </dl>
     </div>
   </section>
-  <section class="section container about-limits">
-    <h2>A practical limit to what can be promised</h2>
-    <div>
-      <p>
-        Presence can improve approved content, maintain supported systems and check that contact
-        routes work. Google decides its own rankings and profile policies, and customers decide whom
-        to hire.
-      </p>
-      <p>
-        The aim is to help your online presence bring in enquiries, bookings and sales. We evaluate
-        the changes with the information available, without guaranteeing those outcomes.
-      </p>
-    </div>
-  </section>
-  <div class="container page-next-step">
-    <a class="inline-link" href="/services/">
-      Explore the services
-    </a>
-    <a class="inline-link" href="/pricing/">
-      See the starting prices
-    </a>
-  </div>
 </Layout>

@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import FormField from '../components/FormField.astro';
+import { business } from '../config/business';
 const backendEnabled = process.env.ENQUIRY_BACKEND === 'sites';
 const staging = !import.meta.env.PROD || !process.env.PUBLIC_RELEASE;
 ---
@@ -11,34 +12,40 @@ const staging = !import.meta.env.PROD || !process.env.PUBLIC_RELEASE;
 >
   <section class="container contact-layout">
     <div class="contact-intro">
-      <p class="section-label">Contact Presence</p>
       <h1>Request a free audit.</h1>
       <p class="intro-copy">
-        Share your website or Google Maps link and tell us what your business does. We’ll assess the
-        information customers can see, including usability, service details and the route to making
-        an enquiry.
+        Share your website or Google Maps link and tell us what your business does. We’ll review
+        what customers can see, from how your services are explained to how easy it is to get in
+        touch.
       </p>
       <div class="contact-expect">
-        <h2>What happens next?</h2>
+        <h2>What happens next</h2>
         <ol>
-          <li>We assess your public website and business profile in detail.</li>
-          <li>We discuss the issues, your priorities and the work that might help.</li>
-          <li>If you want to proceed, we prepare a scope and quote for you to consider.</li>
+          <li>We review your public website and business profile in detail.</li>
+          <li>We get back to you with what we found and what we’d tackle first.</li>
+          <li>If you’d like to go ahead, we send a written scope and quote.</li>
         </ol>
       </div>
       <div class="contact-note">
         <p>The audit is free, with no obligation to buy.</p>
         <p>
-          The audit is thorough within the information available publicly. It does not include
-          private systems, invasive security testing or a full technical audit. Rankings and
-          enquiries cannot be guaranteed.
+          It’s a thorough review of what’s available publicly, so it doesn’t cover private systems
+          or security testing. No one can guarantee rankings or enquiries, and we don’t.
         </p>
       </div>
+      <p class="contact-direct">
+        Prefer email? Write to{' '}
+        <a class="inline-link" href={`mailto:${business.email}`}>
+          {business.email}
+        </a>
+      </p>
     </div>
     <div class="contact-form-wrap">
       <div class="form-heading">
-        <h2>Request your free audit</h2>
-        <p>Your business details help us check the right website and profile.</p>
+        <h2>Your details</h2>
+        <p>
+          Only four fields are required. Your business details help us review the right website.
+        </p>
         {!backendEnabled && (
           <p class="preview-notice">
             Enquiries are unavailable in this static preview. Please email
@@ -131,7 +138,7 @@ const staging = !import.meta.env.PROD || !process.env.PUBLIC_RELEASE;
               <option value="new-website">A new website or major rebuild</option>
             </select>
             <p class="field-help" id="service-help">
-              It’s fine if you’d like some advice first.
+              Not sure? That’s fine. We can advise after the audit.
             </p>
             <p class="field-error" id="service-error" aria-live="polite"></p>
           </div>
@@ -148,7 +155,7 @@ const staging = !import.meta.env.PROD || !process.env.PUBLIC_RELEASE;
               aria-describedby="goal-help goal-error"
             ></textarea>
             <p class="field-help" id="goal-help">
-              For example, clearer services or an easier way to request a quote. Please do not
+              For example, clearer services or an easier way to request a quote. Please don’t
               include passwords or sensitive personal information.
             </p>
             <p class="field-error" id="goal-error" aria-live="polite"></p>

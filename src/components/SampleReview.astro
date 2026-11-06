@@ -1,8 +1,17 @@
+---
+/** An illustrative audit note. Never presented as client work. */
+interface Props {
+  headingLevel?: 2 | 3;
+}
+const { headingLevel = 2 } = Astro.props;
+const Heading = headingLevel === 3 ? 'h3' : 'h2';
+---
+
 <figure class="sample-review" aria-labelledby="sample-review-title">
   <figcaption>Illustrative example. Not a client project.</figcaption>
   <div class="sample-review-body">
-    <p class="review-topic">Website enquiry form</p>
-    <h2 id="sample-review-title">Is the quote request too hard to find?</h2>
+    <p class="review-topic">Audit note · Website enquiry form</p>
+    <Heading id="sample-review-title">Is the quote request too hard to find?</Heading>
     <dl class="review-observations">
       <div>
         <dt>Example issue</dt>
@@ -27,7 +36,4 @@
       </div>
     </dl>
   </div>
-  <p class="sample-review-caption">
-    An example of the reasoning behind a recommendation, not a claim about client results.
-  </p>
 </figure>

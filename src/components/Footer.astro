@@ -1,33 +1,75 @@
 ---
-import { business, navigation } from '../config/business';
+import Wordmark from './Wordmark.astro';
+import { business, serviceGroups } from '../config/business';
+const columns = [
+  {
+    heading: 'Services',
+    links: [
+      { href: '/services/', label: 'All services' },
+      ...serviceGroups.map((group) => ({ href: `/services/#${group.id}`, label: group.name })),
+    ],
+  },
+  {
+    heading: 'Company',
+    links: [
+      { href: '/', label: 'Home' },
+      { href: '/about/', label: 'About' },
+      { href: '/pricing/', label: 'Pricing' },
+      { href: '/contact/', label: 'Contact' },
+    ],
+  },
+  {
+    heading: 'Legal',
+    links: [
+      { href: '/privacy/', label: 'Privacy policy' },
+      { href: '/terms/', label: 'Terms of service' },
+    ],
+  },
+];
+const identification = [
+  business.legalName,
+  business.legalStatus,
+  business.correspondenceAddress,
+  business.companyNumber && `Company no. ${business.companyNumber}`,
+  business.vatNumber && `VAT no. ${business.vatNumber}`,
+].filter(Boolean);
 ---
 
-<footer class="compact-footer">
+<footer class="site-footer">
   <div class="container">
-    <nav id="footer-navigation" aria-label="Footer navigation" tabindex="-1">
-      {navigation.map(({ href, label }) => (
-        <a href={href}>{label}</a>
-      ))}
-    </nav>
-    <div class="compact-footer-bottom">
-      <span>
-        © {new Date().getUTCFullYear()} {business.name}
-      </span>
-      <div>
-        <a href="/privacy/">Privacy policy</a>
-        <a href="/terms/">Terms of service</a>
+    <div class="footer-top">
+      <div class="footer-brand">
+        <Wordmark />
+        <p>{business.description}</p>
         {business.email && <a href={`mailto:${business.email}`}>{business.email}</a>}
-        {business.telephone && <a href={`tel:${business.telephone}`}>{business.telephone}</a>}
       </div>
+      <nav
+        id="footer-navigation"
+        class="footer-columns"
+        aria-label="Footer navigation"
+        tabindex="-1"
+      >
+        {columns.map((column) => (
+          <div>
+            <p class="footer-heading">{column.heading}</p>
+            <ul>
+              {column.links.map(({ href, label }) => (
+                <li>
+                  <a href={href}>{label}</a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </nav>
     </div>
-    {business.legalName && (
-      <p class="legal-identification">
-        {business.legalName}
-        {business.legalStatus && ` · ${business.legalStatus}`}
-        {business.correspondenceAddress && ` · ${business.correspondenceAddress}`}
-        {business.companyNumber && ` · Company no. ${business.companyNumber}`}
-        {business.vatNumber && ` · VAT no. ${business.vatNumber}`}
+    <div class="footer-bottom">
+      <p>
+        © {new Date().getUTCFullYear()} {business.name}
       </p>
-    )}
+      {identification.length > 0 && (
+        <p class="legal-identification">{identification.join(' · ')}</p>
+      )}
+    </div>
   </div>
 </footer>
