@@ -39,6 +39,7 @@ test('pricing prefills the form and invalid input cannot submit', async ({ page 
   await expect(page.locator('#contact-name')).toBeFocused();
   await page.locator('#contact-name').fill('Test Owner');
   await page.locator('#business-name').fill('Test Business');
+  await page.locator('#telephone').fill('028 9000 0000');
   await page.locator('#email').fill('invalid');
   await page.locator('#goal').fill('Make quote requests clearer.');
   await page.getByRole('button', { name: 'Send audit request' }).click();
@@ -157,17 +158,16 @@ test('phone menu contains keyboard focus, supports rapid reversal and responds t
   await expect(dialog).toBeHidden();
 });
 
-test('website project prefill, illustrative audit and service anchors work', async ({ page }) => {
+test('website project prefill and service anchors work', async ({ page }) => {
   await page.goto('/pricing/');
   await page.getByRole('link', { name: 'Discuss a website project' }).click();
   await expect(page.locator('#service')).toHaveValue('new-website');
   await page.goto('/');
+  await page.getByRole('link', { name: 'Maintenance and updates', exact: true }).first().click();
+  await expect(page).toHaveURL(/\/services\/#website-management$/);
   await expect(
-    page.getByText('Illustrative example. Not a client project.', { exact: true }),
-  ).toBeVisible();
-  await page.getByRole('link', { name: 'Website care', exact: true }).first().click();
-  await expect(page).toHaveURL(/\/services\/#website-care$/);
-  await expect(page.getByRole('heading', { name: 'Website care', level: 2 })).toBeInViewport();
+    page.getByRole('heading', { name: 'Maintenance and updates', level: 3 }),
+  ).toBeInViewport();
 });
 
 async function fillDummy(
@@ -177,6 +177,7 @@ async function fillDummy(
   await page.locator('#contact-name').fill('Test Owner');
   await page.locator('#business-name').fill('Dummy Business');
   await page.locator('#email').fill('dummy@example.invalid');
+  await page.locator('#telephone').fill('028 9000 0000');
   await page.locator('#goal').fill(goal);
 }
 

@@ -144,7 +144,7 @@ test('the native server form includes every field, a hidden honeypot and idempot
   );
   assert.deepEqual(
     [...form.querySelectorAll('[required]')].map((item) => item.name).sort(),
-    ['contact-name', 'business-name', 'email', 'goal'].sort(),
+    ['contact-name', 'business-name', 'email', 'telephone', 'goal'].sort(),
   );
   assert.equal(form.querySelector('[name="bot-field"]').closest('p').hidden, true);
   dom.window.close();
@@ -218,6 +218,36 @@ test('whitespace-only required details fail and errors are associated with their
   });
 });
 
+test('the phone number is required and must look like a phone number', async () => {
+  await withDOM('/contact/', async (win, doc) => {
+    (await loadScript('form')).setupReviewForm();
+    const phone = doc.getElementById('telephone');
+    assert.equal(phone.required, true);
+    for (const value of ['', '   ', 'call me', '123']) {
+      phone.value = value;
+      phone.dispatchEvent(new win.Event('blur'));
+      assert.equal(phone.checkValidity(), false, value);
+    }
+    for (const value of ['028 9000 0000', '+44 7700 900123', '(028) 9000-0000']) {
+      phone.value = value;
+      phone.dispatchEvent(new win.Event('blur'));
+      assert.equal(phone.checkValidity(), true, value);
+    }
+  });
+});
+
+test('no page tells visitors the site is a draft, preview or test', async () => {
+  for (const route of routes) {
+    const dom = await page(route);
+    assert.doesNotMatch(
+      dom.window.document.body.textContent,
+      /private test|static preview|dummy details|draft website|not yet live/i,
+      route,
+    );
+    dom.window.close();
+  }
+});
+
 test('local preview refuses to fake a successful enquiry and focuses its explanatory error', async () => {
   await withDOM('/contact/', async (win, doc) => {
     (await loadScript('form')).setupReviewForm();
@@ -227,6 +257,7 @@ test('local preview refuses to fake a successful enquiry and focuses its explana
       'contact-name': 'Test Owner',
       'business-name': 'Test Business',
       email: 'test@example.co.uk',
+      telephone: '028 9000 0000',
       goal: 'A clearer quote form.',
     })) {
       const field = doc.getElementById(id);
@@ -366,16 +397,17 @@ test('the home page leads with the audit request and keeps detail on separate ro
   assert.equal(action.getAttribute('href'), '/contact/');
   assert.equal(action.textContent.trim(), 'Request a free audit');
   assert.equal(main.querySelectorAll('form,.price-card').length, 0);
-  for (const id of ['websites', 'website-care', 'local-search'])
-    assert.ok(main.querySelector(`a[href="/services/#${id}"]`), id);
+  // The services index links every service to its own section.
+  assert.equal(main.querySelectorAll('.service-index a[href^="/services/#"]').length, 6);
   const pricing = await page('/pricing/');
   assert.equal(pricing.window.document.querySelectorAll('.price-card').length, 3);
   assert.equal(pricing.window.document.querySelectorAll('.faq').length, 8);
   for (const details of pricing.window.document.querySelectorAll('details'))
     assert.equal(details.firstElementChild.tagName, 'SUMMARY');
   const contact = await page('/contact/');
-  assert.match(contact.window.document.querySelector('.contact-note').textContent, /thorough/);
-  assert.match(contact.window.document.querySelector('.contact-note').textContent, /publicly/);
+  const intro = contact.window.document.querySelector('.contact-intro').textContent;
+  assert.match(intro, /free/);
+  assert.match(intro, /no obligation/);
   home.window.close();
   pricing.window.close();
   contact.window.close();
@@ -483,30 +515,6 @@ test('runtime JavaScript is small and no private details or false credibility ap
     assert.equal(dom.window.document.querySelectorAll('a[href^="tel:"]').length, 0);
     dom.window.close();
   }
-});
-
-test('the home audit example is labelled as illustrative and distinguishes issue, recommendation and verification', async () => {
-  const dom = await page('/');
-  const example = dom.window.document.querySelector('.sample-review');
-  assert.ok(example);
-  assert.match(
-    example.querySelector('figcaption').textContent,
-    /Illustrative example\. Not a client project\./,
-  );
-  assert.equal(example.querySelectorAll('dl > div').length, 3);
-  assert.deepEqual(
-    [...example.querySelectorAll('dt')].map((node) => node.textContent.trim()),
-    ['Example issue', 'Recommended change', 'What to check'],
-  );
-  // The illustrative label is stated once, as provenance, not repeated as a second disclaimer.
-  assert.equal((example.textContent.match(/Illustrative/g) ?? []).length, 1);
-  assert.doesNotMatch(example.textContent, /\d+\s*%|£\d|\d+\s*(leads|sales|jobs)/i);
-  assert.equal(
-    example.querySelectorAll('button,input').length,
-    0,
-    'The document example must not imply a working customer form.',
-  );
-  dom.window.close();
 });
 
 test('all six service areas have an enquiry route and pricing retains scope qualifications', async () => {

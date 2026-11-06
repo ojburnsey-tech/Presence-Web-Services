@@ -1,5 +1,18 @@
 > Historical design notes. Deployment instructions here are superseded by ../DEPLOYMENT.md.
 
+# Owner review fixes, 6 November 2026
+
+Changes requested by the owner after reviewing the site.
+
+- **Typeface.** SF Pro is used wherever it is installed (all Apple devices). Apple's licence does not allow SF Pro to be served as a web font, so other platforms get self-hosted Inter (`@fontsource-variable/inter`, OFL), the closest freely licensed match. The wordmark keeps its original font stack, so the logo is unchanged.
+- **Home.** Removed the hero's side box and the three identical row lists with small footnotes. The hero is now a statement with one action; services are an index of all six services; the audit and prices are explained in prose.
+- **Contact.** Smaller title, next steps in one paragraph, an unboxed form with "All fields are required unless marked optional", no help-text clutter, no arrow icon and no small print. Phone number is now required and validated in the browser and on the server.
+- **Draft wording removed.** The contact-page test notices and the "private test" lines in the privacy policy are gone. The code-level launch guard in `src/config/business.ts` is unchanged and still blocks a public launch until the legal details are configured.
+- **About.** The heading reads "About" followed by the wordmark.
+- **Services.** Jump-to-section links removed.
+- **Pricing.** Plan cards follow the common pattern (name, description, price, action, then inclusions), followed by a grouped comparison table. On phones each row's label sits on its own line above the three values; explicit ARIA table roles preserve table semantics.
+- **Bug fixed.** Pressing Send could blur a field, show its error above the button, shift the button and swallow the click. Blur validation now waits during a press on Send.
+
 # Unslop pass, 6 November 2026
 
 A second pass removed the generic treatments the first redesign had introduced, keeping all substantive content.

@@ -88,10 +88,17 @@
     --error: #a33328;
 
     /* Type */
+    /* SF Pro on Apple devices (and wherever it is installed locally). Apple's licence does not
+       allow serving SF Pro as a web font, so other platforms get self-hosted Inter, the closest
+       freely licensed match in proportion and optical sizing. */
     --font:
+      -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'SF Pro Display', 'Inter Variable',
+      'Helvetica Neue', Helvetica, Arial, sans-serif;
+    /* The wordmark keeps the stack it was drawn with, so the logo never changes. */
+    --font-logo:
       -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', 'Helvetica Neue', Helvetica,
       Arial, sans-serif;
-    --text-display: clamp(2.5rem, 5.2vw, 4.25rem);
+    --text-display: clamp(2.25rem, 4.2vw, 3.25rem);
     --text-title: clamp(1.75rem, 3vw, 2.5rem);
     --text-lead: clamp(1.125rem, 1.6vw, 1.25rem);
 
@@ -341,6 +348,7 @@
 
   /* Wordmark ------------------------------------------------------------- */
   .wordmark {
+    font-family: var(--font-logo);
     display: inline-flex;
     align-items: baseline;
     gap: 0.45rem;
@@ -554,29 +562,22 @@
     overflow: hidden;
   }
 
-  /* Home: hero. The proposition sits beside the audit note it leads to. -- */
+  /* Home: hero. A statement and one action; no decoration competing with it. --- */
   .hero {
-    display: grid;
-    grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
-    gap: clamp(2.5rem, 6vw, 5rem);
-    align-items: center;
-    padding-block: clamp(3.5rem, 8vw, 6.5rem) clamp(2rem, 5vw, 4rem);
+    padding-block: clamp(3.5rem, 9vw, 7rem) clamp(2.5rem, 6vw, 4.5rem);
   }
   .hero h1 {
-    font-size: clamp(2.5rem, 4.6vw, 3.875rem);
+    max-width: 15ch;
+    font-size: clamp(2.5rem, 5.4vw, 4rem);
+    line-height: 1.04;
+  }
+  .hero-body {
+    max-width: 36rem;
+    margin-top: 1.5rem;
   }
   .hero-lead {
-    max-width: 34rem;
-    margin-top: 1.25rem;
     font-size: var(--text-lead);
     line-height: 1.5;
-  }
-  .hero .audit-button {
-    margin-top: 2rem;
-  }
-  .hero-note {
-    margin-top: 0.9rem;
-    font-size: 0.875rem;
   }
   .hero-actions {
     display: flex;
@@ -585,8 +586,58 @@
     gap: 0.75rem 1.75rem;
     margin-top: 2rem;
   }
+  .hero-actions .link-arrow {
+    margin-top: 0;
+  }
 
-  /* Term rows: one shared shape for every "name, then explanation" list. ---- */
+  /* Split section: a short introduction beside the thing it introduces. -------- */
+  .split {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr);
+    gap: clamp(2rem, 6vw, 5rem);
+    align-items: start;
+  }
+  .split > .split-intro > h2 {
+    margin-bottom: 1rem;
+  }
+  .split-intro p {
+    max-width: 26rem;
+  }
+  /* Services index: every service, linked to its section, like a table of contents. */
+  .service-index {
+    padding: 0;
+    list-style: none;
+    border-top: 1px solid var(--line);
+  }
+  .service-index li {
+    border-bottom: 1px solid var(--line);
+  }
+  .service-index a {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-block: 1rem;
+    font-size: 1.125rem;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+    transition: color 150ms ease;
+  }
+  .service-index a::after {
+    content: '';
+    flex-shrink: 0;
+    width: 0.45rem;
+    height: 0.45rem;
+    border-top: 1.5px solid var(--line-strong);
+    border-right: 1.5px solid var(--line-strong);
+    transform: rotate(45deg);
+  }
+  .service-index a:hover {
+    color: var(--accent-dark);
+  }
+
+  /* Term rows: "name, then explanation" lists (About). ------------------------ */
   .term-rows > div {
     display: grid;
     grid-template-columns: minmax(0, 15rem) minmax(0, 1fr);
@@ -605,80 +656,22 @@
     max-width: 40rem;
     line-height: 1.6;
   }
-  .row-link {
-    text-decoration: underline;
-    text-decoration-color: var(--line-strong);
-    transition:
-      color 150ms ease,
-      text-decoration-color 150ms ease;
-  }
-  .row-link:hover {
-    color: var(--accent-dark);
-    text-decoration-color: currentColor;
-  }
-  /* Services index: the offer names lead, so they take heading scale. */
-  .offer-rows > div {
-    padding-block: 1.5rem;
-  }
-  .offer-rows dt {
-    font-size: 1.3125rem;
-    line-height: 1.3;
-    letter-spacing: -0.014em;
-  }
-  /* Price list: figures right-aligned in a short measure, read like a tariff. */
-  .price-rows {
-    max-width: 36rem;
-  }
-  .price-rows > div {
-    grid-template-columns: minmax(0, 1fr) auto;
-  }
-  .price-rows dd {
-    font-weight: 600;
-    color: var(--ink);
-    text-align: right;
-    font-variant-numeric: tabular-nums;
-  }
 
-  /* Illustrative audit note: a document, so it keeps one frame and no shadow. */
-  .sample-review figcaption {
-    margin-bottom: 0.6rem;
-    font-size: 0.8125rem;
-    color: var(--muted);
+  /* About heading: the word "About" followed by the wordmark itself. */
+  .about-title {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.1em 0.32em;
   }
-  .sample-review-body {
-    padding: 1.6rem 1.75rem 0.75rem;
-    border: 1px solid rgb(40 40 40 / 14%);
-    border-radius: 0.875rem;
-    background: var(--white);
+  .about-title .wordmark {
+    color: var(--ink);
   }
-  .review-topic {
-    font-size: 0.8125rem;
-    font-weight: 500;
-    color: var(--muted);
+  .about-title .wordmark-name {
+    font-size: 1em;
   }
-  .sample-review h2,
-  .sample-review h3 {
-    max-width: 22ch;
-    margin-top: 0.5rem;
-    font-size: 1.5rem;
-    line-height: 1.22;
-    letter-spacing: -0.02em;
-  }
-  .review-observations {
-    margin-top: 1.25rem;
-  }
-  .review-observations > div {
-    padding-block: 0.9rem;
-    border-top: 1px solid var(--line);
-  }
-  .review-observations dt {
-    margin-bottom: 0.25rem;
-    font-size: 0.8125rem;
-    font-weight: 600;
-  }
-  .review-observations dd {
-    font-size: 0.9375rem;
-    line-height: 1.6;
+  .about-title .wordmark-sub {
+    font-size: 0.3em;
   }
 
   /* Founder: a person and their story. Two columns only when a photo exists. */
@@ -792,7 +785,7 @@
 
   /* Inner page intro ---------------------------------------------------------- */
   .page-intro {
-    padding-block: clamp(3.5rem, 8vw, 6rem) clamp(2.5rem, 5vw, 3.5rem);
+    padding-block: clamp(3rem, 7vw, 5rem) clamp(2rem, 4vw, 3rem);
   }
   .page-intro h1 {
     max-width: 20ch;
@@ -803,25 +796,6 @@
   }
 
   /* Services ------------------------------------------------------------------ */
-  .service-directory {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.25rem 1.75rem;
-    margin-bottom: clamp(1.5rem, 4vw, 2.5rem);
-  }
-  .service-directory a {
-    display: inline-flex;
-    align-items: center;
-    min-height: 2.75rem;
-    font-weight: 500;
-    text-decoration: underline;
-    text-decoration-color: var(--line-strong);
-    transition: color 150ms ease;
-  }
-  .service-directory a:hover {
-    color: var(--accent-dark);
-    text-decoration-color: currentColor;
-  }
   .service-group {
     padding-block: clamp(2.5rem, 6vw, 4.5rem);
   }
@@ -886,44 +860,43 @@
     transform: rotate(40deg);
   }
 
-  /* Pricing: a comparison, so plans share rows rather than sitting in boxes. -- */
+  /* Pricing: plan cards (name, price, action, inclusions) then a comparison table. */
   .pricing-main {
-    padding-bottom: clamp(1rem, 3vw, 2rem);
+    padding-bottom: clamp(1.5rem, 4vw, 2.5rem);
   }
   .pricing-grid {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    grid-template-rows: repeat(6, auto);
-    border-top: 1px solid var(--ink);
+    gap: 1rem;
   }
+  /* Subgrid keeps prices, buttons and lists level across the three plans. */
   .price-card {
     display: grid;
     grid-row: span 6;
     grid-template-rows: subgrid;
     row-gap: 0;
-    padding: 1.75rem 1.75rem 0.25rem;
-    border-left: 1px solid var(--line);
+    padding: 1.75rem;
+    border: 1px solid rgb(40 40 40 / 12%);
+    border-radius: 0.875rem;
+    background: var(--white);
   }
-  .price-card:first-child {
-    padding-left: 0;
-    border-left: 0;
-  }
-  .price-card:last-child {
-    padding-right: 0;
-  }
-  .price-label {
-    font-size: 0.875rem;
+  .pricing-grid {
+    grid-template-rows: repeat(6, auto);
   }
   .price-card h2 {
-    margin-top: 0.3rem;
-    font-size: 1.375rem;
-    letter-spacing: -0.016em;
+    font-size: 1.25rem;
+    letter-spacing: -0.014em;
+  }
+  .price-summary {
+    margin-top: 0.5rem;
+    font-size: 0.9375rem;
+    line-height: 1.55;
   }
   .price {
     display: flex;
     flex-wrap: wrap;
     align-items: baseline;
-    gap: 0.2rem 0.45rem;
+    gap: 0.15rem 0.4rem;
     margin-top: 1.5rem;
   }
   .price-from {
@@ -931,113 +904,131 @@
     font-size: 0.875rem;
   }
   .price-amount {
-    font-size: 2.75rem;
+    font-size: 2.5rem;
     font-weight: 600;
     line-height: 1;
-    letter-spacing: -0.035em;
+    letter-spacing: -0.03em;
     color: var(--ink);
     font-variant-numeric: tabular-nums;
   }
   .price-unit {
     font-size: 0.9375rem;
   }
-  .price-summary {
+  .price-card .button {
+    width: 100%;
     margin-top: 1.25rem;
-    font-size: 0.9375rem;
-    line-height: 1.6;
+  }
+  .price-includes {
+    margin-top: 1.75rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--line);
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--ink);
   }
   .price-card .check-list {
-    margin-block: 1.5rem 2rem;
-  }
-  .price-card .button {
-    align-self: end;
-    justify-self: start;
+    margin-top: 0.75rem;
   }
   .pricing-disclaimer {
     max-width: 48rem;
+    margin-top: 1.5rem;
+  }
+
+  /* Comparison table. Scrolls inside its own region on narrow screens. */
+  .table-scroll {
+    /* Positioned so the table's visually hidden labels stay inside the scroll area. */
+    position: relative;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .table-scroll:focus-visible {
+    outline-offset: 4px;
+  }
+  .compare-table {
+    width: 100%;
+    min-width: 36rem;
+    border-collapse: collapse;
+    font-size: 0.9375rem;
+  }
+  .compare-table thead th {
+    padding: 0 0.75rem 0.85rem;
+    font-weight: 600;
+    text-align: center;
+    color: var(--ink);
+  }
+  .compare-table thead td {
+    width: 40%;
+  }
+  .compare-group th {
+    padding: 1.75rem 0 0.6rem;
+    border-bottom: 1px solid var(--ink);
+    font-weight: 600;
+    text-align: left;
+    color: var(--ink);
+  }
+  .compare-table tbody:first-of-type .compare-group th {
+    padding-top: 0.25rem;
+  }
+  .compare-table tbody tr:not(.compare-group) {
+    border-bottom: 1px solid var(--line);
+  }
+  .compare-table tbody th[scope='row'] {
+    padding: 0.85rem 1rem 0.85rem 0;
+    font-weight: 400;
+    text-align: left;
+    color: var(--ink);
+  }
+  .compare-table td {
+    width: 20%;
+    padding: 0.85rem 0.75rem;
+    text-align: center;
+    color: var(--muted);
+  }
+  .mark-yes {
+    display: inline-block;
+    width: 0.4rem;
+    height: 0.75rem;
+    border-right: 2px solid var(--ink);
+    border-bottom: 2px solid var(--ink);
+    transform: translateY(-0.1rem) rotate(40deg);
+  }
+  .mark-no {
+    display: inline-block;
+    width: 0.75rem;
+    height: 2px;
+    vertical-align: middle;
+    background: var(--line-strong);
+  }
+  .agreement-details {
+    max-width: 44rem;
     margin-top: 2rem;
   }
 
   /* Contact -------------------------------------------------------------------- */
   .contact-layout {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
-    gap: clamp(3rem, 6vw, 5rem);
-    padding-block: clamp(3.5rem, 8vw, 6rem) var(--space-section);
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.35fr);
+    gap: clamp(2.5rem, 6vw, 5rem);
+    padding-block: clamp(3rem, 7vw, 5rem) var(--space-section);
+  }
+  .contact-intro {
+    max-width: 26rem;
   }
   .contact-intro .intro-copy {
     margin-top: 1.25rem;
-  }
-  .contact-expect {
-    margin-top: 2.75rem;
-  }
-  .contact-expect h2 {
-    font-size: 1.125rem;
-    letter-spacing: -0.01em;
-  }
-  .contact-expect ol {
-    margin-top: 0.75rem;
-    padding: 0;
-    list-style: none;
-    counter-reset: step;
-  }
-  .contact-expect li {
-    display: flex;
-    gap: 1rem;
-    padding-block: 0.85rem;
-    border-bottom: 1px solid var(--line);
-    font-size: 0.9375rem;
-    counter-increment: step;
-  }
-  .contact-expect li::before {
-    content: counter(step);
-    flex-shrink: 0;
-    width: 1.25rem;
-    font-weight: 600;
-    color: var(--accent-dark);
-  }
-  .contact-note {
-    margin-top: 2rem;
-    font-size: 0.9375rem;
-  }
-  .contact-note > p:first-child {
-    font-weight: 600;
-    color: var(--ink);
-  }
-  .contact-note > p + p {
-    margin-top: 0.5rem;
   }
   .contact-direct {
     margin-top: 1.5rem;
     font-size: 0.9375rem;
   }
-  .contact-form-wrap {
-    align-self: start;
-    padding: clamp(1.5rem, 3vw, 2.5rem);
-    border: 1px solid rgb(40 40 40 / 8%);
-    border-radius: 0.875rem;
-    background: var(--white);
-  }
-  .form-heading h2 {
-    font-size: 1.5rem;
-    letter-spacing: -0.018em;
-  }
-  .form-heading > p {
-    margin-top: 0.4rem;
+  .form-guidance {
+    margin-bottom: 1.5rem;
     font-size: 0.9375rem;
-  }
-  .preview-notice {
-    margin-top: 1rem;
-    padding: 0.85rem 1rem;
-    border-radius: var(--radius-control);
-    background: #f3e9de;
-    font-size: 0.875rem;
   }
   .form-grid {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 1.35rem 1rem;
-    margin-top: 1.75rem;
+    gap: 1.25rem 1rem;
   }
   .form-field {
     min-width: 0;
@@ -1047,9 +1038,10 @@
   }
   label {
     display: block;
-    margin-bottom: 0.45rem;
-    font-size: 0.875rem;
-    font-weight: 600;
+    margin-bottom: 0.4rem;
+    font-size: 0.9375rem;
+    font-weight: 500;
+    color: var(--ink);
   }
   label span {
     font-size: 0.8125rem;
@@ -1061,10 +1053,10 @@
   textarea {
     width: 100%;
     max-width: 100%;
-    min-height: 3rem;
-    padding: 0.7rem 0.875rem;
+    min-height: 2.875rem;
+    padding: 0.65rem 0.8rem;
     border: 1px solid var(--line-strong);
-    border-radius: var(--radius-control);
+    border-radius: 0.5rem;
     background: var(--white);
     color: var(--ink);
     font-size: 1rem; /* 16px or larger prevents iOS zoom on focus. */
@@ -1108,24 +1100,17 @@
   .field-error:empty {
     display: none;
   }
-  .form-privacy {
-    margin-top: 1.5rem;
-    font-size: 0.8125rem;
-    line-height: 1.65;
-  }
-  .form-submit {
-    width: 100%;
-    min-height: 3.25rem;
-    margin-top: 1.5rem;
+  .form-actions {
+    margin-top: 1.75rem;
   }
   .form-submit:disabled {
     cursor: wait;
     opacity: 0.7;
   }
-  .form-small-print {
-    margin-top: 0.75rem;
-    font-size: 0.8125rem;
-    text-align: center;
+  .form-privacy {
+    margin-top: 0.85rem;
+    font-size: 0.875rem;
+    line-height: 1.6;
   }
   .form-status {
     margin-top: 1.5rem;
@@ -1282,35 +1267,25 @@
     :root {
       --gutter: 2rem;
     }
-    .hero,
+    .split,
     .contact-layout {
       grid-template-columns: 1fr;
     }
-    .sample-review {
-      max-width: 36rem;
-    }
-    /* Plans stack; each keeps its own rule so the comparison stays legible. */
     .pricing-grid {
       grid-template-columns: 1fr;
       grid-template-rows: none;
-      max-width: 36rem;
-      border-top: 0;
+      max-width: 32rem;
     }
-    .price-card,
-    .price-card:first-child,
-    .price-card:last-child {
+    .price-card {
       display: flex;
       flex-direction: column;
       grid-row: auto;
-      padding: 1.75rem 0 2.25rem;
-      border-left: 0;
-      border-top: 1px solid var(--ink);
     }
     .contact-intro {
       max-width: 40rem;
     }
-    .contact-form-wrap {
-      max-width: 42rem;
+    .enquiry-form {
+      max-width: 40rem;
     }
     .legal-layout {
       grid-template-columns: 10rem minmax(0, 1fr);
@@ -1335,10 +1310,6 @@
     .term-rows > div {
       grid-template-columns: 1fr;
     }
-    .price-rows > div {
-      grid-template-columns: minmax(0, 1fr) auto;
-      gap: 1rem;
-    }
     .founder--with-photo {
       grid-template-columns: 1fr;
     }
@@ -1351,14 +1322,47 @@
     .faq-answer {
       padding-right: 0.5rem;
     }
-    .sample-review-body {
-      padding: 1.4rem 1.4rem 0.4rem;
-    }
     .legal-layout {
       grid-template-columns: 1fr;
     }
     .legal-nav {
       position: static;
+    }
+    /* On phones each row's label takes its own line and the three values sit beneath
+       it, aligned under the plan names. Explicit ARIA roles keep the table semantics. */
+    .compare-table,
+    .compare-table thead,
+    .compare-table tbody {
+      display: block;
+    }
+    .compare-table {
+      min-width: 0;
+    }
+    .compare-table tr {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+    .compare-table thead td {
+      display: none;
+    }
+    .compare-table thead th {
+      padding: 0 0.25rem 0.75rem;
+      font-size: 0.875rem;
+    }
+    .compare-group th,
+    .compare-table tbody th[scope='row'] {
+      grid-column: 1 / -1;
+    }
+    .compare-table tbody th[scope='row'] {
+      padding: 0.85rem 0 0.2rem;
+    }
+    .compare-table td {
+      width: auto;
+      padding: 0.2rem 0.25rem 0.85rem;
+      font-size: 0.875rem;
+    }
+    .price-card .button {
+      padding-inline: 1rem;
     }
     .footer-top {
       grid-template-columns: 1fr;
@@ -1415,16 +1419,20 @@
       backdrop-filter: none;
       box-shadow: 0 1px 0 var(--ink);
     }
-    .contact-form-wrap,
-    .sample-review-body {
+    .price-card {
       border-color: var(--ink);
     }
   }
   @media (forced-colors: active) {
     .button,
-    .contact-form-wrap,
-    .sample-review-body {
+    .price-card {
       border: 1px solid CanvasText;
+    }
+    .mark-yes {
+      border-color: CanvasText;
+    }
+    .mark-no {
+      background: CanvasText;
     }
   }
   @media print {

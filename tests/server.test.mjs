@@ -13,7 +13,7 @@ const valid = {
   website: 'example.com',
   'google-profile': '',
   location: 'Belfast',
-  telephone: '',
+  telephone: '028 9000 0000',
   service: 'one-off',
   goal: 'Test enquiry only. Make contact options clearer.',
 };
@@ -84,6 +84,9 @@ test('missing required fields, invalid email, URLs, service and length limits fa
       ['contact-name', ' '],
       ['business-name', ''],
       ['goal', ''],
+      ['telephone', ''],
+      ['telephone', 'call me'],
+      ['telephone', '123'],
       ['email', 'invalid'],
       ['goal', 'bad\u0000control'],
       ['website', 'javascript:alert(1)'],

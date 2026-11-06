@@ -17,11 +17,6 @@ const groups = serviceGroups.map((group) => ({
     title="Websites, website care and local search."
     description="Whether you need a new website, a few repairs or someone to look after the updates, we agree exactly what’s included before any work starts."
   />
-  <nav class="container service-directory" aria-label="Service groups">
-    {groups.map((group) => (
-      <a href={`#${group.id}`}>{group.name}</a>
-    ))}
-  </nav>
 
   {groups.map((group) => (
     <section id={group.id} class="service-group" aria-labelledby={`${group.id}-heading`}>

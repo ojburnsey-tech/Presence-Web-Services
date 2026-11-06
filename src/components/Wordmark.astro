@@ -1,24 +1,39 @@
 ---
 /**
- * Single-line wordmark used in the navigation bar and footer.
- * `current` marks the home link as the current page for assistive technology.
+ * The Presence wordmark. Its typeface is pinned in CSS so the logo never changes
+ * with the body font. Renders as the home link by default; `link={false}` renders
+ * it inline (for example inside a heading), where the accessible name comes from
+ * the visually hidden text.
  */
 interface Props {
   current?: boolean;
+  link?: boolean;
 }
-const { current = false } = Astro.props;
+const { current = false, link = true } = Astro.props;
 ---
 
-<a
-  href="/"
-  class="wordmark"
-  aria-label="Presence Web Services home"
-  aria-current={current ? 'page' : undefined}
->
-  <span class="wordmark-name" aria-hidden="true">
-    presence<span class="wordmark-dot">.</span>
+{link ? (
+  <a
+    href="/"
+    class="wordmark"
+    aria-label="Presence Web Services home"
+    aria-current={current ? 'page' : undefined}
+  >
+    <span class="wordmark-name" aria-hidden="true">
+      presence<span class="wordmark-dot">.</span>
+    </span>
+    <span class="wordmark-sub" aria-hidden="true">
+      Web Services
+    </span>
+  </a>
+) : (
+  <span class="wordmark wordmark--inline">
+    <span class="sr-only">Presence Web Services</span>
+    <span class="wordmark-name" aria-hidden="true">
+      presence<span class="wordmark-dot">.</span>
+    </span>
+    <span class="wordmark-sub" aria-hidden="true">
+      Web Services
+    </span>
   </span>
-  <span class="wordmark-sub" aria-hidden="true">
-    Web Services
-  </span>
-</a>
+)}
