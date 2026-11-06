@@ -155,7 +155,7 @@ test('pricing CTAs identify both plans and valid selections prefill the enquiry'
   const buttons = [...dom.window.document.querySelectorAll('.price-card .button')];
   assert.deepEqual(
     buttons.map((button) => button.getAttribute('href')),
-    ['/contact/?service=one-off', '/contact/?service=ongoing'],
+    ['/contact/?service=one-off', '/contact/?service=ongoing', '/contact/?service=new-website'],
   );
   dom.window.close();
   for (const service of ['one-off', 'ongoing', 'new-website', 'unexpected']) {
@@ -351,20 +351,25 @@ test('navigation degrades to footer links when native modal support is unavailab
       doc.querySelector('[data-menu-fallback]').getAttribute('href'),
       '#footer-navigation',
     );
-    assert.equal(doc.querySelectorAll('#footer-navigation a').length, 5);
+    const footerLinks = [...doc.querySelectorAll('#footer-navigation a')].map((link) =>
+      link.getAttribute('href'),
+    );
+    for (const href of ['/', '/services/', '/pricing/', '/about/', '/contact/'])
+      assert.ok(footerLinks.includes(href), `footer navigation must include ${href}`);
   });
 });
 
-test('the compact landing page focuses on its audit request; detailed content stays on separate routes', async () => {
+test('the home page leads with the audit request and keeps detail on separate routes', async () => {
   const home = await page('/');
   const main = home.window.document.querySelector('main');
-  assert.equal(main.querySelectorAll('section').length, 1);
-  const action = main.querySelector('.audit-button');
+  const action = main.querySelector('.hero .audit-button');
   assert.equal(action.getAttribute('href'), '/contact/');
   assert.equal(action.textContent.trim(), 'Request a free audit');
-  assert.equal(main.querySelectorAll('form,.sample-review,.price-card').length, 0);
+  assert.equal(main.querySelectorAll('form,.price-card').length, 0);
+  for (const id of ['websites', 'website-care', 'local-search'])
+    assert.ok(main.querySelector(`a[href="/services/#${id}"]`), id);
   const pricing = await page('/pricing/');
-  assert.equal(pricing.window.document.querySelectorAll('.price-card').length, 2);
+  assert.equal(pricing.window.document.querySelectorAll('.price-card').length, 3);
   assert.equal(pricing.window.document.querySelectorAll('.faq').length, 8);
   for (const details of pricing.window.document.querySelectorAll('details'))
     assert.equal(details.firstElementChild.tagName, 'SUMMARY');
@@ -374,6 +379,14 @@ test('the compact landing page focuses on its audit request; detailed content st
   home.window.close();
   pricing.window.close();
   contact.window.close();
+});
+
+test('the founder is named, and no photo or placeholder appears until a real one is configured', async () => {
+  const about = await page('/about/');
+  const doc = about.window.document;
+  assert.match(doc.querySelector('#founder-heading').textContent, /Oliver Burns/);
+  assert.equal(doc.querySelectorAll('main img').length, 0);
+  about.window.close();
 });
 
 test('axe finds no detectable WCAG A/AA semantic violations in all nine documents (contrast excluded)', async () => {
@@ -422,14 +435,15 @@ test('critical text and button colour pairs meet WCAG AA contrast', () => {
     ['60605b', 'f8f7f3'],
     ['a5482c', 'f8f7f3'],
     ['fffefa', '282828'],
-    ['bec4b7', '2c302c'],
-    ['c2c7bb', '2c302c'],
+    ['fffefa', '3d3d3a'],
+    ['60605b', 'fffefa'],
     ['60605b', 'efeee8'],
+    ['282828', 'efeee8'],
+    ['a5482c', 'efeee8'],
     ['a33328', 'fffefa'],
-    ['60605b', 'eaece4'],
-    ['a5482c', 'eaece4'],
-    ['ebeee4', '2c302c'],
-    ['efc2ab', '2c302c'],
+    ['60605b', 'f3f2ec'],
+    ['60605b', 'f3e9de'],
+    ['a5482c', 'fffefa'],
   ]) {
     const values = [luminance(foreground), luminance(background)].sort((a, b) => b - a);
     assert.ok((values[0] + 0.05) / (values[1] + 0.05) >= 4.5, `${foreground} on ${background}`);
@@ -471,8 +485,8 @@ test('runtime JavaScript is small and no private details or false credibility ap
   }
 });
 
-test('the services example is labelled as illustrative and distinguishes issue, recommendation and verification', async () => {
-  const dom = await page('/services/');
+test('the home audit example is labelled as illustrative and distinguishes issue, recommendation and verification', async () => {
+  const dom = await page('/');
   const example = dom.window.document.querySelector('.sample-review');
   assert.ok(example);
   assert.match(
@@ -523,9 +537,11 @@ test('all six service areas have an enquiry route and pricing retains scope qual
   );
   assert.match(prices[0], /149/);
   assert.match(prices[1], /129/);
-  assert.match(
-    pricing.window.document.querySelector('.new-website-note').textContent,
-    /separate quote/,
+  const websiteCard = pricing.window.document.querySelectorAll('.price-card')[2];
+  assert.match(websiteCard.textContent, /separate quote/);
+  assert.equal(
+    websiteCard.querySelector('.button').getAttribute('href'),
+    '/contact/?service=new-website',
   );
   assert.ok(
     pricing.window.document

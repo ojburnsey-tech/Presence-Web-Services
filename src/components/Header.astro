@@ -3,17 +3,27 @@ import Wordmark from './Wordmark.astro';
 import Button from './Button.astro';
 import { navigation } from '../config/business';
 const path = Astro.url.pathname;
-const descriptions = {
-  '/': 'Start with a free public audit',
-  '/services/': 'Website care, Google profiles and enquiries',
-  '/pricing/': 'One-off work and ongoing support',
-  '/about/': 'Who you’ll be working with',
-  '/contact/': 'Tell us about your business',
-};
+// The wordmark already links home, so the bar lists only the inner pages.
+const barLinks = navigation.filter(({ href }) => href !== '/');
 ---
 
-<header class:list={['site-chrome', { 'site-chrome--landing': path === '/' }]}>
-  <div class="container chrome-inner">
+<header class="site-header">
+  <div class="container header-inner">
+    <nav class="header-nav" aria-label="Main navigation">
+      <Wordmark current={path === '/'} />
+      <ul class="header-links">
+        {barLinks.map(({ href, label }) => (
+          <li>
+            <a href={href} aria-current={path === href ? 'page' : undefined}>
+              {label}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+    <Button href="/contact/" size="small" class="header-cta">
+      Free audit
+    </Button>
     <a class="menu-control" href="#footer-navigation" data-menu-fallback>
       <span class="menu-control-icon" aria-hidden="true"></span>Menu
     </a>
@@ -29,41 +39,35 @@ const descriptions = {
     >
       <span class="menu-control-icon" aria-hidden="true"></span>Menu
     </button>
-    {path !== '/' && <Wordmark />}
   </div>
-  <dialog id="site-menu" class="sidebar-dialog" aria-labelledby="menu-title">
+  <dialog id="site-menu" class="menu-dialog" aria-labelledby="menu-title">
+    <!-- Sits exactly over the Menu button, so open and close happen in the same place. -->
     <button
       type="button"
-      class="menu-control sidebar-dismiss"
+      class="menu-control menu-dismiss"
       aria-label="Close menu"
       data-menu-toggle
     >
       <span class="menu-control-icon" aria-hidden="true"></span>
       <span data-menu-label>Close</span>
     </button>
-    <div class="sidebar-scrim" data-menu-backdrop aria-hidden="true"></div>
-    <div class="sidebar-panel" data-menu-panel>
-      <div class="sidebar-heading">
-        <p>Presence Web Services</p>
-        <h2 id="menu-title" class="sr-only">
-          Site navigation
-        </h2>
-      </div>
-      <nav class="sidebar-navigation" aria-label="Main navigation">
+    <div class="menu-scrim" data-menu-backdrop aria-hidden="true"></div>
+    <div class="menu-panel" data-menu-panel>
+      <h2 id="menu-title" class="sr-only">
+        Site navigation
+      </h2>
+      <nav class="menu-navigation" aria-label="Menu">
         {navigation.map(({ href, label }) => (
           <a href={href} aria-current={path === href ? 'page' : undefined}>
-            <span>{label}</span>
-            <small>{descriptions[href]}</small>
+            {label}
           </a>
         ))}
       </nav>
-      <div class="sidebar-audit">
-        <Button href="/contact/" variant="light">
-          Request a free audit
-        </Button>
-        <p>A thorough look at what customers can see online. No account access needed.</p>
+      <div class="menu-audit">
+        <Button href="/contact/">Request a free audit</Button>
+        <p>A review of what customers see online. No account access needed.</p>
       </div>
-      <div class="sidebar-legal">
+      <div class="menu-legal">
         <a href="/privacy/">Privacy</a>
         <a href="/terms/">Terms</a>
       </div>

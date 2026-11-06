@@ -1,109 +1,178 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Button from '../components/Button.astro';
-import Wordmark from '../components/Wordmark.astro';
-import { business } from '../config/business';
+import SampleReview from '../components/SampleReview.astro';
+import { business, serviceGroups } from '../config/business';
+const { founder, prices } = business;
 ---
 
 <Layout
-  title="Free website & Google presence audit"
-  description="Request a free, thorough assessment of your public website and Google presence. Understand what needs attention before agreeing to any paid work."
+  title="Websites and Google presence for independent businesses"
+  description="Websites, ongoing website care and Google Business Profile management for independent businesses in Northern Ireland and across the UK. Start with a free audit."
 >
-  <section class="container audit-landing" aria-labelledby="audit-heading">
-    <div class="landing-logo">
-      <Wordmark />
+  <section class="hero" aria-labelledby="hero-heading">
+    <div class="container hero-inner">
+      <h1 id="hero-heading">Your website should help bring in business.</h1>
+      <p class="hero-lead">
+        Presence builds and looks after websites and Google Business Profiles for independent
+        businesses in Northern Ireland and across the UK.
+      </p>
+      <div class="hero-actions">
+        <Button href="/contact/" class="audit-button">
+          Request a free audit
+        </Button>
+        <a class="link-arrow" href="/pricing/">
+          See prices
+        </a>
+      </div>
+      <p class="hero-note">Free, with no obligation. No account access needed.</p>
     </div>
-    <p class="landing-services">
-      Websites, ongoing website care and Google Business Profile management
-      <br class="desktop-break" /> for independent businesses in Northern Ireland and across the UK.
-    </p>
-    <h1 id="audit-heading">Start with a free audit.</h1>
-    <p class="audit-lead">
-      We’ll take a thorough look at your public website and Google presence, then explain the issues
-      we find and the improvements worth considering.
-    </p>
-    <Button class="audit-button" href="/contact/">
-      Request a free audit
-    </Button>
-    <p class="audit-reassurance">No obligation. No account access required.</p>
-    <div class="landing-audit-summary">
-      <h2>What we’ll look at</h2>
-      <dl>
-        <div>
-          <dt>Your website</dt>
-          <dd>
-            How clearly your services are explained and whether the pages are straightforward to use
-            on a phone.
-          </dd>
-        </div>
-        <div>
-          <dt>Your Google presence</dt>
-          <dd>
-            Whether your public business details are consistent and help customers understand what
-            you offer.
-          </dd>
-        </div>
-        <div>
-          <dt>Making an enquiry</dt>
-          <dd>
-            How easy it is to find your contact options and follow the steps to request a quote.
-          </dd>
-        </div>
-      </dl>
-      <p>
-        We’ll explain our findings and recommend where to start. Any paid work is quoted separately.
-      </p>
+  </section>
+
+  <section class="section container" aria-labelledby="offer-heading">
+    <h2 id="offer-heading" class="section-title">
+      What we do
+    </h2>
+    <div class="offer-grid">
+      {serviceGroups.map((group) => (
+        <article class="offer">
+          <h3>{group.name}</h3>
+          <p>{group.homeSummary}</p>
+          <a class="link-arrow" href={`/services/#${group.id}`}>
+            {group.linkLabel}
+          </a>
+        </article>
+      ))}
     </div>
-    <div class="landing-context">
-      <h2>Practical work, agreed before it starts.</h2>
+  </section>
+
+  <section class="band" aria-labelledby="audit-heading">
+    <div class="container audit-layout">
+      <div class="audit-copy">
+        <h2 id="audit-heading">Start with a free audit.</h2>
+        <p class="lead">
+          Send us your website or Google listing. We’ll look at it the way a customer would, then
+          explain what’s getting in the way of enquiries and what we’d fix first.
+        </p>
+        <dl class="audit-coverage">
+          <div>
+            <dt>Your website</dt>
+            <dd>How clearly your services are explained, and how the pages work on a phone.</dd>
+          </div>
+          <div>
+            <dt>Your Google presence</dt>
+            <dd>Whether your business details are accurate and consistent wherever they appear.</dd>
+          </div>
+          <div>
+            <dt>Making an enquiry</dt>
+            <dd>How easy it is to find your contact details and ask for a quote.</dd>
+          </div>
+        </dl>
+        <Button href="/contact/">Request a free audit</Button>
+      </div>
+      <SampleReview headingLevel={3} />
+    </div>
+  </section>
+
+  <section class="section container pricing-summary" aria-labelledby="prices-heading">
+    <div class="pricing-summary-intro">
+      <h2 id="prices-heading" class="section-title">
+        Clear prices, agreed in writing.
+      </h2>
       <p>
-        Unclear service information, out-of-date business details and awkward forms can get in the
-        way of an enquiry. We identify the problem, agree the work with you and check the changes.
+        Every job starts with a written scope and quote. Nothing is charged until you’ve agreed to
+        it.
       </p>
-      <p>
-        One-off improvements from <strong>£{business.prices.oneOff}</strong>. Ongoing support from{' '}
-        <strong>£{business.prices.ongoing}/month</strong>. New websites are quoted separately.
-      </p>
-      <a href="/pricing/" class="inline-link">
-        Compare prices and support
+      <a class="link-arrow" href="/pricing/">
+        Compare options
       </a>
     </div>
-    <div class="landing-context">
-      <p>
-        Presence is a new independent business. You deal directly with the person doing the work,
-        keep ownership of your accounts and approve changes to your business information.
+    <dl class="price-points">
+      <div>
+        <dt>One-off improvements</dt>
+        <dd>
+          <span class="price-point-from">From</span> £{prices.oneOff}
+        </dd>
+      </div>
+      <div>
+        <dt>Ongoing partnership</dt>
+        <dd>
+          <span class="price-point-from">From</span> £{prices.ongoing}
+          <span class="price-point-unit">/month</span>
+        </dd>
+      </div>
+      <div>
+        <dt>New websites</dt>
+        <dd class="price-point-text">
+          <span class="price-point-from">Per project</span> Quoted separately
+        </dd>
+      </div>
+    </dl>
+  </section>
+
+  <section class="section container founder-strip" aria-labelledby="founder-heading">
+    {founder.photo && (
+      <img
+        class="founder-photo"
+        src={founder.photo}
+        alt={`${founder.name}, ${founder.role.toLowerCase()} of ${business.name}`}
+        width={founder.photoWidth}
+        height={founder.photoHeight}
+        loading="lazy"
+        decoding="async"
+      />
+    )}
+    <div>
+      <h2 id="founder-heading" class="section-title">
+        One person, start to finish.
+      </h2>
+      <p class="lead">
+        Presence is run by {founder.name}, who reviews your site, does the work and answers your
+        emails, so nothing gets lost between an account manager and a developer. Your website,
+        domain and Google profile stay in your name throughout.
       </p>
-      <a href="/services/" class="inline-link">
-        Explore the services
+      <a class="link-arrow" href="/about/">
+        About Presence
       </a>
     </div>
-    <div class="landing-faq">
-      <h2>Before you enquire</h2>
+  </section>
+
+  <section class="section container faq-section" aria-labelledby="faq-heading">
+    <h2 id="faq-heading" class="section-title">
+      Before you enquire
+    </h2>
+    <div class="faq-list">
       <details class="faq">
-        <summary>Is the audit automated?</summary>
+        <summary>
+          Is the audit automated?<span class="faq-symbol" aria-hidden="true"></span>
+        </summary>
         <div class="faq-answer">
           <p>
-            No. We assess the publicly available information you share and explain the findings. No
-            account access is needed. Private systems and invasive security testing are outside the
-            free audit.
+            No. A person reviews the public information you share and explains the findings in plain
+            English. Private systems and security testing are outside the free audit.
           </p>
         </div>
       </details>
       <details class="faq">
-        <summary>Do I have to buy ongoing support?</summary>
+        <summary>
+          Do I have to sign up for ongoing support?
+          <span class="faq-symbol" aria-hidden="true"></span>
+        </summary>
         <div class="faq-answer">
           <p>
-            No. The audit is free, with no obligation. A specific issue can be quoted as one-off
-            work. Any paid scope and price are agreed separately.
+            No. The audit is free, and a specific problem can be fixed as a one-off piece of work.
+            Any paid work is quoted separately for you to consider.
           </p>
         </div>
       </details>
       <details class="faq">
-        <summary>What if I do not have a website?</summary>
+        <summary>
+          What if I don’t have a website yet?<span class="faq-symbol" aria-hidden="true"></span>
+        </summary>
         <div class="faq-answer">
           <p>
-            You can still enquire. Share your business details and what you need. We can discuss a
-            new website and quote for it separately.
+            You can still get in touch. Tell us about your business and what you need, and we’ll
+            talk through a new website and quote for it separately.
           </p>
         </div>
       </details>

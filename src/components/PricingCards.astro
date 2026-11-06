@@ -1,47 +1,67 @@
 ---
 import Button from './Button.astro';
 import { business } from '../config/business';
+/** Three ways to work together. Prices are starting points; every job is quoted in writing. */
 const plans = [
   {
     id: 'one-off',
     name: 'One-off improvements',
-    price: business.prices.oneOff,
-    unit: 'one-off',
     label: 'For a defined piece of work',
-    summary: 'Fix an agreed set of issues without taking on monthly support.',
+    price: `£${business.prices.oneOff}`,
+    from: true,
+    unit: 'one-off',
+    summary: 'Fix an agreed set of issues without signing up to monthly support.',
     items: [
       'Review the website or profile and agree the fixes',
       'Complete the selected page, form or profile changes',
-      'Explain what changed and any work still recommended',
+      'Explain what changed and what else is worth doing',
     ],
     cta: 'Discuss a one-off project',
   },
   {
     id: 'ongoing',
     name: 'Ongoing partnership',
-    price: business.prices.ongoing,
-    unit: '/ month',
-    label: 'For regular management and development',
+    label: 'For regular care and improvement',
+    price: `£${business.prices.ongoing}`,
+    from: true,
+    unit: 'per month',
     summary:
-      'Keep your website and Google profile maintained, with improvements agreed as priorities change.',
+      'Keep your website and Google profile looked after, with improvements agreed as priorities change.',
     items: [
-      'Agree the website checks, updates and profile management needed',
-      'Include review monitoring and enquiry improvements where agreed',
-      'Report completed work, available measures and next priorities',
+      'Agreed website checks, updates and profile management',
+      'Review monitoring and enquiry improvements where agreed',
+      'A monthly report on work done, figures and next priorities',
     ],
     cta: 'Discuss ongoing support',
+  },
+  {
+    id: 'new-website',
+    name: 'New website',
+    label: 'For a first website or a rebuild',
+    price: 'Quoted',
+    from: false,
+    fromLabel: 'Per project',
+    unit: '',
+    summary: 'A separate quote once we understand the pages, content and features you need.',
+    items: [
+      'Plan pages around your services and customers’ questions',
+      'Design, build and test on phones and desktops',
+      'Hand over with your own access and clear documentation',
+    ],
+    cta: 'Discuss a website project',
   },
 ];
 ---
 
 <div class="pricing-grid">
   {plans.map((plan) => (
-    <article class:list={['price-card', { 'price-card--featured': plan.id === 'ongoing' }]}>
+    <article class="price-card" aria-labelledby={`plan-${plan.id}`}>
       <p class="price-label">{plan.label}</p>
-      <h3>{plan.name}</h3>
-      <p class="price-from">From</p>
+      <h2 id={`plan-${plan.id}`}>{plan.name}</h2>
       <p class="price">
-        £{plan.price} <span>{plan.unit}</span>
+        <span class="price-from">{plan.from ? 'From' : plan.fromLabel}</span>
+        <span class="price-amount">{plan.price}</span>
+        {plan.unit && <span class="price-unit">{plan.unit}</span>}
       </p>
       <p class="price-summary">{plan.summary}</p>
       <ul class="check-list">
@@ -49,13 +69,10 @@ const plans = [
           <li>{item}</li>
         ))}
       </ul>
-      <Button
-        href={`/contact/?service=${plan.id}`}
-        variant={plan.id === 'ongoing' ? 'primary' : 'secondary'}
-      >
+      <Button href={`/contact/?service=${plan.id}`} variant="secondary">
         {plan.cta}
       </Button>
     </article>
   ))}
 </div>
-{business.vatStatement && <p class="pricing-disclaimer">{business.vatStatement}</p>}
+{business.vatStatement && <p class="fine-print pricing-disclaimer">{business.vatStatement}</p>}

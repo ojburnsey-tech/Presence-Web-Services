@@ -18,7 +18,11 @@ test('pages, navigation, active states, back and forward', async ({ page }) => {
     await expect(page.locator('main')).toHaveCount(1);
   }
   await page.goto('/');
-  await page.getByRole('link', { name: 'Explore the services', exact: true }).first().click();
+  // The footer is visible at every width; the bar links collapse into Menu on phones.
+  await page
+    .getByRole('navigation', { name: 'Footer navigation' })
+    .getByRole('link', { name: 'All services', exact: true })
+    .click();
   await expect(page).toHaveURL(/\/services\/$/);
   await page.goBack();
   await expect(page).toHaveURL(/\/$/);
@@ -112,14 +116,23 @@ test('content and mobile navigation work without JavaScript', async ({ browser }
     .getByRole('link', { name: 'Pricing', exact: true })
     .click();
   await expect(page).toHaveURL(/\/pricing\/$/);
-  await expect(page.locator('.price-card')).toHaveCount(2);
+  await expect(page.locator('.price-card')).toHaveCount(3);
   await context.close();
 });
 
-test('desktop sidebar contains keyboard focus, supports rapid reversal and responds to reduced motion', async ({
+test('desktop shows every destination in the bar without a menu button', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto('/');
+  const bar = page.getByRole('navigation', { name: 'Main navigation' });
+  for (const name of ['Services', 'Pricing', 'About', 'Contact'])
+    await expect(bar.getByRole('link', { name, exact: true })).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Open menu' })).toBeHidden();
+});
+
+test('phone menu contains keyboard focus, supports rapid reversal and responds to reduced motion', async ({
   page,
 }) => {
-  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/');
   await page.getByRole('button', { name: 'Open menu' }).click();
   const dialog = page.getByRole('dialog');
@@ -144,18 +157,17 @@ test('desktop sidebar contains keyboard focus, supports rapid reversal and respo
   await expect(dialog).toBeHidden();
 });
 
-test('service guide, illustrative audit and native disclosures work', async ({ page }) => {
+test('website project prefill, illustrative audit and service anchors work', async ({ page }) => {
   await page.goto('/pricing/');
-  await page.getByRole('radio', { name: 'A first website or substantial rebuild' }).check();
-  await expect(page.locator('[data-chooser-result]')).toContainText('A separate website project.');
   await page.getByRole('link', { name: 'Discuss a website project' }).click();
   await expect(page.locator('#service')).toHaveValue('new-website');
-  await page.goto('/services/');
-  const details = page.locator('details').filter({ has: page.locator('.sample-review') });
-  await details.locator('summary').click();
+  await page.goto('/');
   await expect(
     page.getByText('Illustrative example. Not a client project.', { exact: true }),
   ).toBeVisible();
+  await page.getByRole('link', { name: 'Website care', exact: true }).first().click();
+  await expect(page).toHaveURL(/\/services\/#website-care$/);
+  await expect(page.getByRole('heading', { name: 'Website care', level: 2 })).toBeInViewport();
 });
 
 async function fillDummy(

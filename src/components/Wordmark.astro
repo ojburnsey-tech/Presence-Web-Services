@@ -1,17 +1,24 @@
 ---
+/**
+ * Single-line wordmark used in the navigation bar and footer.
+ * `current` marks the home link as the current page for assistive technology.
+ */
 interface Props {
-  footer?: boolean;
+  current?: boolean;
 }
-const { footer = false } = Astro.props;
+const { current = false } = Astro.props;
 ---
 
 <a
   href="/"
-  class:list={['wordmark', { 'wordmark--footer': footer }]}
+  class="wordmark"
   aria-label="Presence Web Services home"
+  aria-current={current ? 'page' : undefined}
 >
-  <span>
+  <span class="wordmark-name" aria-hidden="true">
     presence<span class="wordmark-dot">.</span>
   </span>
-  <span class="wordmark-sub">WEB SERVICES</span>
+  <span class="wordmark-sub" aria-hidden="true">
+    Web Services
+  </span>
 </a>

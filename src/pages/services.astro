@@ -2,9 +2,11 @@
 import Layout from '../layouts/Layout.astro';
 import PageIntro from '../components/PageIntro.astro';
 import Button from '../components/Button.astro';
-import SampleReview from '../components/SampleReview.astro';
-import { services } from '../config/business';
-const [creation, maintenance, google, reviews, enquiries, reporting] = services;
+import { serviceGroups, services } from '../config/business';
+const groups = serviceGroups.map((group) => ({
+  ...group,
+  items: services.filter((service) => service.group === group.id),
+}));
 ---
 
 <Layout
@@ -12,133 +14,62 @@ const [creation, maintenance, google, reviews, enquiries, reporting] = services;
   description="Website creation and repairs, ongoing maintenance, Google Business Profile management, local listing accuracy and enquiry improvements for independent businesses."
 >
   <PageIntro
-    title="Help with your website, Google profile and local listings."
-    description="You might need a new website, a few repairs or someone to manage the updates. We identify the work needed and agree what is included before starting."
+    title="Websites, website care and local search."
+    description="Whether you need a new website, a few repairs or someone to look after the updates, we agree exactly what’s included before any work starts."
   />
-  <nav class="container service-directory" aria-label="Services on this page">
-    {services.map((service) => (
-      <a href={`#${service.id}`}>{service.name}</a>
+  <nav class="container service-directory" aria-label="Service groups">
+    {groups.map((group) => (
+      <a href={`#${group.id}`}>{group.name}</a>
     ))}
   </nav>
-  <div class="container service-content">
-    <section id={creation.id} class="website-feature">
-      <div>
-        <h2>{creation.name}</h2>
-        <p class="large-copy">{creation.description}</p>
-        <Button href="/contact/?service=one-off" variant="text">
-          Discuss your website
-        </Button>
-      </div>
-      <div class="website-brief">
-        <h3>Start with the information customers need</h3>
-        <ul class="check-list">
-          {creation.tasks.map((task) => (
-            <li>{task}</li>
-          ))}
-        </ul>
-        <p class="service-note">{creation.note}</p>
-      </div>
-    </section>
-    <section id={maintenance.id} class="service-detail">
-      <div>
-        <h2>{maintenance.name}</h2>
-        <p>{maintenance.description}</p>
-        <a href="/contact/?service=ongoing" class="inline-link service-next">
-          Ask about ongoing website care
-        </a>
-      </div>
-      <div>
-        <ul class="check-list">
-          {maintenance.tasks.map((task) => (
-            <li>{task}</li>
-          ))}
-        </ul>
-        <p class="service-note">{maintenance.note}</p>
+
+  {groups.map((group) => (
+    <section id={group.id} class="service-group" aria-labelledby={`${group.id}-heading`}>
+      <div class="container">
+        <header class="service-group-header">
+          <h2 id={`${group.id}-heading`}>{group.name}</h2>
+          <p class="lead">{group.summary}</p>
+        </header>
+        {group.items.map((service) => (
+          <article id={service.id} class="service-item">
+            <div>
+              <h3>{service.name}</h3>
+              <p>{service.description}</p>
+              <a class="link-arrow" href={service.cta.href}>
+                {service.cta.label}
+              </a>
+            </div>
+            <div>
+              <ul class="check-list">
+                {service.tasks.map((task) => (
+                  <li>{task}</li>
+                ))}
+              </ul>
+              {'note' in service && <p class="fine-print">{service.note}</p>}
+            </div>
+          </article>
+        ))}
       </div>
     </section>
-    <section id={google.id} class="google-service">
-      <div class="google-explanation">
-        <h2>{google.name}</h2>
-        <p>{google.description}</p>
-        <p>
-          For example, a correct number on your website won’t help someone calling an outdated
-          number from a business directory. We can identify the mismatch and agree which listings to
-          update, subject to access and the directory’s controls.
-        </p>
-        <a href="/contact/" class="inline-link service-next">
-          Request a free audit
-        </a>
-      </div>
-      <div class="google-tasks">
-        <h3>What management can involve</h3>
-        <ul class="check-list">
-          {google.tasks.map((task) => (
-            <li>{task}</li>
-          ))}
-        </ul>
-        <p class="service-note">{google.note}</p>
-      </div>
-    </section>
-    <div class="service-pair">
-      {[reviews, enquiries].map((service) => (
-        <section id={service.id}>
-          <h2>{service.name}</h2>
-          <p>{service.description}</p>
-          <ul class="check-list">
-            {service.tasks.map((task) => (
-              <li>{task}</li>
-            ))}
-          </ul>
-          {'note' in service && <p class="service-note">{service.note}</p>}
-          <a href="/contact/" class="inline-link service-next">
-            Ask about {service.id === 'review-support' ? 'review support' : 'your enquiry process'}
-          </a>
-        </section>
-      ))}
-    </div>
-    <section id={reporting.id} class="reporting-section">
-      <div>
-        <h2>{reporting.name}</h2>
-        <p>{reporting.description}</p>
-        <p class="service-note">{reporting.note}</p>
-      </div>
-      <div>
-        <ul class="check-list">
-          {reporting.tasks.map((task) => (
-            <li>{task}</li>
-          ))}
-        </ul>
-        <a href="/contact/" class="inline-link service-next">
-          Request a free audit
-        </a>
-      </div>
-    </section>
-  </div>
-  <details class="container audit-example">
-    <summary>See an illustrative audit note</summary>
-    <SampleReview />
-  </details>
-  <aside class="scope-aside">
-    <div class="container">
-      <h2>What falls outside this service?</h2>
+  ))}
+
+  <section class="section container scope-section" aria-labelledby="scope-heading">
+    <h2 id="scope-heading" class="section-title">
+      What we don’t take on
+    </h2>
+    <div>
       <p>
-        Large custom software projects, specialist paid advertising and enterprise SEO campaigns are
-        outside the current offering. New websites, substantial rebuilds and complex technical
-        repairs need a separate assessment and quote. No search ranking or business result is
-        guaranteed.
+        Large custom software, paid advertising campaigns and enterprise SEO are outside what
+        Presence offers. New websites, substantial rebuilds and complex technical repairs are
+        assessed and quoted separately. No one can guarantee search rankings or business results,
+        and we don’t.
       </p>
-      <Button href="/pricing/" variant="text">
-        Compare support options
-      </Button>
+      <div class="scope-actions">
+        <Button href="/contact/">Request a free audit</Button>
+        <a class="link-arrow" href="/pricing/">
+          Compare prices
+        </a>
+      </div>
     </div>
-  </aside>
-  <div class="container page-next-step">
-    <p>
-      Not sure which changes your business needs?{' '}
-      <a class="inline-link" href="/contact/">
-        Request a free audit
-      </a>{' '}
-      of the information customers can see online.
-    </p>
-  </div>
+  </section>
 </Layout>
