@@ -6,6 +6,8 @@ import { resolve, join } from 'node:path';
 import { JSDOM } from 'jsdom';
 import axe from 'axe-core';
 import { build } from 'esbuild';
+import { readAssets } from '../scripts/assets.mjs';
+import { handleRequest } from '../server/runtime.ts';
 
 const root = resolve('dist');
 const routes = [
@@ -555,4 +557,25 @@ test('all six service areas have an enquiry route and pricing retains scope qual
       .textContent.includes('cancellation terms'),
   );
   pricing.window.close();
+});
+
+test('self-hosted font files reach the browser through the Sites Worker', async () => {
+  const fonts = (await readdir(join(root, '_astro'))).filter((file) => file.endsWith('.woff2'));
+  assert.ok(fonts.length > 0, 'The Inter stylesheet must emit font files.');
+  const assets = readAssets(root);
+  for (const file of fonts) {
+    const response = await handleRequest(
+      new Request(`https://presence.test/_astro/${file}`),
+      { DEPLOYMENT_STAGE: 'staging' },
+      assets,
+    );
+    assert.equal(response.status, 200, file);
+    assert.equal(response.headers.get('Content-Type'), 'font/woff2', file);
+    assert.deepEqual(
+      Buffer.from(await response.arrayBuffer()),
+      await readFile(join(root, '_astro', file)),
+      file,
+    );
+    assert.match(response.headers.get('Cache-Control'), /immutable/);
+  }
 });
