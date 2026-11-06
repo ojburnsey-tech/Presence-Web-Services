@@ -34,3 +34,14 @@ Official Firefox and WebKit downloads fail with proxy 403 Domain forbidden. Dire
 Existing private GitHub repository reused: https://github.com/ojburnsey-tech/Presence-Web-Services/tree/release/production-readiness. Full authored source, lockfile, tests, migrations, documentation and screenshots are backed up on that release branch, preserving main. No new duplicate repository or automatic paid CI workflow was created. A fresh source ZIP is generated under ignored work/ after final checks.
 
 Current status: BLOCKED for public launch by hosted HTTP verification, cross-engine browser checks, production domain/TLS, legal identity/address/tax, retention/provider arrangements, name clearance and explicit public approval. Private review remains available. The final small-copy/field-feedback candidate and exact saved deployment will be appended after native completion.
+
+## Final private candidate
+
+- Saved **version 7** before publication, source `5e2b8cc43c58079ee4ceac48b040342632085e9b`.
+- Version ID: `appgprj_6aebc28289908191851ee53a5b25c1a9~appgver_b5f7d8622a68819183a2b36e53a923cf`.
+- Deployment ID: `appgdep_6aed2702fcc881918a40856a09aa34d4`, succeeded at 2026-11-06 01:02:06 UTC, environment revision 1.
+- Private URL unchanged; platform owner-only enforcement succeeded.
+- Final clean-install checks: types/lint/build/format all pass, 33 automated groups pass, 20 Chromium desktop/mobile journeys pass, repeated 90 reflow/18 rendered axe runs pass.
+- GitHub release branch contains the complete matching implementation and later documentation/evidence updates. Published Worker remains version 7; a later documentation commit is not another application release.
+- Source ZIP: ignored `work/Presence-Web-Services.zip`, generated from committed source. Deployment archive: ignored `work/presence-worker-candidate.tar.gz`, matching the saved version 7 source/build.
+- Public launch status remains **BLOCKED** for the external gates above. No public audience change, domain attachment, web DNS/email routing edit, paid subscription or outgoing-email integration was performed.

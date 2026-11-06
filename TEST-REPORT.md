@@ -61,7 +61,7 @@ Reports: `reports/lighthouse-mobile.report.json/html`, `reports/lighthouse-deskt
 
 ## Native staging evidence
 
-Sites version 6 deployed privately on 6 November 2026. Native schema inspection confirms binding `DB` and tables `enquiries` / `enquiry_rate_limits`; a native read confirms the enquiry table is empty. Migration discovery required the generated Drizzle SQL/journal in the artifact root. The earlier version 5 provisioned a binding without applying the prototype migration; version 6 corrects that packaging. Exact IDs and source are recorded in reports/RELEASE-RECORD.md.
+Sites version 6 applied the migrations; final version 7 deployed privately on 6 November 2026. Native schema inspection confirms binding `DB` and tables `enquiries` / `enquiry_rate_limits`; a native read confirms the enquiry table is empty. Migration discovery required the generated Drizzle SQL/journal in the artifact root. The earlier version 5 provisioned a binding without applying the prototype migration; version 6 corrects that packaging. Exact IDs and source are recorded in reports/RELEASE-RECORD.md.
 
 A private hosted-verification script was attempted with supported site service access and the separate owner token. It failed before an HTTP request reached the site (`getaddrinfo EAI_AGAIN`); curl independently fails at the proxy with CONNECT 403. No dummy row was created remotely and no hosted form receipt is claimed. `scripts/verify-hosted.mjs` is ready for re-running after network access is available.
 
