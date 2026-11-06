@@ -64,7 +64,7 @@ const plans = [
         {plan.unit && <span class="price-unit">{plan.unit}</span>}
       </p>
       <p class="price-summary">{plan.summary}</p>
-      <ul class="check-list">
+      <ul class="check-list check-list--included">
         {plan.items.map((item) => (
           <li>{item}</li>
         ))}

@@ -35,7 +35,7 @@ const groups = serviceGroups.map((group) => ({
             <div>
               <h3>{service.name}</h3>
               <p>{service.description}</p>
-              <a class="link-arrow" href={service.cta.href}>
+              <a class="inline-link service-action" href={service.cta.href}>
                 {service.cta.label}
               </a>
             </div>
@@ -53,10 +53,8 @@ const groups = serviceGroups.map((group) => ({
     </section>
   ))}
 
-  <section class="section container scope-section" aria-labelledby="scope-heading">
-    <h2 id="scope-heading" class="section-title">
-      What we don’t take on
-    </h2>
+  <section class="section container prose-section" aria-labelledby="scope-heading">
+    <h2 id="scope-heading">What we don’t take on</h2>
     <div>
       <p>
         Large custom software, paid advertising campaigns and enterprise SEO are outside what

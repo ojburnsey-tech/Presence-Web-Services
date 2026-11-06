@@ -30,9 +30,7 @@ const { founder } = business;
           decoding="async"
         />
       )}
-      <h2 id="founder-heading" class="section-title">
-        Run by {founder.name}.
-      </h2>
+      <h2 id="founder-heading">Run by {founder.name}</h2>
       <p class="founder-meta">
         {founder.role} · {founder.region}
       </p>
@@ -56,48 +54,42 @@ const { founder } = business;
     </div>
   </section>
 
-  <section class="band" aria-labelledby="principles-heading">
-    <div class="container principles">
-      <h2 id="principles-heading" class="section-title">
-        How we work
-      </h2>
-      <dl class="principle-list">
-        <div>
-          <dt>You approve the priorities</dt>
-          <dd>
-            Every proposal sets out what’s included and what needs further assessment. You know your
-            business best, so you decide which changes are worth making.
-          </dd>
-        </div>
-        <div>
-          <dt>You always know what changed</dt>
-          <dd>
-            Updates explain the work completed and what still needs attention. Where figures are
-            available, we separate website activity from genuine enquiries and confirmed jobs.
-          </dd>
-        </div>
-        <div>
-          <dt>Your accounts stay in your name</dt>
-          <dd>
-            You keep ownership of your website, domain and Google Business Profile. We use delegated
-            access wherever the platform supports it.
-          </dd>
-        </div>
-        <div>
-          <dt>No promises we can’t keep</dt>
-          <dd>
-            Google decides its own rankings and customers decide whom to hire. We won’t guarantee
-            either. We will tell you what we changed, why, and what the figures show afterwards.
-          </dd>
-        </div>
-      </dl>
-    </div>
+  <section class="section container" aria-labelledby="principles-heading">
+    <h2 id="principles-heading">How we work</h2>
+    <dl class="term-rows">
+      <div>
+        <dt>You approve the priorities</dt>
+        <dd>
+          Every proposal sets out what’s included and what needs further assessment. You know your
+          business best, so you decide which changes are worth making.
+        </dd>
+      </div>
+      <div>
+        <dt>You always know what changed</dt>
+        <dd>
+          Updates explain the work completed and what still needs attention. Where figures are
+          available, we separate website activity from genuine enquiries and confirmed jobs.
+        </dd>
+      </div>
+      <div>
+        <dt>Your accounts stay in your name</dt>
+        <dd>
+          You keep ownership of your website, domain and Google Business Profile. We use delegated
+          access wherever the platform supports it.
+        </dd>
+      </div>
+      <div>
+        <dt>What we won’t promise</dt>
+        <dd>
+          Google decides its own rankings and customers decide whom to hire. We won’t guarantee
+          either. We will tell you what we changed, why, and what the figures show afterwards.
+        </dd>
+      </div>
+    </dl>
   </section>
 
-  <section class="section container audience" aria-labelledby="audience-heading">
-    <h2 id="audience-heading" class="section-title">
-      Who we work with
-    </h2>
+  <section class="section container prose-section" aria-labelledby="audience-heading">
+    <h2 id="audience-heading">Who we work with</h2>
     <div>
       <p class="lead">
         Trades, independent garages, landscapers, detailers, cleaning companies and other service

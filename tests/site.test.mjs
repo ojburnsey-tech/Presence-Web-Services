@@ -498,10 +498,8 @@ test('the home audit example is labelled as illustrative and distinguishes issue
     [...example.querySelectorAll('dt')].map((node) => node.textContent.trim()),
     ['Example issue', 'Recommended change', 'What to check'],
   );
-  assert.match(
-    example.querySelector('.sample-review-caption').textContent,
-    /not a claim about client results/,
-  );
+  // The illustrative label is stated once, as provenance, not repeated as a second disclaimer.
+  assert.equal((example.textContent.match(/Illustrative/g) ?? []).length, 1);
   assert.doesNotMatch(example.textContent, /\d+\s*%|£\d|\d+\s*(leads|sales|jobs)/i);
   assert.equal(
     example.querySelectorAll('button,input').length,

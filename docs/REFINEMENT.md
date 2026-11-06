@@ -1,5 +1,17 @@
 > Historical design notes. Deployment instructions here are superseded by ../DEPLOYMENT.md.
 
+# Unslop pass, 6 November 2026
+
+A second pass removed the generic treatments the first redesign had introduced, keeping all substantive content.
+
+- **Structure.** The centred hero with two calls to action becomes the proposition beside the illustrative audit note, which is the first thing Presence actually delivers. One call to action. The heading-left, content-right template that repeated on seven sections is gone; each section now uses the shape of its content: term-and-explanation rows, a services index, a right-aligned price list, prose, or disclosures.
+- **Pricing.** The three bordered, shadowed cards become a single comparison whose rows align across plans (CSS subgrid), so prices and actions line up.
+- **System.** Removed the alternating tinted bands, the automatic rules between sections, ink top-rules on equal columns, card shadows, pill-shaped jump links and the hover-nudging chevron. The accent is limited to hover and focus states, the wordmark dot, the current menu item and the contact page's real three-step sequence. Ticks now mark only what a price includes; task lists use plain bullets.
+- **Copy.** Slogan-fragment headings ("One person, start to finish.", "Clear prices, agreed in writing.") become plain labels. Removed the eyebrow that repeated the contact heading, the form heading that repeated the page title, the second "illustrative" disclaimer and the menu's repeated reassurance line.
+- **Kept, with reason.** The owner's palette (#282828, #D77555, warm white) and wordmark are specified brand assets. The translucent header expresses a real layer: content scrolls beneath it. The menu drawer keeps its scrim and shadow because it is modal. Pill buttons remain because they are controls. The 1-2-3 numbering on the contact page is a real sequence.
+
+All suites pass: 34 site tests, 14 server tests, 22 Chromium browser journeys. Rendered at 320, 375, 390, 768, 1024, 1440 and 1920px with no horizontal overflow, including the phone menu with reduced motion.
+
 # Company-site refinement, 6 November 2026
 
 The owner asked for the site to read as an established company rather than a first draft, using the Apple design skill, with no AI-template signals. Owner decisions recorded before work began: name the founder with a real photo, keep "we" as the voice, replace the menu-only sidebar with a top navigation bar, implement immediately.

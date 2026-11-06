@@ -10,107 +10,86 @@ const { founder, prices } = business;
   title="Websites and Google presence for independent businesses"
   description="Websites, ongoing website care and Google Business Profile management for independent businesses in Northern Ireland and across the UK. Start with a free audit."
 >
-  <section class="hero" aria-labelledby="hero-heading">
-    <div class="container hero-inner">
+  <!-- The hero pairs the proposition with the one thing Presence actually produces first: an audit note. -->
+  <section class="container hero" aria-labelledby="hero-heading">
+    <div class="hero-copy">
       <h1 id="hero-heading">Your website should help bring in business.</h1>
       <p class="hero-lead">
         Presence builds and looks after websites and Google Business Profiles for independent
-        businesses in Northern Ireland and across the UK.
+        businesses in Northern Ireland and across the UK. It starts with a free audit of what your
+        customers see.
       </p>
-      <div class="hero-actions">
-        <Button href="/contact/" class="audit-button">
-          Request a free audit
-        </Button>
-        <a class="link-arrow" href="/pricing/">
-          See prices
-        </a>
-      </div>
+      <Button href="/contact/" class="audit-button">
+        Request a free audit
+      </Button>
       <p class="hero-note">Free, with no obligation. No account access needed.</p>
     </div>
+    <SampleReview headingLevel={2} />
+  </section>
+
+  <section class="section container" aria-labelledby="audit-heading">
+    <h2 id="audit-heading">What the free audit covers</h2>
+    <dl class="term-rows">
+      <div>
+        <dt>Your website</dt>
+        <dd>How clearly your services are explained, and how the pages work on a phone.</dd>
+      </div>
+      <div>
+        <dt>Your Google presence</dt>
+        <dd>Whether your business details are accurate and consistent wherever they appear.</dd>
+      </div>
+      <div>
+        <dt>Making an enquiry</dt>
+        <dd>How easy it is to find your contact details and ask for a quote.</dd>
+      </div>
+    </dl>
+    <p class="section-footnote">
+      We explain what we found and what we’d fix first. Any paid work is quoted separately.
+    </p>
   </section>
 
   <section class="section container" aria-labelledby="offer-heading">
-    <h2 id="offer-heading" class="section-title">
-      What we do
-    </h2>
-    <div class="offer-grid">
+    <h2 id="offer-heading">What we do</h2>
+    <dl class="term-rows offer-rows">
       {serviceGroups.map((group) => (
-        <article class="offer">
-          <h3>{group.name}</h3>
-          <p>{group.homeSummary}</p>
-          <a class="link-arrow" href={`/services/#${group.id}`}>
-            {group.linkLabel}
-          </a>
-        </article>
+        <div>
+          <dt>
+            <a class="row-link" href={`/services/#${group.id}`}>
+              {group.name}
+            </a>
+          </dt>
+          <dd>{group.homeSummary}</dd>
+        </div>
       ))}
-    </div>
-  </section>
-
-  <section class="band" aria-labelledby="audit-heading">
-    <div class="container audit-layout">
-      <div class="audit-copy">
-        <h2 id="audit-heading">Start with a free audit.</h2>
-        <p class="lead">
-          Send us your website or Google listing. We’ll look at it the way a customer would, then
-          explain what’s getting in the way of enquiries and what we’d fix first.
-        </p>
-        <dl class="audit-coverage">
-          <div>
-            <dt>Your website</dt>
-            <dd>How clearly your services are explained, and how the pages work on a phone.</dd>
-          </div>
-          <div>
-            <dt>Your Google presence</dt>
-            <dd>Whether your business details are accurate and consistent wherever they appear.</dd>
-          </div>
-          <div>
-            <dt>Making an enquiry</dt>
-            <dd>How easy it is to find your contact details and ask for a quote.</dd>
-          </div>
-        </dl>
-        <Button href="/contact/">Request a free audit</Button>
-      </div>
-      <SampleReview headingLevel={3} />
-    </div>
-  </section>
-
-  <section class="section container pricing-summary" aria-labelledby="prices-heading">
-    <div class="pricing-summary-intro">
-      <h2 id="prices-heading" class="section-title">
-        Clear prices, agreed in writing.
-      </h2>
-      <p>
-        Every job starts with a written scope and quote. Nothing is charged until you’ve agreed to
-        it.
-      </p>
-      <a class="link-arrow" href="/pricing/">
-        Compare options
-      </a>
-    </div>
-    <dl class="price-points">
-      <div>
-        <dt>One-off improvements</dt>
-        <dd>
-          <span class="price-point-from">From</span> £{prices.oneOff}
-        </dd>
-      </div>
-      <div>
-        <dt>Ongoing partnership</dt>
-        <dd>
-          <span class="price-point-from">From</span> £{prices.ongoing}
-          <span class="price-point-unit">/month</span>
-        </dd>
-      </div>
-      <div>
-        <dt>New websites</dt>
-        <dd class="price-point-text">
-          <span class="price-point-from">Per project</span> Quoted separately
-        </dd>
-      </div>
     </dl>
   </section>
 
-  <section class="section container founder-strip" aria-labelledby="founder-heading">
+  <section class="section container" aria-labelledby="prices-heading">
+    <h2 id="prices-heading">Prices</h2>
+    <p class="section-intro">
+      Starting prices. Every job begins with a written scope and quote, and nothing is charged until
+      you’ve agreed to it.
+    </p>
+    <dl class="term-rows price-rows">
+      <div>
+        <dt>One-off improvements</dt>
+        <dd>From £{prices.oneOff}</dd>
+      </div>
+      <div>
+        <dt>Ongoing partnership</dt>
+        <dd>From £{prices.ongoing} a month</dd>
+      </div>
+      <div>
+        <dt>New websites</dt>
+        <dd>Quoted per project</dd>
+      </div>
+    </dl>
+    <a class="link-arrow" href="/pricing/">
+      What each option includes
+    </a>
+  </section>
+
+  <section class="section container prose-section" aria-labelledby="founder-heading">
     {founder.photo && (
       <img
         class="founder-photo"
@@ -122,25 +101,19 @@ const { founder, prices } = business;
         decoding="async"
       />
     )}
-    <div>
-      <h2 id="founder-heading" class="section-title">
-        One person, start to finish.
-      </h2>
-      <p class="lead">
-        Presence is run by {founder.name}, who reviews your site, does the work and answers your
-        emails, so nothing gets lost between an account manager and a developer. Your website,
-        domain and Google profile stay in your name throughout.
-      </p>
-      <a class="link-arrow" href="/about/">
-        About Presence
-      </a>
-    </div>
+    <h2 id="founder-heading">Who you’ll work with</h2>
+    <p class="lead">
+      Presence is run by {founder.name}, who reviews your site, does the work and answers your
+      emails, so nothing gets lost between an account manager and a developer. Your website, domain
+      and Google profile stay in your name throughout.
+    </p>
+    <a class="link-arrow" href="/about/">
+      About Presence
+    </a>
   </section>
 
-  <section class="section container faq-section" aria-labelledby="faq-heading">
-    <h2 id="faq-heading" class="section-title">
-      Before you enquire
-    </h2>
+  <section class="section container prose-section" aria-labelledby="faq-heading">
+    <h2 id="faq-heading">Before you enquire</h2>
     <div class="faq-list">
       <details class="faq">
         <summary>
