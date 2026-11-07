@@ -1,146 +1,719 @@
 ---
-import { business } from '../config/business';
+/**
+ * Terms of service: website terms (Part A) and terms of business for paid services (Part B).
+ *
+ * Drafted for a Northern Ireland sole trader selling mainly to businesses, against:
+ * Provision of Services Regulations 2009 (regs 7, 8, 11, 12); Electronic Commerce (EC Directive)
+ * Regulations 2002 (regs 6 and 9); Consumer Rights Act 2015 (ss. 49 to 57 and Part 2);
+ * Consumer Contracts (Information, Cancellation and Additional Charges) Regulations 2013;
+ * Digital Markets, Competition and Consumers Act 2024 (s. 308 ADR notice, banned fake reviews);
+ * Unfair Contract Terms Act 1977 (ss. 2, 3, 11); Late Payment of Commercial Debts (Interest)
+ * Act 1998; Contracts (Rights of Third Parties) Act 1999; UK GDPR Article 28.
+ *
+ * Defaults marked "unless your proposal says otherwise" are deliberate: the written proposal
+ * for each job can vary them, and takes priority (clause 6.3).
+ */
 import LegalLayout from '../layouts/LegalLayout.astro';
+import { business } from '../config/business';
+
+const updated = '7 November 2026';
 const sections = [
-  { id: 'website', label: 'Using this website' },
-  { id: 'review', label: 'The free public audit' },
-  { id: 'agreement', label: 'Paid work and proposals' },
-  { id: 'scope', label: 'Scope and costs' },
-  { id: 'ownership', label: 'Ownership and access' },
-  { id: 'results', label: 'Expectations and results' },
-  { id: 'questions', label: 'Questions and rights' },
+  { id: 'summary', label: 'Summary' },
+  { id: 'about-these-terms', label: '1. About these terms' },
+  { id: 'about-us', label: '2. About us' },
+  { id: 'website', label: '3. Using this website' },
+  { id: 'audit', label: '4. The free audit' },
+  { id: 'customers', label: '5. Business and consumer customers' },
+  { id: 'contract', label: '6. How a contract is made' },
+  { id: 'services', label: '7. Our services' },
+  { id: 'your-responsibilities', label: '8. Your responsibilities' },
+  { id: 'changes', label: '9. Changes to the work' },
+  { id: 'fees', label: '10. Fees and payment' },
+  { id: 'ongoing', label: '11. Ongoing support' },
+  { id: 'cancellation', label: '12. Consumer cancellation rights' },
+  { id: 'ownership', label: '13. Ownership of the work' },
+  { id: 'confidentiality', label: '14. Confidentiality' },
+  { id: 'data', label: '15. Data protection' },
+  { id: 'accounts', label: '16. Your accounts and platforms' },
+  { id: 'reviews', label: '17. Reviews and listings' },
+  { id: 'liability', label: '18. Our liability' },
+  { id: 'ending', label: '19. Ending a contract' },
+  { id: 'outside-control', label: '20. Events outside our control' },
+  { id: 'complaints', label: '21. Complaints and disputes' },
+  { id: 'general', label: '22. General' },
+  { id: 'data-processing', label: 'Schedule 1: Data processing' },
+  { id: 'cancellation-form', label: 'Schedule 2: Cancellation form' },
 ];
+const owner = business.legalName || 'the owner';
+const phoneHref = business.telephone.replace(/[^\d+]/g, '');
 ---
 
 <LegalLayout
   title="Terms of service"
-  description="How enquiries and public audits work, and the matters agreed in writing before any paid Presence Web Services project begins."
+  description="The terms for using this website and the free audit, and the terms of business that apply when you hire Presence Web Services for paid work."
   sections={sections}
+  updated={updated}
 >
+  <section id="summary" class="legal-summary" aria-labelledby="summary-heading">
+    <h2 id="summary-heading">Summary</h2>
+    <ul>
+      <li>
+        Using this website and requesting a free audit doesn’t commit you to anything or create a
+        contract.
+      </li>
+      <li>
+        Paid work only starts after you accept a written proposal. The proposal sets out the work
+        and price, and these terms fill in the rest.
+      </li>
+      <li>
+        You keep ownership of your website, domain and Google listing, and you own the work we
+        create for you once it is paid for.
+      </li>
+      <li>We can’t guarantee rankings, enquiries or sales, and we never sell fake reviews.</li>
+      <li>
+        If you are a consumer, you have legal rights, including a 14-day right to cancel in most
+        cases, that nothing in these terms takes away.
+      </li>
+    </ul>
+  </section>
+
+  <h2 class="legal-part">Part A: This website and the free audit</h2>
+
+  <section id="about-these-terms">
+    <h2>1. About these terms</h2>
+    <p>
+      1.1 These terms apply when you use this website, when you request a free audit, and, as set
+      out in Part B, when you hire us for paid work. Please read them carefully. By using this
+      website you agree to Part A. Part B applies when you accept a proposal from us.
+    </p>
+    <p>
+      1.2 Our <a href="/privacy/">privacy policy</a> explains how we use personal information and
+      forms part of these terms.
+    </p>
+    <p>
+      1.3 These terms are available in English only. You can print or save this page, and we will
+      email you a copy of the version that applies to your contract if you ask.
+    </p>
+    <p>
+      1.4 We may update these terms from time to time, and the date at the top shows when they last
+      changed. A change will not affect a contract you have already entered into unless you agree to
+      it, except as clause 11.3 allows for ongoing support.
+    </p>
+  </section>
+
+  <section id="about-us">
+    <h2>2. About us</h2>
+    <p>
+      2.1 Presence Web Services is the trading name of {owner}, a sole trader. “We”, “us” and “our”
+      mean {owner} trading as Presence Web Services. “You” and “your” mean the person or business
+      using this website or hiring us.
+    </p>
+    <ul>
+      {business.correspondenceAddress && <li>Address: {business.correspondenceAddress}</li>}
+      <li>
+        Email: <a href={`mailto:${business.email}`}>{business.email}</a>
+      </li>
+      {business.telephone && (
+        <li>
+          Telephone: <a href={`tel:${phoneHref}`}>{business.telephone}</a>
+        </li>
+      )}
+    </ul>
+    <p>
+      2.2 We are not registered for VAT, so no VAT is added to our prices. If we register for VAT in
+      future, we will tell you in advance; prices in a proposal you have already accepted will not
+      increase as a result. We are not registered in a public trade register, are not a member of a
+      regulated profession, and do not need any licence or authorisation to provide our services.
+    </p>
+    <p>
+      2.3 We don’t offer any guarantee or after-sales warranty beyond those given in these terms and
+      by law.
+    </p>
+  </section>
+
   <section id="website">
-    <h2>1. Using this website</h2>
+    <h2>3. Using this website</h2>
     <p>
-      This website introduces the services offered by Presence Web Services and lets interested
-      business owners make an enquiry. It does not provide an online checkout. Submitting the form
-      does not purchase a service, start a paid contract or authorise work on your accounts.
-    </p>
-    {business.legalName && (
-      <p>
-        Presence Web Services is the trading name of {business.legalName}, a sole trader
-        {business.correspondenceAddress && ` based at ${business.correspondenceAddress}`}. You can
-        contact us at {business.email}.
-      </p>
-    )}
-    <p>
-      Please use the website lawfully and provide accurate information. Do not submit passwords,
-      harmful content, confidential client records or information you are not entitled to share.
-    </p>
-  </section>
-  <section id="review">
-    <h2>2. The free public audit</h2>
-    <p>
-      The free audit is a thorough assessment of publicly available business information, such as a
-      website or Google Business Profile. It considers usability, service information, visible
-      business details and enquiry routes, with findings and recommended priorities. It does not
-      cover private systems, invasive security testing, or a complete technical, legal or
-      accessibility audit.
+      3.1 You may use this website for lawful purposes only. You must not misuse it, including by
+      trying to gain unauthorised access to it or the systems it runs on, introducing viruses or
+      malicious code, sending spam or automated requests, or submitting information that is false,
+      unlawful, defamatory or that you have no right to share.
     </p>
     <p>
-      The audit is free and carries no obligation to purchase. It does not guarantee a response
-      within a particular time, availability to undertake a project, improved search rankings or a
-      particular business result. Any account access or implementation work is discussed separately.
+      3.2 The content of this website is for general information only. It is not professional advice
+      for your particular situation, and you should not rely on it as such. We take care to keep it
+      accurate, but we can’t promise that it is complete or always up to date.
+    </p>
+    <p>
+      3.3 We may change, suspend or withdraw the website at any time, and we don’t guarantee that it
+      will always be available or free from errors.
+    </p>
+    <p>
+      3.4 The website and its content, including the text, design, graphics and the Presence Web
+      Services name and logo, belong to us or are used under licence. You may view, print and share
+      pages for your own non-commercial use, but you may not copy or reuse them for any other
+      purpose without our written permission.
+    </p>
+    <p>
+      3.5 Links to other websites are provided for convenience. We have no control over those
+      websites and are not responsible for their content or for any loss caused by using them.
     </p>
   </section>
-  <section id="agreement">
-    <h2>3. Written agreements for paid work</h2>
+
+  <section id="audit">
+    <h2>4. Enquiries and the free audit</h2>
     <p>
-      Before paid work begins, an individual written proposal should confirm the parties, agreed
-      services, deliverables, price, tax treatment, timing, access requirements and
-      responsibilities. Payment terms, duration, cancellation, notice, complaint handling and any
-      relevant liability provisions must be agreed there.
+      4.1 Sending an enquiry or requesting an audit does not create a contract and does not commit
+      you to buy anything. Nothing on this website is an offer that you can accept to form a
+      contract. Contracts are only made as clause 6 describes.
     </p>
     <p>
-      These website terms describe the enquiry process. They are not a substitute for the final
-      service agreement. No standard minimum contract term, setup fee or cancellation policy is
-      imposed by this website.
+      4.2 The free audit is a review of the information about your business that is publicly
+      available online, such as your website and Google Business Profile. We look at how clearly
+      your services are explained, whether your business details are accurate and consistent, and
+      how easy it is for customers to contact you. We then send you our findings and recommended
+      priorities.
+    </p>
+    <p>
+      4.3 The audit is our honest professional opinion based on what we can see at the time. It does
+      not include access to your private systems or accounts, security or penetration testing, or a
+      complete technical, legal, accessibility or data protection compliance review, and it should
+      not be relied on as one.
+    </p>
+    <p>
+      4.4 The audit is free and you are under no obligation to act on it or to hire us. You may use
+      the findings we send you however you like, including with another provider.
+    </p>
+    <p>
+      4.5 We may decline an audit request, for example if we can’t find enough public information or
+      the request falls outside what we do, and we don’t promise to complete an audit within a
+      particular time. We will let you know if we can’t help.
+    </p>
+    <p>4.6 You must only ask us to audit a business you own or are authorised to act for.</p>
+  </section>
+
+  <section id="customers">
+    <h2>5. Business and consumer customers</h2>
+    <p>
+      5.1 Our services are designed for businesses. You are a <strong>business customer</strong> if
+      you hire us for purposes relating to your trade, business, craft or profession, including as a
+      sole trader. You are a <strong>consumer</strong> if you are an individual hiring us wholly or
+      mainly for purposes outside any trade, business, craft or profession.
+    </p>
+    <p>
+      5.2 Some parts of these terms apply differently to consumers, and those parts say so. If you
+      are a consumer, you have legal rights in relation to services that are not performed with
+      reasonable care and skill, or that don’t match what we told you. Nothing in these terms
+      affects those rights. Free advice about your rights is available from Consumerline (see{' '}
+      <a
+        href="https://www.nidirect.gov.uk/articles/about-consumerline-and-how-contact-helpline"
+        rel="external"
+      >
+        nidirect
+      </a>
+      ) or Citizens Advice.
     </p>
   </section>
-  <section id="scope">
-    <h2>4. Scope, quotations and additional costs</h2>
+
+  <h2 class="legal-part">Part B: Terms of business for paid work</h2>
+
+  <section id="contract">
+    <h2>6. How a contract is made</h2>
     <p>
-      Website prices are starting prices. The final quote depends on the website platform,
-      condition, access, complexity and agreed needs. Exact deliverables are agreed before work
-      begins.
+      6.1 Before any paid work, we will send you a written proposal, usually by email. It will set
+      out the work we will do, what you will receive, the price, how and when you pay, the expected
+      timing, what we need from you and, for ongoing support, how either of us can end it.
     </p>
     <p>
-      One-off improvements cover a defined set of tasks. An ongoing partnership covers agreed
-      continuing support and priorities, rather than unlimited work. New websites, major redesigns,
-      extensive redevelopment, complicated repairs and substantial additional projects require a
-      separate quotation.
+      6.2 A contract is formed when you accept the proposal in writing, for example by replying to
+      our email to say so, and we confirm it. Contracts are made by exchange of email; there is no
+      online checkout. If you notice a mistake in a proposal, tell us before you accept it and we
+      will correct it.
     </p>
     <p>
-      Hosting, domains, third-party subscriptions and advertising expenditure are separate unless
-      explicitly included in the written proposal. Any additional work or charge should be approved
-      before it is incurred.
+      6.3 Your contract is made up of the accepted proposal and these terms (the version shown on
+      this page on the date you accept). If the proposal and these terms conflict, the proposal
+      takes priority. Unless you are a consumer, these documents are the whole agreement between us
+      about the work. This does not limit any liability for fraud or fraudulent misrepresentation.
     </p>
     <p>
-      Presence does not currently offer large custom software projects, specialist paid advertising
-      or enterprise SEO campaigns. Platform limitations or third-party decisions may affect what can
-      be delivered.
+      6.4 A proposal is valid for 30 days unless it says otherwise. After that, we may need to
+      review the price or timing before you accept.
     </p>
   </section>
+
+  <section id="services">
+    <h2>7. Our services</h2>
+    <p>
+      7.1 We will carry out the work described in your accepted proposal with reasonable care and
+      skill and in line with good industry practice.
+    </p>
+    <p>
+      7.2 Timescales in a proposal are our best estimate. We will keep you informed and tell you
+      promptly about anything likely to cause a delay. Where we depend on something from you, such
+      as access, content or approval, the timescale will move accordingly.
+    </p>
+    <p>
+      7.3 We will not guarantee search rankings, website traffic, enquiries, bookings, sales or any
+      other business result. These depend on many things outside our control, including Google and
+      other platforms, your competitors and your customers. Any figures we report are based on the
+      information available and don’t on their own prove that a particular change caused a
+      particular result.
+    </p>
+    <p>
+      7.4 We may use AI-assisted tools to help us analyse, draft, write code and check our work. We
+      review everything ourselves and remain responsible for it. We won’t enter your confidential
+      information or personal data into those tools unless you agree.
+    </p>
+    <p>
+      7.5 We will only subcontract any part of the work with your prior agreement. We remain
+      responsible for work done by a subcontractor.
+    </p>
+    <p>
+      7.6 We don’t provide large custom software development, paid advertising management or
+      enterprise SEO campaigns, or legal, accounting or security consultancy. Anything not described
+      in your proposal is not included.
+    </p>
+  </section>
+
+  <section id="your-responsibilities">
+    <h2>8. Your responsibilities</h2>
+    <p>8.1 You agree to:</p>
+    <ul>
+      <li>
+        give us accurate, complete information and the access, content and decisions we reasonably
+        need, when we need them;
+      </li>
+      <li>
+        review and approve changes to your business information, and check that anything we publish
+        on your behalf is accurate before it goes live;
+      </li>
+      <li>
+        make sure you own, or have permission to use, all content, images, logos and other material
+        you give us, and that using it won’t break the law or anyone else’s rights;
+      </li>
+      <li>
+        keep your own accounts, domain, hosting and subscriptions in good standing and paid for,
+        unless your proposal says we will manage a particular cost;
+      </li>
+      <li>
+        keep your own backups and copies of your website and content, even where we also take
+        backups as part of the work; and
+      </li>
+      <li>comply with the terms of the platforms your business uses, including Google.</li>
+    </ul>
+    <p>
+      8.2 If you don’t do something you are responsible for, we won’t be responsible for any
+      resulting delay or problem, and we may charge for extra work it causes, after telling you.
+    </p>
+    <p>
+      8.3 If you are a business customer, you will compensate us for any claim brought against us by
+      a third party because material you supplied infringed their rights, provided we tell you
+      promptly about the claim and let you handle it.
+    </p>
+  </section>
+
+  <section id="changes">
+    <h2>9. Changes to the work</h2>
+    <p>
+      9.1 Either of us can ask to change the work. If a change affects the price or timing, we will
+      tell you and only go ahead once you have agreed in writing, which can be by email.
+    </p>
+    <p>
+      9.2 We may make minor changes needed to comply with the law, or to deal with changes to a
+      platform you use, that don’t materially affect the work or the price. We will tell you about
+      them.
+    </p>
+  </section>
+
+  <section id="fees">
+    <h2>10. Fees and payment</h2>
+    <p>
+      10.1 Prices on this website are starting prices. The price for your work is the one in your
+      accepted proposal. We are not registered for VAT, so no VAT is added.
+    </p>
+    <p>
+      10.2 Third-party costs, such as domains, hosting, paid plugins, themes, stock images, software
+      subscriptions and advertising, are not included unless your proposal says so. We will not
+      commit you to any such cost without your agreement.
+    </p>
+    <p>
+      10.3 Unless your proposal says otherwise, we will invoice one-off work on completion (or in
+      the instalments set out in the proposal), and ongoing support monthly in advance. Invoices are
+      payable within 14 days by bank transfer to the account shown on the invoice.
+    </p>
+    <p>
+      10.4 If you think an invoice is wrong, please tell us promptly and pay any part that is not in
+      dispute. We will work with you to resolve it.
+    </p>
+    <p>
+      10.5 If you are a business customer and pay late, we may charge statutory interest and
+      compensation under the Late Payment of Commercial Debts (Interest) Act 1998. If an invoice is
+      more than 14 days overdue, we may also pause work after giving you at least seven days’
+      written notice, until it is paid.
+    </p>
+  </section>
+
+  <section id="ongoing">
+    <h2>11. Ongoing support</h2>
+    <p>
+      11.1 Ongoing support covers the checks, updates and improvements described in your proposal,
+      with priorities agreed with you as we go. It is not unlimited work: anything substantial
+      outside its scope, such as a new website or a major rebuild, will be quoted separately.
+    </p>
+    <p>
+      11.2 Ongoing support has no minimum term unless your proposal sets one. Either of us can end
+      it by giving at least 30 days’ written notice, which can be by email. You pay for support up
+      to the end of the notice period.
+    </p>
+    <p>
+      11.3 We may change the monthly price by giving you at least 30 days’ written notice. If you
+      don’t want to continue at the new price, you can end the support before it takes effect
+      without paying the increase.
+    </p>
+  </section>
+
+  <section id="cancellation">
+    <h2>12. Consumer cancellation rights</h2>
+    <p>
+      12.1 This clause applies only if you are a consumer and the contract was made at a distance,
+      for example by email or phone, or away from our business premises. Business customers do not
+      have this right.
+    </p>
+    <p>
+      12.2 You have the right to cancel the contract within 14 days without giving any reason. The
+      cancellation period ends 14 days after the day the contract is made.
+    </p>
+    <p>
+      12.3 To cancel, tell us clearly in writing before the period ends, by email to{' '}
+      <a href={`mailto:${business.email}`}>{business.email}</a>
+      {business.correspondenceAddress && ` or by post to ${business.correspondenceAddress}`}. You
+      can use the <a href="#cancellation-form">model cancellation form</a> in Schedule 2, but you
+      don’t have to.
+    </p>
+    <p>
+      12.4 If you cancel, we will refund all payments you have made within 14 days of being told you
+      have cancelled, using the same payment method unless you agree otherwise. There is no fee for
+      the refund.
+    </p>
+    <p>
+      12.5 We will not start work during the cancellation period unless you expressly ask us to in
+      writing, which can be by email. If you ask us to start and then cancel, you must pay for the
+      work done up to the time you tell us you are cancelling, in proportion to the full service.
+    </p>
+    <p>
+      12.6 If you ask us to start work during the cancellation period, and acknowledge that you will
+      lose the right to cancel once the work is complete, you will lose that right once we have
+      fully performed the service.
+    </p>
+  </section>
+
   <section id="ownership">
-    <h2>5. Ownership, access and cooperation</h2>
+    <h2>13. Ownership of the work</h2>
     <p>
-      Clients retain ownership of their existing websites, domains and Google Business Profiles.
-      Access should be granted using appropriate permissions where supported, with the client
-      retaining owner access. Passwords should not be sent through the public enquiry form.
+      13.1 You keep ownership of everything you already own, including your website, domain, Google
+      Business Profile, accounts and content. You give us a licence to use your material only as
+      needed to do the work.
     </p>
     <p>
-      The client is responsible for authorising changes, supplying accurate business information and
-      ensuring it has permission to use supplied content and images. The proposal should set out how
-      access, backups, content approval, any newly created work and handover will be handled.
+      13.2 Once you have paid in full for the work, you own the copyright and other intellectual
+      property rights in the designs, text, code and other deliverables we create specifically for
+      you.
     </p>
     <p>
-      A Google Business Profile is free to own. Presence charges for professional management and
-      improvement work. Presence is an independent service. Google controls its own services,
-      policies and verification.
-    </p>
-  </section>
-  <section id="results">
-    <h2>6. Realistic expectations</h2>
-    <p>
-      The purpose of the service is to improve the clarity, accuracy and usefulness of a business’s
-      online presence and customer contact journeys. Google rankings, website traffic, enquiries,
-      revenue and jobs cannot be guaranteed.
+      13.3 We keep ownership of our own tools, templates, methods, know-how and any general material
+      we created before or separately from your work. Where any of it forms part of your
+      deliverables, we give you a permanent, non-exclusive, royalty-free licence to use it as part
+      of them.
     </p>
     <p>
-      Third-party platforms control their own availability, verification, listings and policies.
-      Review support concerns authentic customer feedback and professional responses. Presence does
-      not offer purchased reviews, rating manipulation or removal of legitimate negative feedback.
+      13.4 Some deliverables may include third-party components, such as fonts, plugins, themes,
+      images or open-source software. These are provided under their own licence terms, which we
+      will tell you about where they affect you.
     </p>
     <p>
-      Reports use available information. A change in a metric does not by itself prove that Presence
-      caused a business result.
+      13.5 We will only use your name, logo or work as an example in our marketing, such as a case
+      study, with your written permission.
     </p>
   </section>
-  <section id="questions">
-    <h2>7. Questions and legal rights</h2>
+
+  <section id="confidentiality">
+    <h2>14. Confidentiality</h2>
     <p>
-      If you have a question about these terms, an enquiry or a proposed service, use the{' '}
-      <a class="inline-link" href="/contact/">
-        contact form
-      </a>
-      . Personal information is handled as described in the{' '}
-      <a class="inline-link" href="/privacy/">
-        privacy policy
-      </a>
-      .
+      14.1 Each of us will keep the other’s confidential information private and use it only to
+      perform or receive the services. This does not apply to information that is already public
+      (other than through a breach of this clause), that the other party already lawfully had, or
+      that must be disclosed by law or to professional advisers bound by confidentiality.
+    </p>
+    <p>14.2 This clause continues after the contract ends.</p>
+  </section>
+
+  <section id="data">
+    <h2>15. Data protection</h2>
+    <p>
+      15.1 Each of us will comply with UK data protection law. Our{' '}
+      <a href="/privacy/">privacy policy</a> explains how we handle personal information as a
+      controller.
     </p>
     <p>
-      Nothing on this website excludes rights or liabilities that cannot lawfully be excluded. The
-      final agreement for paid services should be reviewed for the relevant business circumstances
-      and jurisdiction before acceptance.
+      15.2 Where we process personal information on your behalf as part of the work, for example
+      messages sent through your website’s contact form or details in your Google Business Profile,
+      you are the controller and we are your processor, and the data processing terms in{' '}
+      <a href="#data-processing">Schedule 1</a> apply.
     </p>
+  </section>
+
+  <section id="accounts">
+    <h2>16. Your accounts and third-party platforms</h2>
+    <p>
+      16.1 Wherever a platform allows it, you will give us access by adding us as a user with
+      appropriate permissions, rather than by sharing your password. You remain the owner of each
+      account and can remove our access at any time. When our work ends, we will stop using our
+      access and ask you to remove it.
+    </p>
+    <p>
+      16.2 Google, your web host, your domain registrar and other platforms set their own rules,
+      verification checks, rankings and policies, and can change or suspend services. We are not
+      responsible for their decisions, outages or changes, or for any loss they cause, but we will
+      help you respond where we can.
+    </p>
+    <p>
+      16.3 A Google Business Profile is free to own. We charge for our work on it, not for the
+      profile itself, and we are independent of Google.
+    </p>
+  </section>
+
+  <section id="reviews">
+    <h2>17. Reviews and listings</h2>
+    <p>
+      17.1 We only help businesses gather genuine reviews from real customers and respond to them
+      honestly. We will not write, buy, sell or incentivise fake reviews, ask only satisfied
+      customers for reviews in a way that misleads, hide genuine negative reviews, or post
+      misleading business information. Fake reviews are banned under the Digital Markets,
+      Competition and Consumers Act 2024, and we may stop work if asked to do any of these things.
+    </p>
+    <p>
+      17.2 You are responsible for making sure the information you ask us to publish about your
+      business is true and not misleading.
+    </p>
+  </section>
+
+  <section id="liability">
+    <h2>18. Our liability</h2>
+    <h3>If you are a business customer</h3>
+    <p>
+      18.1 We are not liable for any loss of profit, revenue, sales, business, contracts, goodwill
+      or anticipated savings, for any loss or corruption of data, or for any indirect or
+      consequential loss, however it arises.
+    </p>
+    <p>
+      18.2 Our total liability to you under or in connection with a contract, whether in contract,
+      negligence or otherwise, is limited to the total fees you paid or must pay us under that
+      contract in the 12 months before the event giving rise to the claim.
+    </p>
+    <p>
+      18.3 We have set these limits because our prices are low compared with the value of the
+      businesses we work for, and you are better placed to insure against business losses.
+    </p>
+    <h3>If you are a consumer</h3>
+    <p>
+      18.4 We are responsible for loss or damage you suffer that is a foreseeable result of our
+      breaking these terms or failing to use reasonable care and skill. Loss is foreseeable if it is
+      obvious that it will happen, or if we both knew it might happen when the contract was made.
+      Because you hire us as a consumer and not for business purposes, we are not responsible for
+      any loss of profit, business or business opportunity.
+    </p>
+    <h3>For everyone</h3>
+    <p>18.5 Nothing in these terms limits or excludes our liability for:</p>
+    <ul>
+      <li>death or personal injury caused by our negligence;</li>
+      <li>fraud or fraudulent misrepresentation;</li>
+      <li>
+        for consumers, breach of your rights under the Consumer Rights Act 2015, including that
+        services will be performed with reasonable care and skill and as described; or
+      </li>
+      <li>anything else that cannot be limited or excluded by law.</li>
+    </ul>
+  </section>
+
+  <section id="ending">
+    <h2>19. Ending a contract</h2>
+    <p>19.1 Either of us may end a contract immediately by written notice if the other:</p>
+    <ul>
+      <li>
+        seriously breaks the contract and, if the breach can be put right, does not put it right
+        within 14 days of being asked to in writing; or
+      </li>
+      <li>becomes insolvent, bankrupt or stops trading.</li>
+    </ul>
+    <p>19.2 When a contract ends, for whatever reason:</p>
+    <ul>
+      <li>you pay for work done and costs properly incurred up to the date it ends;</li>
+      <li>
+        once paid, we hand over the deliverables and any files, information and access details we
+        hold for you;
+      </li>
+      <li>we stop using our access to your accounts; and</li>
+      <li>
+        we return or delete your personal information as Schedule 1 sets out, except where we must
+        keep it by law.
+      </li>
+    </ul>
+    <p>
+      19.3 Clauses that are intended to continue after a contract ends, including those on payment,
+      ownership, confidentiality, data protection and liability, continue to apply.
+    </p>
+  </section>
+
+  <section id="outside-control">
+    <h2>20. Events outside our control</h2>
+    <p>
+      20.1 Neither of us is responsible for a delay or failure caused by events outside our
+      reasonable control, such as serious illness, extreme weather, a widespread internet or power
+      outage, or a failure of a platform we rely on. The affected party will tell the other as soon
+      as possible and take reasonable steps to limit the effect. If the delay lasts more than 30
+      days, either of us may end the contract by written notice, and you pay only for work done.
+    </p>
+  </section>
+
+  <section id="complaints">
+    <h2>21. Complaints and disputes</h2>
+    <p>
+      21.1 If you are unhappy with our work or service, please tell us by email to{' '}
+      <a href={`mailto:${business.email}`}>{business.email}</a>
+      {business.telephone && ` or by phone on ${business.telephone}`}
+      {business.correspondenceAddress && `, or by post to ${business.correspondenceAddress}`}. We
+      will respond as quickly as possible, normally within five working days, and make our best
+      efforts to find a fair solution.
+    </p>
+    <p>
+      21.2 We are not a member of any alternative dispute resolution scheme and are not obliged to
+      use one. If you are a consumer and we can’t resolve your complaint, you can get free advice
+      from Consumerline (see{' '}
+      <a
+        href="https://www.nidirect.gov.uk/articles/about-consumerline-and-how-contact-helpline"
+        rel="external"
+      >
+        nidirect
+      </a>
+      ), and you remain free to take your complaint to court.
+    </p>
+    <p>
+      21.3 These terms, and any dispute or claim arising from them or the services, including
+      non-contractual disputes, are governed by the law of Northern Ireland. The courts of Northern
+      Ireland have exclusive jurisdiction. If you are a consumer living in England, Wales or
+      Scotland, you may instead bring proceedings in the courts where you live, and you keep the
+      protection of any consumer law that applies where you live and cannot be excluded.
+    </p>
+  </section>
+
+  <section id="general">
+    <h2>22. General</h2>
+    <p>
+      22.1 <strong>Notices.</strong> Notices under a contract can be given by email to the address
+      each of us last gave the other. An email is treated as received on the next working day after
+      it is sent, unless the sender is told it was not delivered.
+    </p>
+    <p>
+      22.2 <strong>Transfer.</strong> We may transfer our rights and obligations to another business
+      only with your agreement, or as part of a sale of our business, in which case we will tell you
+      and your rights will not be reduced. You may transfer your contract with our written
+      agreement.
+    </p>
+    <p>
+      22.3 <strong>Third parties.</strong> No one other than you and us has any right to enforce
+      these terms, and the Contracts (Rights of Third Parties) Act 1999 does not apply.
+    </p>
+    <p>
+      22.4 <strong>Variation and waiver.</strong> Changes to a contract must be agreed in writing,
+      which can be by email. If either of us delays in enforcing a right, that does not mean we have
+      given it up.
+    </p>
+    <p>
+      22.5 <strong>Severance.</strong> If a court decides that part of these terms is unlawful or
+      unenforceable, the rest will continue to apply.
+    </p>
+  </section>
+
+  <section id="data-processing">
+    <h2>Schedule 1: Data processing terms</h2>
+    <p>
+      These terms apply where we process personal data on your behalf as your processor under
+      Article 28 of the UK GDPR.
+    </p>
+    <p>
+      <strong>1. Details of the processing.</strong> The subject matter is the services in your
+      proposal. The duration is the length of the contract plus any time needed to return or delete
+      data. The nature and purpose is maintaining and improving your website, Google Business
+      Profile and related listings and enquiry processes. The personal data may include names,
+      contact details, messages, reviews and enquiry details. The data subjects may include your
+      customers, enquirers, reviewers and staff. Your obligations and rights are those of a
+      controller under data protection law.
+    </p>
+    <p>
+      <strong>2. Our obligations.</strong> We will:
+    </p>
+    <ol type="a">
+      <li>
+        process the personal data only on your documented instructions, including about transfers
+        outside the UK, unless the law requires otherwise, in which case we will tell you first
+        unless the law prevents it. We will tell you immediately if we think an instruction breaks
+        data protection law;
+      </li>
+      <li>ensure that anyone authorised to process the data is bound by confidentiality;</li>
+      <li>
+        take appropriate technical and organisational security measures as required by Article 32 of
+        the UK GDPR;
+      </li>
+      <li>
+        not engage another processor without your prior written authorisation. You give general
+        authorisation for the service providers we use to run our business, listed in our privacy
+        policy. We will tell you before adding or replacing one so that you can object, and we will
+        put a written contract in place giving the same protection as these terms. We remain
+        responsible for their performance;
+      </li>
+      <li>
+        help you, taking into account the nature of the processing, to respond to requests from
+        people exercising their data protection rights;
+      </li>
+      <li>
+        help you comply with your obligations on security, personal data breaches, data protection
+        impact assessments and prior consultation with the regulator, and tell you without undue
+        delay after becoming aware of a personal data breach affecting your data;
+      </li>
+      <li>
+        at your choice, delete or return all the personal data when the services end, and delete
+        existing copies unless the law requires us to keep them; and
+      </li>
+      <li>
+        make available to you all information needed to show that we comply with these terms, and
+        allow for and contribute to reasonable audits and inspections by you or an auditor you
+        appoint, on reasonable notice.
+      </li>
+    </ol>
+    <p>
+      <strong>3. Your obligations.</strong> You confirm that you have a lawful basis for the
+      processing and have given the people concerned any information the law requires.
+    </p>
+  </section>
+
+  <section id="cancellation-form">
+    <h2>Schedule 2: Model cancellation form</h2>
+    <p>
+      For consumers only. Complete and return this form only if you wish to cancel the contract (see
+      clause 12). You can copy it into an email.
+    </p>
+    <div class="legal-form">
+      <p>
+        To: {owner}, trading as Presence Web Services
+        {business.correspondenceAddress && `, ${business.correspondenceAddress}`}, {business.email}
+      </p>
+      <p>I hereby give notice that I cancel my contract for the supply of the following service:</p>
+      <p>Ordered on:</p>
+      <p>Name of consumer:</p>
+      <p>Address of consumer:</p>
+      <p>Signature of consumer (only if this form is sent on paper):</p>
+      <p>Date:</p>
+    </div>
   </section>
 </LegalLayout>

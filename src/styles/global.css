@@ -1174,6 +1174,15 @@
   .legal-nav a:hover {
     color: var(--ink);
   }
+  /* Grid items default to min-width: auto, which would let a wide table stretch the column. */
+  .legal-content,
+  .legal-nav {
+    min-width: 0;
+  }
+  /* Email addresses and other long unbroken strings must wrap rather than widen the page. */
+  .legal-content {
+    overflow-wrap: break-word;
+  }
   .legal-content section {
     margin-bottom: 2.75rem;
     scroll-margin-top: calc(var(--header-height) + 1.5rem);
@@ -1187,9 +1196,91 @@
   .legal-content li {
     line-height: 1.7;
   }
-  .legal-content ul {
+  .legal-content ul,
+  .legal-content ol {
     margin-block: 1rem;
     padding-left: 1.2rem;
+  }
+  .legal-content li + li {
+    margin-top: 0.4rem;
+  }
+  .legal-content h3 {
+    margin: 1.75rem 0 0.6rem;
+    font-size: 1.125rem;
+    letter-spacing: -0.01em;
+  }
+  .legal-content strong {
+    color: var(--ink);
+  }
+  .legal-content a {
+    color: var(--ink);
+    text-decoration: underline;
+    overflow-wrap: anywhere;
+  }
+  /* Part headings divide the terms into website terms and terms of business. */
+  .legal-content .legal-part {
+    margin: 1rem 0 2.25rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--ink);
+    font-size: clamp(1.625rem, 2.4vw, 2rem);
+    letter-spacing: -0.022em;
+  }
+  .legal-updated {
+    margin-top: -1rem;
+    padding-bottom: clamp(1.5rem, 3vw, 2rem);
+    font-size: 0.9375rem;
+  }
+  /* A short summary box at the top of each legal document. */
+  .legal-summary {
+    margin-bottom: 2.75rem;
+    padding: 1.25rem 1.5rem;
+    border: 1px solid var(--line);
+    border-radius: 0.75rem;
+    background: var(--white);
+  }
+  .legal-summary h2 {
+    margin-bottom: 0.5rem;
+    font-size: 1.125rem;
+  }
+  .legal-summary ul {
+    margin-bottom: 0;
+  }
+  /* Tables of purposes, retention periods and cookies; scroll on narrow screens. */
+  .legal-table {
+    position: relative;
+    margin-block: 1rem 1.5rem;
+    overflow-x: auto;
+  }
+  .legal-table table {
+    width: 100%;
+    min-width: 34rem;
+    border-collapse: collapse;
+    font-size: 0.9375rem;
+  }
+  .legal-table th,
+  .legal-table td {
+    padding: 0.7rem 0.75rem 0.7rem 0;
+    border-bottom: 1px solid var(--line);
+    text-align: left;
+    vertical-align: top;
+    line-height: 1.55;
+  }
+  .legal-table thead th {
+    border-bottom-color: var(--ink);
+    font-weight: 600;
+    color: var(--ink);
+  }
+  .legal-table td {
+    color: var(--muted);
+  }
+  .legal-table tbody th {
+    font-weight: 500;
+    color: var(--ink);
+  }
+  .legal-form {
+    padding: 1.25rem 1.5rem;
+    border: 1px dashed var(--line-strong);
+    border-radius: 0.75rem;
   }
 
   /* Footer ----------------------------------------------------------------------- */
@@ -1208,6 +1299,13 @@
     margin-top: 1rem;
     font-size: 0.875rem;
     line-height: 1.6;
+  }
+  .footer-brand > a[href^='tel:'] {
+    display: block;
+    width: fit-content;
+    margin-top: 0.35rem;
+    font-size: 0.875rem;
+    text-decoration: underline;
   }
   .footer-brand > a[href^='mailto:'] {
     display: inline-block;
@@ -1327,6 +1425,50 @@
     }
     .legal-nav {
       position: static;
+    }
+    /* Legal tables stack on phones: the row heading, then each value under its column label. */
+    .legal-table table {
+      min-width: 0;
+    }
+    .legal-table table,
+    .legal-table tbody,
+    .legal-table tr,
+    .legal-table th,
+    .legal-table td {
+      display: block;
+    }
+    .legal-table thead {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip-path: inset(50%);
+      white-space: nowrap;
+    }
+    .legal-table tr {
+      padding-block: 0.85rem;
+      border-bottom: 1px solid var(--line);
+    }
+    .legal-table tbody tr:first-child {
+      border-top: 1px solid var(--ink);
+    }
+    .legal-table th,
+    .legal-table td {
+      padding: 0;
+      border: 0;
+    }
+    .legal-table tbody th {
+      font-weight: 600;
+    }
+    .legal-table td {
+      margin-top: 0.45rem;
+    }
+    .legal-table td::before {
+      content: attr(data-label);
+      display: block;
+      font-size: 0.8125rem;
+      font-weight: 600;
+      color: var(--ink);
     }
     /* On phones each row's label takes its own line and the three values sit beneath
        it, aligned under the plan names. Explicit ARIA roles keep the table semantics. */
