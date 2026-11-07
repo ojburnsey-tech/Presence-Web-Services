@@ -42,6 +42,9 @@ const identification = [
         <Wordmark />
         <p>{business.description}</p>
         {business.email && <a href={`mailto:${business.email}`}>{business.email}</a>}
+        {business.telephone && (
+          <a href={`tel:${business.telephone.replace(/[^\d+]/g, '')}`}>{business.telephone}</a>
+        )}
       </div>
       <nav
         id="footer-navigation"

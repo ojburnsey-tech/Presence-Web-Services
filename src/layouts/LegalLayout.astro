@@ -5,12 +5,15 @@ interface Props {
   title: string;
   description: string;
   sections: { id: string; label: string }[];
+  /** Date the document last changed, shown under the introduction. */
+  updated: string;
 }
-const { title, description, sections } = Astro.props;
+const { title, description, sections, updated } = Astro.props;
 ---
 
 <Layout title={title} description={description}>
   <PageIntro title={title} description={description} />
+  <p class="container legal-updated">Last updated {updated}</p>
   <div class="container legal-layout">
     <nav class="legal-nav" aria-label="On this page">
       <p class="meta">On this page</p>
