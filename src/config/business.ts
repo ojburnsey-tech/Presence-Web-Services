@@ -44,12 +44,13 @@ export const business: BusinessConfig = {
   mailFrom: 'Presence Web Services <audits@mail.presencewebservices.co.uk>',
   enquiryRetentionDays: 365,
   telephone: '',
-  legalName: '',
-  legalStatus: '',
-  correspondenceAddress: '',
+  legalName: 'Oliver James Burns',
+  legalStatus: 'Sole trader, trading as Presence Web Services',
+  correspondenceAddress: '279 Lower Braniel Road, Belfast BT5 7NS',
   companyNumber: '',
   vatNumber: '',
-  vatStatement: '', // Confirm tax treatment before accepting paid work.
+  vatStatement:
+    'Presence Web Services is not registered for VAT, so no VAT is added to our prices.',
   privacyRetention:
     'Enquiries sent through the website are deleted automatically 12 months after they are received. Emails about an enquiry are deleted from our inbox once they are no longer needed to respond to you or to manage work you have agreed.',
   launchReady: false, // Keeps every page noindex and robots disallowed until reviewed.
@@ -57,7 +58,7 @@ export const business: BusinessConfig = {
   founder: {
     name: 'Oliver Burns',
     role: 'Founder',
-    region: 'Northern Ireland', // Change to 'Belfast' if that is where the business is based.
+    region: 'Belfast',
     photo: '', // Add a real, natural photo to public/ and set its path and pixel size here.
     photoWidth: 1200,
     photoHeight: 1500,

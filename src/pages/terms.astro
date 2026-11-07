@@ -1,4 +1,5 @@
 ---
+import { business } from '../config/business';
 import LegalLayout from '../layouts/LegalLayout.astro';
 const sections = [
   { id: 'website', label: 'Using this website' },
@@ -23,6 +24,13 @@ const sections = [
       business owners make an enquiry. It does not provide an online checkout. Submitting the form
       does not purchase a service, start a paid contract or authorise work on your accounts.
     </p>
+    {business.legalName && (
+      <p>
+        Presence Web Services is the trading name of {business.legalName}, a sole trader
+        {business.correspondenceAddress && ` based at ${business.correspondenceAddress}`}. You can
+        contact us at {business.email}.
+      </p>
+    )}
     <p>
       Please use the website lawfully and provide accurate information. Do not submit passwords,
       harmful content, confidential client records or information you are not entitled to share.

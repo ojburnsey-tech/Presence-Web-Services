@@ -27,14 +27,14 @@ Status: **BLOCKED for public launch**. No public launch or DNS/email change is a
 
 ## Owner decisions / external P0 gates
 
-- [ ] Confirm actual trading structure and legal controller identity for public disclosure.
-- [ ] Provide a suitable lawful correspondence/geographic address and approve its disclosure.
-- [ ] Confirm tax/VAT treatment and indicative-pricing wording.
+- [x] Confirm actual trading structure and legal controller identity for public disclosure. Oliver James Burns, sole trader trading as Presence Web Services (7 November 2026).
+- [x] Provide a suitable lawful correspondence/geographic address and approve its disclosure. Owner chose to publish 279 Lower Braniel Road, Belfast BT5 7NS (7 November 2026).
+- [x] Confirm tax/VAT treatment and indicative-pricing wording. Not VAT registered; statement shown on the pricing page.
 - [ ] Confirm trademark/name checks to owner's satisfaction.
-- [ ] Approve production enquiry retention period/criteria, purge frequency and email/backup schedule.
+- [x] Approve production enquiry retention period. 12 months (`ENQUIRY_RETENTION_DAYS=365`), stated in the privacy policy. Provider backup schedule still to confirm.
 - [ ] Confirm provider contractual roles, locations, processing/transfer terms and any applicable ICO assessment.
 - [ ] Approve final privacy/terms wording and separate client-service agreement.
-- [ ] Confirm owner can review/delete enquiries reliably; no email notifications currently exist.
+- [x] Confirm owner receives enquiries. Owner alert and customer confirmation emails confirmed arriving in Gmail (see reports/EMAIL-VERIFICATION.md).
 - [ ] Review hosting/custom-domain quotas and billing; authorise any cost explicitly.
 - [ ] Explicitly approve public publication and specific web DNS changes.
 
