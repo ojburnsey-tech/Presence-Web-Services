@@ -2,7 +2,7 @@
 
 ## Enquiries
 
-A saved request lives in D1. The application supports owner alerts and customer confirmations through Resend's HTTPS API; it does not use SMTP. A RESEND_API_KEY runtime secret and verified sending domain are required. At this verification, that key was absent from Sites, so email sending was disabled. Cloudflare's inbound forwarding to Gmail remains a separate service. Until an end-to-end test is confirmed, review enquiries through the authenticated Sites database viewer or protected owner API and do not rely on an email arriving.
+A saved request lives in D1. The application supports owner alerts and customer confirmations through Resend's HTTPS API; it does not use SMTP. A RESEND_API_KEY runtime secret and verified sending domain are required. The key was activated in Sites runtime revision 3, and a fresh test on 7 November 2026 confirmed both messages reached Gmail, including owner-alert forwarding through Cloudflare. See reports/EMAIL-VERIFICATION.md for the evidence and Gmail category placement. Cloudflare's inbound forwarding to Gmail remains a separate service. Until an end-to-end test is confirmed, review enquiries through the authenticated Sites database viewer or protected owner API and do not rely on an email arriving.
 
 Owner API (HTTPS only remotely):
 

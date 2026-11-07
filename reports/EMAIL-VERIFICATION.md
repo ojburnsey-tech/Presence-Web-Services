@@ -47,3 +47,16 @@ Official references checked: https://resend.com/docs/send-with-cloudflare-worker
 The owner reported completing the sender setup. Native Sites settings now confirm RESEND_API_KEY is present as a secret (its value was not read or printed), runtime revision 3. Version 10 was redeployed successfully as deployment `appgdep_6aee70af35988191ad03f1319bfb7ab5`, applying revision 3. The site remains owner-only, staging and not approved for public launch.
 
 The initial post-activation database check found two older enquiries, both without recorded email statuses; they predate this activation. No existing enquiry was deleted or resent. A fresh owner-browser submission has been requested because the workspace still cannot reach the private hostname (proxy CONNECT 403). Live provider acceptance and inbox delivery remain pending that fresh test; the earlier missing-key finding is historical and is now resolved.
+
+## End-to-end receipt verified: 7 November 2026
+
+A fresh owner-browser test enquiry was saved by private Sites version 10 after runtime revision 3 was applied. The enquiry row records a distinct Resend acceptance ID for both the owner alert and the customer confirmation.
+
+Read-only checks of the connected Gmail inbox independently found both matching test messages, received at approximately 00:32 GMT:
+
+- Owner alert: delivered to the business contact alias and forwarded through Cloudflare to Gmail. Gmail placed it in Inbox / Updates. Received and X-Forwarded headers confirm the forwarding path.
+- Customer confirmation: delivered directly to the submitted owner-controlled Gmail inbox. Gmail placed it in Inbox / Promotions and it was unread when checked.
+- Gmail authentication results show SPF, DKIM and DMARC passes for both messages; the forwarded message also preserves a passing ARC chain.
+- Reply-To headers match the intended routing: the owner alert replies to the submitting customer; the confirmation replies to the business contact address. No reply email was sent as part of this test.
+
+The owner's initial report of seeing only one email was resolved by locating the second in Promotions. This test verifies live Sites persistence, Resend sending, owner-alert forwarding and receipt of both messages in Gmail. It does not guarantee future delivery or category placement in other recipients' inboxes. No mailbox labels, filters or messages were changed, and no test enquiry or email was deleted. Personal recipient details, submitted content, raw headers and message identifiers are deliberately omitted from this source report.
