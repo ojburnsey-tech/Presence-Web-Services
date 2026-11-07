@@ -32,3 +32,12 @@ No real Resend send, sender-domain verification, provider delivery event, custom
 No public publication, DNS edits, forwarding changes, paid account upgrades or real-customer messages were performed. See DEPLOYMENT.md under Enquiry emails (Resend) for the full operator setup.
 
 Official references checked: https://resend.com/docs/send-with-cloudflare-workers and https://resend.com/docs/guides/dns/cloudflare. These support the Worker/API and DNS setup; they do not establish this account's configuration.
+
+## Deployed result
+
+- Private Sites version **10** deployed successfully, deployment `appgdep_6aee6adee2bc8191b541f2c726432079`, environment revision 1.
+- URL: https://presence-private-preview-4nov-c73a.ojburnsey.chatgpt.site/ . Fresh native access inspection confirms custom access, one owner and no groups.
+- Saved version: `appgprj_6aebc28289908191851ee53a5b25c1a9~appgver_fd22e739556c81918d214c188fe293be`; Sites source `40dc34898c00030961876125e783735a1a52a8af`, matching GitHub application source at `ea17c37253c55ec9c5968d8a91a20dedc64e01b4`.
+- Protected native D1 inspection confirms notify_status and confirm_status were added to the existing enquiry table. Existing enquiries were preserved; no record was deleted during verification.
+- A fresh post-deployment runtime-settings check still has no RESEND_API_KEY entry. Email sending remains disabled. No real delivery or forwarding receipt is claimed.
+- This later documentation update does not change the deployed application. All required code and locally testable checks are complete; the remaining email setup and network/inbox checks require owner/account access.
