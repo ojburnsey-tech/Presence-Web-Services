@@ -41,3 +41,9 @@ Official references checked: https://resend.com/docs/send-with-cloudflare-worker
 - Protected native D1 inspection confirms notify_status and confirm_status were added to the existing enquiry table. Existing enquiries were preserved; no record was deleted during verification.
 - A fresh post-deployment runtime-settings check still has no RESEND_API_KEY entry. Email sending remains disabled. No real delivery or forwarding receipt is claimed.
 - This later documentation update does not change the deployed application. All required code and locally testable checks are complete; the remaining email setup and network/inbox checks require owner/account access.
+
+## Sender secret activated: 7 November 2026
+
+The owner reported completing the sender setup. Native Sites settings now confirm RESEND_API_KEY is present as a secret (its value was not read or printed), runtime revision 3. Version 10 was redeployed successfully as deployment `appgdep_6aee70af35988191ad03f1319bfb7ab5`, applying revision 3. The site remains owner-only, staging and not approved for public launch.
+
+The initial post-activation database check found two older enquiries, both without recorded email statuses; they predate this activation. No existing enquiry was deleted or resent. A fresh owner-browser submission has been requested because the workspace still cannot reach the private hostname (proxy CONNECT 403). Live provider acceptance and inbox delivery remain pending that fresh test; the earlier missing-key finding is historical and is now resolved.
