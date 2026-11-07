@@ -32,6 +32,12 @@ export function setupReviewForm() {
       field.setCustomValidity('Please complete this field.');
     if (field.value.length > (fieldLimits[field.name as keyof typeof fieldLimits] || 200))
       field.setCustomValidity('Please shorten this field.');
+    if (
+      field.type === 'tel' &&
+      field.value.trim() &&
+      (field.value.replace(/\D/g, '').length < 7 || !/^\+?[\d\s().-]+$/.test(field.value.trim()))
+    )
+      field.setCustomValidity('Enter a phone number, such as 028 9000 0000.');
     if (field.type === 'url' && field.value.trim()) {
       try {
         field.value = normalisePublicUrl(field.value);
@@ -51,6 +57,16 @@ export function setupReviewForm() {
       field.setAttribute('aria-invalid', String(!field.validity.valid));
     }
   };
+  // A press on Send blurs the current field before the click completes. Showing that
+  // field's error message then would push the button down and the click would miss it,
+  // so blur validation waits; the submit handler validates every field anyway.
+  let pressingSubmit = false;
+  button.addEventListener('pointerdown', () => {
+    pressingSubmit = true;
+  });
+  const releaseSubmit = () => window.setTimeout(() => (pressingSubmit = false));
+  window.addEventListener('pointerup', releaseSubmit);
+  window.addEventListener('pointercancel', releaseSubmit);
   for (const field of fields) {
     field.addEventListener('input', () => {
       // Do not normalise a partially typed URL under the user's cursor.
@@ -61,9 +77,10 @@ export function setupReviewForm() {
         if (error) error.textContent = '';
       }
     });
-    field.addEventListener('blur', () =>
-      validate(field, field.value.length > 0 || field.hasAttribute('aria-invalid')),
-    );
+    field.addEventListener('blur', () => {
+      if (pressingSubmit) return;
+      validate(field, field.value.length > 0 || field.hasAttribute('aria-invalid'));
+    });
   }
   form.noValidate = true;
   form.addEventListener('submit', async (event) => {
@@ -76,7 +93,7 @@ export function setupReviewForm() {
     }
     if (form.dataset.hosted !== 'true') {
       message(
-        'Enquiries are unavailable in this static preview. Nothing has been submitted. Please email contact@presencewebservices.co.uk.',
+        'Your request could not be sent from this page. Nothing has been submitted. Please email contact@presencewebservices.co.uk.',
       );
       return;
     }

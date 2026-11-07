@@ -10,6 +10,7 @@ const types = {
   '.txt': 'text/plain; charset=utf-8',
   '.xml': 'application/xml; charset=utf-8',
   '.webp': 'image/webp',
+  '.woff2': 'font/woff2',
 };
 export function readAssets(root = 'dist') {
   const assets = Object.create(null);

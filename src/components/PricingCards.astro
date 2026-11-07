@@ -1,54 +1,54 @@
 ---
 import Button from './Button.astro';
 import { business } from '../config/business';
-/** Three ways to work together. Prices are starting points; every job is quoted in writing. */
+/**
+ * The three ways to work together. Prices are starting points: every job is quoted in
+ * writing. Nothing here may claim popularity, savings or results.
+ */
 const plans = [
   {
     id: 'one-off',
     name: 'One-off improvements',
-    label: 'For a defined piece of work',
-    price: `£${business.prices.oneOff}`,
-    from: true,
-    unit: 'one-off',
     summary: 'Fix an agreed set of issues without signing up to monthly support.',
-    items: [
-      'Review the website or profile and agree the fixes',
-      'Complete the selected page, form or profile changes',
-      'Explain what changed and what else is worth doing',
-    ],
+    from: true,
+    amount: `£${business.prices.oneOff}`,
+    unit: 'one-off',
     cta: 'Discuss a one-off project',
+    items: [
+      'Review of your website or Google profile',
+      'The page, form or profile changes we agree',
+      'A written summary of what changed',
+    ],
   },
   {
     id: 'ongoing',
     name: 'Ongoing partnership',
-    label: 'For regular care and improvement',
-    price: `£${business.prices.ongoing}`,
+    summary: 'Your website and Google profile looked after, with improvements agreed as you go.',
     from: true,
+    amount: `£${business.prices.ongoing}`,
     unit: 'per month',
-    summary:
-      'Keep your website and Google profile looked after, with improvements agreed as priorities change.',
-    items: [
-      'Agreed website checks, updates and profile management',
-      'Review monitoring and enquiry improvements where agreed',
-      'A monthly report on work done, figures and next priorities',
-    ],
     cta: 'Discuss ongoing support',
+    items: [
+      'Regular website checks and updates',
+      'Google Business Profile management',
+      'Review monitoring and enquiry improvements, where agreed',
+      'A monthly report on work done and next priorities',
+    ],
   },
   {
     id: 'new-website',
     name: 'New website',
-    label: 'For a first website or a rebuild',
-    price: 'Quoted',
-    from: false,
-    fromLabel: 'Per project',
-    unit: '',
     summary: 'A separate quote once we understand the pages, content and features you need.',
-    items: [
-      'Plan pages around your services and customers’ questions',
-      'Design, build and test on phones and desktops',
-      'Hand over with your own access and clear documentation',
-    ],
+    from: false,
+    label: 'Per project',
+    amount: 'Custom',
+    unit: 'quote',
     cta: 'Discuss a website project',
+    items: [
+      'Pages planned around your services and customers’ questions',
+      'Designed, built and tested on phones and desktops',
+      'Handed over with your own access and documentation',
+    ],
   },
 ];
 ---
@@ -56,22 +56,22 @@ const plans = [
 <div class="pricing-grid">
   {plans.map((plan) => (
     <article class="price-card" aria-labelledby={`plan-${plan.id}`}>
-      <p class="price-label">{plan.label}</p>
       <h2 id={`plan-${plan.id}`}>{plan.name}</h2>
-      <p class="price">
-        <span class="price-from">{plan.from ? 'From' : plan.fromLabel}</span>
-        <span class="price-amount">{plan.price}</span>
-        {plan.unit && <span class="price-unit">{plan.unit}</span>}
-      </p>
       <p class="price-summary">{plan.summary}</p>
+      <p class="price">
+        <span class="price-from">{plan.from ? 'From' : plan.label}</span>
+        <span class="price-amount">{plan.amount}</span>
+        <span class="price-unit">{plan.unit}</span>
+      </p>
+      <Button href={`/contact/?service=${plan.id}`} variant="secondary">
+        {plan.cta}
+      </Button>
+      <p class="price-includes">Includes</p>
       <ul class="check-list check-list--included">
         {plan.items.map((item) => (
           <li>{item}</li>
         ))}
       </ul>
-      <Button href={`/contact/?service=${plan.id}`} variant="secondary">
-        {plan.cta}
-      </Button>
     </article>
   ))}
 </div>

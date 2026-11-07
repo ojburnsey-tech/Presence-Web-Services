@@ -23,7 +23,7 @@ cpSync('drizzle', join(output, 'drizzle'), { recursive: true });
 const assets = readAssets();
 await build({
   stdin: {
-    contents: `import { handleRequest } from './server/runtime.ts'; const assets=${JSON.stringify(assets)}; export default { fetch(request, env) { return handleRequest(request, { ...env, BUILD_PUBLIC_RELEASE: '${business.launchReady}' }, assets); } };`,
+    contents: `import { handleRequest } from './server/runtime.ts'; const assets=${JSON.stringify(assets)}; export default { fetch(request, env, ctx) { return handleRequest(request, { ...env, BUILD_PUBLIC_RELEASE: '${business.launchReady}' }, assets, Date.now(), ctx); } };`,
     loader: 'ts',
     resolveDir: root,
     sourcefile: 'generated-entry.ts',

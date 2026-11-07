@@ -25,7 +25,8 @@ const {
 
 <div class:list={['form-field', { 'form-field--wide': wide }]}>
   <label for={name}>
-    {label} <span>{required ? '(required)' : '(optional)'}</span>
+    {label}
+    {!required && <span> (optional)</span>}
   </label>
   <input
     id={name}

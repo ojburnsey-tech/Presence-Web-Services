@@ -9,6 +9,10 @@ export const enquiries = sqliteTable(
     createdAt: integer('created_at').notNull(),
     expiresAt: integer('expires_at').notNull(),
     dataJson: text('data_json').notNull(),
+    // Delivery outcome of the owner alert and the customer confirmation, e.g. "sent:<id>",
+    // "failed:<status>" or "skipped:<reason>". Null until an attempt has finished.
+    notifyStatus: text('notify_status'),
+    confirmStatus: text('confirm_status'),
   },
   (table) => [
     index('enquiries_created').on(table.createdAt),

@@ -3,7 +3,6 @@ import Layout from '../layouts/Layout.astro';
 import FormField from '../components/FormField.astro';
 import { business } from '../config/business';
 const backendEnabled = process.env.ENQUIRY_BACKEND === 'sites';
-const staging = !import.meta.env.PROD || !process.env.PUBLIC_RELEASE;
 ---
 
 <Layout
@@ -12,179 +11,132 @@ const staging = !import.meta.env.PROD || !process.env.PUBLIC_RELEASE;
 >
   <section class="container contact-layout">
     <div class="contact-intro">
-      <h1>Request a free audit.</h1>
+      <h1>Request a free audit</h1>
       <p class="intro-copy">
-        Share your website or Google Maps link and tell us what your business does. We’ll review
-        what customers can see, from how your services are explained to how easy it is to get in
-        touch.
+        Tell us about your business and share your website or Google listing. We’ll review what your
+        customers see and reply by email with what we found and what we’d fix first. If you want to
+        go ahead, we’ll send a written quote. The audit is free and there’s no obligation.
       </p>
-      <div class="contact-expect">
-        <h2>What happens next</h2>
-        <ol>
-          <li>We review your public website and business profile in detail.</li>
-          <li>We get back to you with what we found and what we’d tackle first.</li>
-          <li>If you’d like to go ahead, we send a written scope and quote.</li>
-        </ol>
-      </div>
-      <div class="contact-note">
-        <p>The audit is free, with no obligation to buy.</p>
-        <p>
-          It’s a thorough review of what’s available publicly, so it doesn’t cover private systems
-          or security testing. No one can guarantee rankings or enquiries, and we don’t.
-        </p>
-      </div>
       <p class="contact-direct">
-        Prefer email? Write to{' '}
+        You can also email{' '}
         <a class="inline-link" href={`mailto:${business.email}`}>
           {business.email}
         </a>
       </p>
     </div>
-    <div class="contact-form-wrap">
-      <div class="form-heading">
-        <h2>Your details</h2>
-        <p>
-          Only four fields are required. Your business details help us review the right website.
-        </p>
-        {!backendEnabled && (
-          <p class="preview-notice">
-            Enquiries are unavailable in this static preview. Please email
-            contact@presencewebservices.co.uk.
-          </p>
-        )}
-        {backendEnabled && staging && (
-          <p class="preview-notice">
-            Private test: use dummy details. Test requests expire after one day. No email
-            notification is sent.
-          </p>
-        )}
-      </div>
-      <form
-        name="presence-review"
-        method="POST"
-        action="/api/enquiries"
-        data-review-form
-        data-hosted={String(backendEnabled)}
-      >
-        <input type="hidden" name="form-name" value="presence-review" />
-        <input type="hidden" name="submission-id" value="" />
-        <p hidden>
-          <label>
-            Leave this field empty
-            <input name="bot-field" autocomplete="off" tabindex="-1" />
+    <form
+      class="enquiry-form"
+      name="presence-review"
+      method="POST"
+      action="/api/enquiries"
+      data-review-form
+      data-hosted={String(backendEnabled)}
+      aria-describedby="form-guidance"
+    >
+      <p class="form-guidance" id="form-guidance">
+        All fields are required unless marked optional.
+      </p>
+      <input type="hidden" name="form-name" value="presence-review" />
+      <input type="hidden" name="submission-id" value="" />
+      <p hidden>
+        <label>
+          Leave this field empty
+          <input name="bot-field" autocomplete="off" tabindex="-1" />
+        </label>
+      </p>
+      <div class="form-grid">
+        <FormField
+          name="contact-name"
+          label="Your name"
+          required
+          autocomplete="name"
+          maxlength={100}
+        />
+        <FormField
+          name="business-name"
+          label="Business name"
+          required
+          autocomplete="organization"
+          maxlength={160}
+        />
+        <FormField
+          name="email"
+          label="Email address"
+          type="email"
+          required
+          autocomplete="email"
+          maxlength={254}
+        />
+        <FormField
+          name="telephone"
+          label="Phone number"
+          type="tel"
+          required
+          autocomplete="tel"
+          maxlength={40}
+        />
+        <FormField
+          name="website"
+          label="Website address"
+          type="url"
+          placeholder="https://"
+          maxlength={2048}
+        />
+        <FormField
+          name="google-profile"
+          label="Google listing link"
+          type="url"
+          placeholder="https://"
+          maxlength={2048}
+        />
+        <FormField
+          name="location"
+          label="Town or area"
+          autocomplete="address-level2"
+          maxlength={120}
+        />
+        <div class="form-field">
+          <label for="service">
+            What do you need? <span>(optional)</span>
           </label>
-        </p>
-        <div class="form-grid">
-          <FormField
-            name="contact-name"
-            label="Your name"
-            required
-            autocomplete="name"
-            maxlength={100}
-          />
-          <FormField
-            name="business-name"
-            label="Business name"
-            required
-            autocomplete="organization"
-            maxlength={160}
-          />
-          <FormField
-            name="email"
-            label="Email address"
-            type="email"
-            required
-            autocomplete="email"
-            wide
-            maxlength={254}
-          />
-          <FormField
-            name="website"
-            label="Website address"
-            type="url"
-            placeholder="https://"
-            help="No website yet? Leave this empty. Otherwise include the full address, such as https://example.co.uk."
-            wide
-            maxlength={2048}
-          />
-          <FormField
-            name="google-profile"
-            label="Google profile or Maps link"
-            type="url"
-            placeholder="https://"
-            help="A public business link is helpful, but you can enquire without one."
-            wide
-            maxlength={2048}
-          />
-          <FormField
-            name="location"
-            label="Business location"
-            autocomplete="address-level2"
-            maxlength={120}
-          />
-          <FormField
-            name="telephone"
-            label="Telephone number"
-            type="tel"
-            autocomplete="tel"
-            maxlength={40}
-          />
-          <div class="form-field form-field--wide">
-            <label for="service">What are you interested in?</label>
-            <select id="service" name="service" aria-describedby="service-help service-error">
-              <option value="not-sure">Not sure yet</option>
-              <option value="one-off">One-off improvements</option>
-              <option value="ongoing">Ongoing partnership</option>
-              <option value="new-website">A new website or major rebuild</option>
-            </select>
-            <p class="field-help" id="service-help">
-              Not sure? That’s fine. We can advise after the audit.
-            </p>
-            <p class="field-error" id="service-error" aria-live="polite"></p>
-          </div>
-          <div class="form-field form-field--wide">
-            <label for="goal">
-              What would you like to improve? <span>(required)</span>
-            </label>
-            <textarea
-              name="goal"
-              id="goal"
-              rows="5"
-              required
-              maxlength="4000"
-              aria-describedby="goal-help goal-error"
-            ></textarea>
-            <p class="field-help" id="goal-help">
-              For example, clearer services or an easier way to request a quote. Please don’t
-              include passwords or sensitive personal information.
-            </p>
-            <p class="field-error" id="goal-error" aria-live="polite"></p>
-          </div>
+          <select id="service" name="service" aria-describedby="service-error">
+            <option value="not-sure">Not sure yet</option>
+            <option value="one-off">One-off improvements</option>
+            <option value="ongoing">Ongoing website care</option>
+            <option value="new-website">A new website or rebuild</option>
+          </select>
+          <p class="field-error" id="service-error" aria-live="polite"></p>
         </div>
+        <div class="form-field form-field--wide">
+          <label for="goal">What would you like to improve?</label>
+          <textarea
+            name="goal"
+            id="goal"
+            rows="5"
+            required
+            maxlength="4000"
+            aria-describedby="goal-help goal-error"
+          ></textarea>
+          <p class="field-help" id="goal-help">
+            Please don’t include passwords.
+          </p>
+          <p class="field-error" id="goal-error" aria-live="polite"></p>
+        </div>
+      </div>
+      <div class="form-status" role="alert" tabindex="-1" hidden></div>
+      <div class="form-actions">
+        <button class="button button--primary form-submit" type="submit">
+          Send audit request
+        </button>
         <p class="form-privacy">
-          Your details will be used to respond to your enquiry and carry out the requested public
-          audit. You will not be added to a marketing list. Read our{' '}
+          We only use your details to reply to this enquiry. See our{' '}
           <a class="inline-link" href="/privacy/">
             privacy policy
           </a>
           .
         </p>
-        <div class="form-status" role="alert" tabindex="-1" hidden></div>
-        <button class="button button--primary form-submit" type="submit">
-          Send audit request{' '}
-          <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none">
-            <path
-              d="M5 12h14m-6-6 6 6-6 6"
-              stroke="currentColor"
-              stroke-width="1.5"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-          </svg>
-        </button>
-        <p class="form-small-print">Paid work only begins after you agree to a proposal.</p>
-      </form>
-    </div>
+      </div>
+    </form>
   </section>
   <script>
     import { setupReviewForm } from '../scripts/form';

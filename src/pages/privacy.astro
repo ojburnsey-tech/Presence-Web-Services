@@ -19,12 +19,6 @@ const sections = [
 >
   <section id="responsibility">
     <h2>1. Who is responsible</h2>
-    {!business.launchReady && (
-      <p class="fine-print">
-        Private test policy. The controller’s complete legal identity, correspondence address,
-        retention schedule and provider arrangements are awaiting confirmation before public launch.
-      </p>
-    )}
     <p>
       Presence Web Services uses enquiry information to respond to people asking about its website
       and online presence services. This policy covers enquiries through this website, rather than
@@ -94,16 +88,17 @@ const sections = [
   <section id="providers">
     <h2>4. Storage, service providers and transfers</h2>
     <p>
-      The private test website runs on OpenAI Sites using Cloudflare hosting and a Cloudflare D1
-      database. Valid enquiry details are saved in that database. Only authorised owner access can
-      retrieve or delete them. A successful save does not send an email notification.
+      This website runs on OpenAI Sites using Cloudflare hosting and a Cloudflare D1 database. Valid
+      enquiry details are saved in that database. Only authorised owner access can retrieve or
+      delete them.
     </p>
     <p>
-      Email sent directly to contact@presencewebservices.co.uk is forwarded by Cloudflare Email
-      Routing to the owner's Gmail inbox. This is separate from the website form. OpenAI, Cloudflare
-      and Google process information under their own applicable service terms. Their contractual
-      roles, processing locations, subprocessors and international transfer safeguards must be
-      confirmed before the public service starts. No UK-only storage claim is made.
+      When you submit the form, the details you enter are emailed to Presence through Resend, an
+      email delivery service, and Resend also sends you a confirmation that your request arrived.
+      Email to contact@presencewebservices.co.uk, including those enquiry emails, is forwarded by
+      Cloudflare Email Routing to the owner's Gmail inbox. OpenAI, Cloudflare, Resend and Google
+      process information under their own applicable service terms. Information may be processed
+      outside the UK under those providers’ safeguards.
     </p>
     <p>
       Presence limits access to information to what is needed for the enquiry or agreed work. No
@@ -113,19 +108,11 @@ const sections = [
   </section>
   <section id="retention">
     <h2>5. Keeping and deleting information</h2>
-    <p>
-      Private test enquiries have a one-day expiry. Expired rows are deleted on the next submission,
-      owner API review or explicit owner purge. Without activity, records may remain stored until
-      that purge runs. This does not guarantee deletion at the exact expiry time. Only dummy details
-      should be used during this test.
-    </p>
     {business.privacyRetention && <p>{business.privacyRetention}</p>}
     <p>
-      The production enquiry retention period is awaiting owner approval; public launch is blocked
-      until it is configured and published. When information is no longer needed, it should be
-      deleted from the database and any related correspondence, subject to provider backup cycles
-      and legal obligations. If you become a client, a separate agreement may explain the records
-      needed for the paid service.
+      When information is no longer needed, it should be deleted from the database and any related
+      correspondence, subject to provider backup cycles and legal obligations. If you become a
+      client, a separate agreement may explain the records needed for the paid service.
     </p>
   </section>
   <section id="rights">

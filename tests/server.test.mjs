@@ -13,7 +13,7 @@ const valid = {
   website: 'example.com',
   'google-profile': '',
   location: 'Belfast',
-  telephone: '',
+  telephone: '028 9000 0000',
   service: 'one-off',
   goal: 'Test enquiry only. Make contact options clearer.',
 };
@@ -84,6 +84,9 @@ test('missing required fields, invalid email, URLs, service and length limits fa
       ['contact-name', ' '],
       ['business-name', ''],
       ['goal', ''],
+      ['telephone', ''],
+      ['telephone', 'call me'],
+      ['telephone', '123'],
       ['email', 'invalid'],
       ['goal', 'bad\u0000control'],
       ['website', 'javascript:alert(1)'],
@@ -337,4 +340,169 @@ test('approved production uses only the fixed HTTPS canonical origin', async () 
       r.headers.get('Location'),
       'https://presencewebservices.co.uk/pricing/?next=https://bad.test',
     );
+  }));
+
+/* ------------------------------------------------------------------ email */
+
+/** Replaces global fetch with a recorder for Resend calls; restores it afterwards. */
+async function withMail(f, respond, callback) {
+  const original = globalThis.fetch;
+  const calls = [];
+  globalThis.fetch = async (url, init) => {
+    calls.push({ url: String(url), headers: init.headers, body: JSON.parse(init.body) });
+    return respond(calls.length);
+  };
+  f.env.RESEND_API_KEY = 're_test_key';
+  try {
+    await callback(calls);
+  } finally {
+    globalThis.fetch = original;
+  }
+}
+const resendOk = (n) => new Response(JSON.stringify({ id: `re_${n}` }), { status: 200 });
+const statuses = (f) =>
+  f.db.raw.prepare('SELECT notify_status n, confirm_status c FROM enquiries ORDER BY seq').all();
+
+test('without an email key, enquiries are saved and marked as not emailed', async () =>
+  isolated(async (f) => {
+    const original = globalThis.fetch;
+    let called = false;
+    globalThis.fetch = async () => {
+      called = true;
+      return resendOk(1);
+    };
+    try {
+      assert.equal((await f.run('/api/enquiries', post())).status, 201);
+    } finally {
+      globalThis.fetch = original;
+    }
+    assert.equal(called, false);
+    assert.deepEqual(
+      { ...statuses(f)[0] },
+      {
+        n: 'skipped:not-configured',
+        c: 'skipped:not-configured',
+      },
+    );
+    const { items } = await (await f.run('/api/owner/enquiries', { headers: auth(f) })).json();
+    assert.equal(items[0].emailToOwner, 'skipped:not-configured');
+  }));
+
+test('a new enquiry emails the owner with every detail and the customer a fixed confirmation', async () =>
+  isolated(async (f) =>
+    withMail(f, resendOk, async (calls) => {
+      const hostile = {
+        ...valid,
+        'contact-name': 'Ann <script>alert(1)</script>',
+        // Line breaks are already refused by validation; these characters are allowed but must be escaped.
+        'business-name': 'Shop & Co <b>Bold</b>',
+        goal: 'Line one\n<img src=x onerror=alert(1)>',
+      };
+      assert.equal((await f.run('/api/enquiries', post(hostile))).status, 201);
+      assert.equal(calls.length, 2);
+      const [alert, confirm] = calls;
+      const id = f.db.raw.prepare('SELECT id FROM enquiries').get().id;
+
+      assert.equal(alert.url, 'https://api.resend.com/emails');
+      assert.equal(alert.headers.Authorization, 'Bearer re_test_key');
+      assert.equal(alert.headers['Idempotency-Key'], `alert-${id}`);
+      assert.deepEqual(alert.body.to, ['contact@presencewebservices.co.uk']);
+      assert.equal(alert.body.reply_to, valid.email);
+      assert.doesNotMatch(alert.body.subject, /[\r\n]/);
+      assert.match(alert.body.subject, /^Audit request: Shop/);
+      // Every detail is present, and markup the visitor typed is inert.
+      for (const value of [valid.email, valid.telephone, 'https://example.com/', 'Belfast'])
+        assert.ok(alert.body.html.includes(value), value);
+      assert.ok(alert.body.html.includes('&lt;script&gt;'));
+      assert.ok(alert.body.html.includes('Shop &amp; Co &lt;b&gt;Bold&lt;/b&gt;'));
+      assert.ok(!alert.body.html.includes('<script>'));
+      assert.ok(!alert.body.html.includes('<img src=x'));
+      assert.ok(alert.body.text.includes('Line one'));
+
+      assert.equal(confirm.headers['Idempotency-Key'], `confirm-${id}`);
+      assert.deepEqual(confirm.body.to, [valid.email]);
+      assert.equal(confirm.body.reply_to, 'contact@presencewebservices.co.uk');
+      // The confirmation repeats nothing the visitor typed.
+      for (const typed of ['Ann', 'Shop', 'Line one', 'Belfast', valid.telephone])
+        assert.ok(!confirm.body.html.includes(typed) && !confirm.body.text.includes(typed), typed);
+
+      assert.deepEqual({ ...statuses(f)[0] }, { n: 'sent:re_1', c: 'sent:re_2' });
+    }),
+  ));
+
+test('a repeated submission sends no second email, and a provider failure keeps the enquiry', async () =>
+  isolated(async (f) =>
+    withMail(
+      f,
+      (n) => (n === 1 ? new Response('{}', { status: 500 }) : resendOk(n)),
+      async (calls) => {
+        const once = post({ ...valid, 'submission-id': 'a'.repeat(32) });
+        assert.equal((await f.run('/api/enquiries', once)).status, 201);
+        assert.equal(
+          (await f.run('/api/enquiries', post({ ...valid, 'submission-id': 'a'.repeat(32) })))
+            .status,
+          200,
+        );
+        assert.equal(calls.length, 2);
+        assert.deepEqual({ ...statuses(f)[0] }, { n: 'failed:500', c: 'sent:re_2' });
+      },
+    ),
+  ));
+
+test('confirmations to one address are capped per day while owner alerts continue', async () =>
+  isolated(async (f) =>
+    withMail(f, resendOk, async (calls) => {
+      for (const goal of ['First request.', 'Second request.', 'Third request.'])
+        assert.equal((await f.run('/api/enquiries', post({ ...valid, goal }))).status, 201);
+      const sentTo = calls.map((call) => call.body.to[0]);
+      assert.equal(sentTo.filter((to) => to === 'contact@presencewebservices.co.uk').length, 3);
+      assert.equal(sentTo.filter((to) => to === valid.email).length, 2);
+      assert.equal(statuses(f)[2].c, 'skipped:daily-limit');
+    }),
+  ));
+
+test('Sites waitUntil sends emails after receipt without making a false delivery claim', async () =>
+  isolated(async (f) => {
+    const previousFetch = globalThis.fetch;
+    let release;
+    let count = 0;
+    const work = [];
+    f.env.RESEND_API_KEY = 're_test_key';
+    globalThis.fetch = async () => {
+      count++;
+      if (count === 1)
+        return new Promise((resolve) => {
+          release = () => resolve(resendOk(1));
+        });
+      return resendOk(count);
+    };
+    try {
+      const response = await handleRequest(
+        new Request(origin + '/api/enquiries', post()),
+        f.env,
+        assets,
+        Date.now(),
+        {
+          waitUntil: (promise) => {
+            work.push(promise);
+          },
+        },
+      );
+      assert.equal(response.status, 201);
+      assert.equal(count, 1);
+      assert.equal(work.length, 1);
+      assert.equal(statuses(f)[0].n, null);
+      const cookie = response.headers.get('Set-Cookie').split(';')[0];
+      const confirmation = await f.run('/thank-you/', { headers: { Cookie: cookie } });
+      const body = await confirmation.text();
+      assert.match(body, /Your request has been received/);
+      assert.doesNotMatch(body, /No email notification has been sent/);
+      release();
+      await Promise.all(work);
+      assert.deepEqual({ ...statuses(f)[0] }, { n: 'sent:re_1', c: 'sent:re_2' });
+    } finally {
+      release?.();
+      await Promise.allSettled(work);
+      globalThis.fetch = previousFetch;
+    }
   }));

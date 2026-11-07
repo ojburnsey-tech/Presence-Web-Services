@@ -1,91 +1,68 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Button from '../components/Button.astro';
-import SampleReview from '../components/SampleReview.astro';
-import { business, serviceGroups } from '../config/business';
+import { business, faqs, services } from '../config/business';
 const { founder, prices } = business;
+// The home page answers the questions an owner asks before enquiring, in their order.
+const homeFaqs = faqs.filter((item) =>
+  ['first-enquiry', 'existing-site', 'access', 'results'].includes(item.id),
+);
 ---
 
 <Layout
   title="Websites and Google presence for independent businesses"
   description="Websites, ongoing website care and Google Business Profile management for independent businesses in Northern Ireland and across the UK. Start with a free audit."
 >
-  <!-- The hero pairs the proposition with the one thing Presence actually produces first: an audit note. -->
   <section class="container hero" aria-labelledby="hero-heading">
-    <div class="hero-copy">
-      <h1 id="hero-heading">Your website should help bring in business.</h1>
+    <h1 id="hero-heading">Your website should help bring in business.</h1>
+    <div class="hero-body">
       <p class="hero-lead">
         Presence builds and looks after websites and Google Business Profiles for independent
-        businesses in Northern Ireland and across the UK. It starts with a free audit of what your
-        customers see.
+        businesses in Northern Ireland and across the UK.
       </p>
-      <Button href="/contact/" class="audit-button">
-        Request a free audit
-      </Button>
-      <p class="hero-note">Free, with no obligation. No account access needed.</p>
+      <div class="hero-actions">
+        <Button href="/contact/" class="audit-button">
+          Request a free audit
+        </Button>
+        <a class="link-arrow" href="/services/">
+          See what we do
+        </a>
+      </div>
     </div>
-    <SampleReview headingLevel={2} />
   </section>
 
-  <section class="section container" aria-labelledby="audit-heading">
-    <h2 id="audit-heading">What the free audit covers</h2>
-    <dl class="term-rows">
-      <div>
-        <dt>Your website</dt>
-        <dd>How clearly your services are explained, and how the pages work on a phone.</dd>
-      </div>
-      <div>
-        <dt>Your Google presence</dt>
-        <dd>Whether your business details are accurate and consistent wherever they appear.</dd>
-      </div>
-      <div>
-        <dt>Making an enquiry</dt>
-        <dd>How easy it is to find your contact details and ask for a quote.</dd>
-      </div>
-    </dl>
-    <p class="section-footnote">
-      We explain what we found and what we’d fix first. Any paid work is quoted separately.
-    </p>
-  </section>
-
-  <section class="section container" aria-labelledby="offer-heading">
-    <h2 id="offer-heading">What we do</h2>
-    <dl class="term-rows offer-rows">
-      {serviceGroups.map((group) => (
-        <div>
-          <dt>
-            <a class="row-link" href={`/services/#${group.id}`}>
-              {group.name}
-            </a>
-          </dt>
-          <dd>{group.homeSummary}</dd>
-        </div>
+  <section class="section container split" aria-labelledby="offer-heading">
+    <div class="split-intro">
+      <h2 id="offer-heading">What we do</h2>
+      <p>
+        From a first website to keeping your Google listing accurate, the work is agreed in writing
+        before it starts and you keep ownership of every account.
+      </p>
+    </div>
+    <ul class="service-index">
+      {services.map((service) => (
+        <li>
+          <a href={`/services/#${service.id}`}>{service.name}</a>
+        </li>
       ))}
-    </dl>
+    </ul>
   </section>
 
-  <section class="section container" aria-labelledby="prices-heading">
-    <h2 id="prices-heading">Prices</h2>
-    <p class="section-intro">
-      Starting prices. Every job begins with a written scope and quote, and nothing is charged until
-      you’ve agreed to it.
+  <section class="section container prose-section" aria-labelledby="start-heading">
+    <h2 id="start-heading">How it starts</h2>
+    <p class="lead">
+      Send us your website or Google listing and we’ll look at it the way a customer would: how
+      clearly your services are explained, whether your details are accurate, and how easy it is to
+      get in touch. You’ll get a plain-English summary of what we found and what we’d fix first. The
+      audit is free and there’s no obligation.
     </p>
-    <dl class="term-rows price-rows">
-      <div>
-        <dt>One-off improvements</dt>
-        <dd>From £{prices.oneOff}</dd>
-      </div>
-      <div>
-        <dt>Ongoing partnership</dt>
-        <dd>From £{prices.ongoing} a month</dd>
-      </div>
-      <div>
-        <dt>New websites</dt>
-        <dd>Quoted per project</dd>
-      </div>
-    </dl>
+    <p>
+      If you want to go ahead, we send a written quote before any work begins. One-off improvements
+      start at £{prices.oneOff}, ongoing care starts at £{prices.ongoing} a month, and new websites
+      are quoted per project.
+    </p>
     <a class="link-arrow" href="/pricing/">
-      What each option includes
+      Pricing
     </a>
   </section>
 
@@ -113,42 +90,19 @@ const { founder, prices } = business;
   </section>
 
   <section class="section container prose-section" aria-labelledby="faq-heading">
-    <h2 id="faq-heading">Before you enquire</h2>
+    <h2 id="faq-heading">Questions</h2>
     <div class="faq-list">
-      <details class="faq">
-        <summary>
-          Is the audit automated?<span class="faq-symbol" aria-hidden="true"></span>
-        </summary>
-        <div class="faq-answer">
-          <p>
-            No. A person reviews the public information you share and explains the findings in plain
-            English. Private systems and security testing are outside the free audit.
-          </p>
-        </div>
-      </details>
-      <details class="faq">
-        <summary>
-          Do I have to sign up for ongoing support?
-          <span class="faq-symbol" aria-hidden="true"></span>
-        </summary>
-        <div class="faq-answer">
-          <p>
-            No. The audit is free, and a specific problem can be fixed as a one-off piece of work.
-            Any paid work is quoted separately for you to consider.
-          </p>
-        </div>
-      </details>
-      <details class="faq">
-        <summary>
-          What if I don’t have a website yet?<span class="faq-symbol" aria-hidden="true"></span>
-        </summary>
-        <div class="faq-answer">
-          <p>
-            You can still get in touch. Tell us about your business and what you need, and we’ll
-            talk through a new website and quote for it separately.
-          </p>
-        </div>
-      </details>
+      {homeFaqs.map((item) => (
+        <details class="faq">
+          <summary>
+            {item.question}
+            <span class="faq-symbol" aria-hidden="true" />
+          </summary>
+          <div class="faq-answer">
+            <p>{item.answer}</p>
+          </div>
+        </details>
+      ))}
     </div>
   </section>
 </Layout>

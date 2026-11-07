@@ -4,6 +4,57 @@ import PageIntro from '../components/PageIntro.astro';
 import PricingCards from '../components/PricingCards.astro';
 import FAQ from '../components/FAQ.astro';
 import { business } from '../config/business';
+
+/**
+ * Comparison rows. Every row restates a commitment made elsewhere on the site;
+ * `true` renders a tick, `false` a dash, and a string is shown as written.
+ */
+type Cell = boolean | string;
+const columns = ['One-off', 'Ongoing', 'New website'];
+const groups: { heading: string; rows: { label: string; cells: [Cell, Cell, Cell] }[] }[] = [
+  {
+    heading: 'Price',
+    rows: [
+      {
+        label: 'Starting price',
+        cells: [
+          `From £${business.prices.oneOff}`,
+          `From £${business.prices.ongoing} a month`,
+          'Quoted per project',
+        ],
+      },
+    ],
+  },
+  {
+    heading: 'Before work starts',
+    rows: [
+      { label: 'Free audit of your website and Google listing', cells: [true, true, true] },
+      { label: 'Written scope and quote', cells: [true, true, true] },
+    ],
+  },
+  {
+    heading: 'The work',
+    rows: [
+      { label: 'Agreed page, form or profile changes', cells: [true, true, false] },
+      { label: 'Regular website checks and updates', cells: [false, true, false] },
+      { label: 'Google Business Profile management', cells: [false, true, false] },
+      { label: 'Review monitoring and draft replies', cells: [false, 'Where agreed', false] },
+      { label: 'New website design and build', cells: [false, false, true] },
+    ],
+  },
+  {
+    heading: 'Reporting and ownership',
+    rows: [
+      { label: 'Written summary of what changed', cells: [true, true, true] },
+      { label: 'Monthly report', cells: [false, true, false] },
+      { label: 'Your accounts stay in your name', cells: [true, true, true] },
+      {
+        label: 'Hosting, subscriptions and advertising',
+        cells: ['Paid separately', 'Paid separately', 'Paid separately'],
+      },
+    ],
+  },
+];
 ---
 
 <Layout
@@ -14,39 +65,65 @@ import { business } from '../config/business';
     title="Pricing"
     description="Starting prices for the three ways we work. You get a written scope and quote before you commit to anything."
   />
-  <section class="container pricing-main" aria-label="Compare support options">
+  <section class="container pricing-main" aria-label="Pricing plans">
     <PricingCards />
-    <p class="fine-print pricing-disclaimer">
-      Enquiring doesn’t place an order. Your quote depends on your platform, the condition of the
-      website, the access available and what we agree.
-    </p>
   </section>
-  <section class="section container" aria-labelledby="agreement-heading">
-    <h2 id="agreement-heading">What we agree before starting</h2>
-    <dl class="term-rows agreement-details">
-      <div>
-        <dt>The work and the cost</dt>
-        <dd>
-          The tasks, deliverables, timing and payment arrangements, in writing. Any substantial
-          extra work is discussed and quoted before it goes ahead.
-        </dd>
-      </div>
-      <div>
-        <dt>Access and your input</dt>
-        <dd>
-          You keep ownership of your accounts and approve changes to your business information. We
-          tell you which permissions, content or photographs we need.
-        </dd>
-      </div>
-      <div>
-        <dt>Ongoing arrangements</dt>
-        <dd>
-          For monthly support, the proposal confirms the scope, communication and cancellation
-          terms. Hosting, subscriptions and advertising costs are separate unless expressly
-          included.
-        </dd>
-      </div>
-    </dl>
+
+  <section class="section container" aria-labelledby="compare-heading">
+    <h2 id="compare-heading">Compare options</h2>
+    <div class="table-scroll" role="region" aria-labelledby="compare-heading" tabindex="0">
+      <table class="compare-table" role="table">
+        <thead role="rowgroup">
+          <tr role="row">
+            <td role="cell"></td>
+            {columns.map((column) => (
+              <th scope="col" role="columnheader">
+                {column}
+              </th>
+            ))}
+          </tr>
+        </thead>
+        {groups.map((group) => (
+          <tbody role="rowgroup">
+            <tr class="compare-group" role="row">
+              <th scope="rowgroup" colspan="4" role="rowheader">
+                {group.heading}
+              </th>
+            </tr>
+            {group.rows.map((row) => (
+              <tr role="row">
+                <th scope="row" role="rowheader">
+                  {row.label}
+                </th>
+                {row.cells.map((cell) =>
+                  cell === true ? (
+                    <td>
+                      <span class="mark-yes" aria-hidden="true" />
+                      <span class="sr-only">Included</span>
+                    </td>
+                  ) : cell === false ? (
+                    <td>
+                      <span class="mark-no" aria-hidden="true" />
+                      <span class="sr-only">Not included</span>
+                    </td>
+                  ) : (
+                    <td role="cell">{cell}</td>
+                  ),
+                )}
+              </tr>
+            ))}
+          </tbody>
+        ))}
+      </table>
+    </div>
+    <div class="agreement-details">
+      <p>
+        Every quote sets out the work, timing and payment in writing, and any substantial extra work
+        is quoted before it goes ahead. For monthly care, the proposal also confirms how we keep in
+        touch and the cancellation terms. Enquiring doesn’t place an order, and your final quote
+        depends on your platform, the condition of the website and the access available.
+      </p>
+    </div>
   </section>
   <FAQ />
 </Layout>

@@ -1,6 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import PageIntro from '../components/PageIntro.astro';
+import Wordmark from '../components/Wordmark.astro';
 import Button from '../components/Button.astro';
 import { business } from '../config/business';
 const { founder } = business;
@@ -10,10 +10,15 @@ const { founder } = business;
   title="About Presence"
   description={`Presence Web Services is an independent business run by ${business.founder.name}, looking after websites and Google profiles with direct communication, agreed work and client-owned accounts.`}
 >
-  <PageIntro
-    title="About Presence"
-    description="An independent website and online presence service for businesses in Northern Ireland and across the UK."
-  />
+  <section class="page-intro container">
+    <h1 class="about-title">
+      About <Wordmark link={false} />
+    </h1>
+    <p class="intro-copy">
+      An independent website and online presence service for businesses in Northern Ireland and
+      across the UK.
+    </p>
+  </section>
 
   <section
     class:list={['container', 'founder', { 'founder--with-photo': founder.photo }]}

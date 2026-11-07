@@ -104,8 +104,14 @@ export function validateSubmission(input: Record<string, string>): EnquiryData {
     )
       errors[key] = 'Remove control characters from this field.';
   }
-  for (const key of ['contact-name', 'business-name', 'email', 'goal'])
+  for (const key of ['contact-name', 'business-name', 'email', 'telephone', 'goal'])
     if (!data[key]) errors[key] = 'Please complete this field.';
+  // A UK or international number: digits with optional spaces, brackets, dots or hyphens.
+  if (
+    data.telephone &&
+    (data.telephone.replace(/\D/g, '').length < 7 || !/^\+?[\d\s().-]+$/.test(data.telephone))
+  )
+    errors.telephone = 'Enter a valid phone number.';
   if (data.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email))
     errors.email = 'Enter a valid email address.';
   for (const key of ['website', 'google-profile'])
