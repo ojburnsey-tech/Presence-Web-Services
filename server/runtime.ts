@@ -428,9 +428,7 @@ export async function handleRequest(
             )
             .replace(
               /(<p\b[^>]*data-receipt-note[^>]*>)[\s\S]*?(<\/p>)/,
-              env.DEPLOYMENT_STAGE === 'production'
-                ? '$1No paid work starts until a separate proposal has been agreed.$2'
-                : '$1This is a private staging test. No email notification has been sent.$2',
+              '$1No paid work starts until a separate proposal has been agreed.$2',
             );
         }
         response = new Response(request.method === 'HEAD' ? null : body, {

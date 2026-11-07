@@ -256,7 +256,7 @@ export function ownerAlert(
     .join(' ')}</p>`;
 
   const footer = `Reference ${reference}. Pressing Reply answers ${escape(data.email)} directly.
-The request is stored in the website database until ${escape(londonDate(meta.expiresAt))}, then deleted automatically.`;
+The website record expires on ${escape(londonDate(meta.expiresAt))} and is removed on the next cleanup. Manage email copies in this inbox separately.`;
 
   const text = [
     `New audit request: ${businessName}`,
@@ -271,7 +271,7 @@ The request is stored in the website database until ${escape(londonDate(meta.exp
     ...tools.map(([label, href]) => `${label}: ${href}`),
     '',
     `Reference ${reference}. Reply to this email to answer ${data.email} directly.`,
-    `Stored in the website database until ${londonDate(meta.expiresAt)}, then deleted automatically.`,
+    `The website record expires on ${londonDate(meta.expiresAt)} and is removed on the next cleanup. Manage email copies in this inbox separately.`,
   ].join('\n');
 
   return {

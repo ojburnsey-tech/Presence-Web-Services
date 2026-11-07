@@ -49,6 +49,7 @@ try {
     'contact-name': 'Dummy Test',
     'business-name': 'Presence release test only',
     email: 'dummy@example.invalid',
+    telephone: '+44 7700 900123',
     goal: marker,
     website: 'example.com',
     service: 'not-sure',

@@ -460,3 +460,49 @@ test('confirmations to one address are capped per day while owner alerts continu
       assert.equal(statuses(f)[2].c, 'skipped:daily-limit');
     }),
   ));
+
+test('Sites waitUntil sends emails after receipt without making a false delivery claim', async () =>
+  isolated(async (f) => {
+    const previousFetch = globalThis.fetch;
+    let release;
+    let count = 0;
+    const work = [];
+    f.env.RESEND_API_KEY = 're_test_key';
+    globalThis.fetch = async () => {
+      count++;
+      if (count === 1)
+        return new Promise((resolve) => {
+          release = () => resolve(resendOk(1));
+        });
+      return resendOk(count);
+    };
+    try {
+      const response = await handleRequest(
+        new Request(origin + '/api/enquiries', post()),
+        f.env,
+        assets,
+        Date.now(),
+        {
+          waitUntil: (promise) => {
+            work.push(promise);
+          },
+        },
+      );
+      assert.equal(response.status, 201);
+      assert.equal(count, 1);
+      assert.equal(work.length, 1);
+      assert.equal(statuses(f)[0].n, null);
+      const cookie = response.headers.get('Set-Cookie').split(';')[0];
+      const confirmation = await f.run('/thank-you/', { headers: { Cookie: cookie } });
+      const body = await confirmation.text();
+      assert.match(body, /Your request has been received/);
+      assert.doesNotMatch(body, /No email notification has been sent/);
+      release();
+      await Promise.all(work);
+      assert.deepEqual({ ...statuses(f)[0] }, { n: 'sent:re_1', c: 'sent:re_2' });
+    } finally {
+      release?.();
+      await Promise.allSettled(work);
+      globalThis.fetch = previousFetch;
+    }
+  }));
