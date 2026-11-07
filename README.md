@@ -54,7 +54,7 @@ Playwright Chromium defaults to `/usr/bin/chromium`; set `PLAYWRIGHT_CHROMIUM_EX
 - `scripts/local-db.mjs`: local SQLite D1 adapter with migration checksums.
 - `public/`: original wordmark, favicon, touch icon and social sharing image.
 
-There are no advertising trackers, remote fonts, checkout, chat widget, analytics or outbound email integrations. The form works as a native POST without JavaScript; JavaScript improves errors, retries, URL normalisation and service prefilling. A signed ten-minute HttpOnly receipt cookie permits genuine confirmation only after persistence. No enquiry data goes into localStorage/sessionStorage.
+There are no advertising trackers, remote fonts, checkout, chat widget or analytics. Owner alerts and customer confirmations use Resend when a server-side API key is configured. See [the email verification record](reports/EMAIL-VERIFICATION.md) for the actual setup and test status. The form works as a native POST without JavaScript; JavaScript improves errors, retries, URL normalisation and service prefilling. A signed ten-minute HttpOnly receipt cookie permits genuine confirmation only after persistence. No enquiry data goes into localStorage/sessionStorage.
 
 The Apple Design skill informed system typography, restrained surfaces, immediate status feedback, interruptible spring motion, explicit keyboard wrapping, reduced motion and focus restoration. See [skill documentation](skill://plugins_6aebb6fc23d08191b4a4fa276e1a646a/apple-design/SKILL.md).
 

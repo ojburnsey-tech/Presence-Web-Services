@@ -2,7 +2,7 @@
 
 ## Enquiries
 
-No email notifications or SMTP integration are enabled. A saved request lives in D1. Cloudflare's inbound email forwarding to Gmail is separate and does not automatically receive form submissions. Review enquiries regularly through the authenticated Sites Settings database viewer or the protected owner API. Do not rely on an email arriving.
+A saved request lives in D1. The application supports owner alerts and customer confirmations through Resend's HTTPS API; it does not use SMTP. A RESEND_API_KEY runtime secret and verified sending domain are required. At this verification, that key was absent from Sites, so email sending was disabled. Cloudflare's inbound forwarding to Gmail remains a separate service. Until an end-to-end test is confirmed, review enquiries through the authenticated Sites database viewer or protected owner API and do not rely on an email arriving.
 
 Owner API (HTTPS only remotely):
 

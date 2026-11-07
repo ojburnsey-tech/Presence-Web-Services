@@ -44,6 +44,8 @@ Each new enquiry is saved first, then two emails are sent in the background:
 
 Delivery never blocks or loses an enquiry. The outcome is stored on the row (`notify_status`, `confirm_status`) and shown by the owner API as `emailToOwner` and `emailToCustomer` (`sent:<id>`, `failed:<status>`, `skipped:<reason>` or `pending`). Resend idempotency keys (`alert-<id>`, `confirm-<id>`) stop retries sending duplicates.
 
+A `sent:<id>` status means Resend accepted the send request. It does not prove delivery to the recipient inbox or successful Cloudflare forwarding. Confirm those separately using Resend delivery events and the destination inbox.
+
 Setup (owner):
 
 1. Create a free account at resend.com. The Free plan allows 3,000 emails a month and 100 a day.
