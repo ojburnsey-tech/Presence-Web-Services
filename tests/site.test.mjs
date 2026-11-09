@@ -613,6 +613,25 @@ test('the privacy policy contains every UK GDPR Article 13 element and matches t
   dom.window.close();
 });
 
+test('the privacy policy covers contacting businesses, as PECR and Article 14 require', async () => {
+  const dom = await page('/privacy/');
+  const text = dom.window.document.querySelector('main').textContent.replace(/\s+/g, ' ');
+  for (const pattern of [
+    /people at businesses we contact to offer our services/, // scope
+    /business contact details that businesses publish themselves/, // Art 14(1)(d), 14(2)(f) source
+    /Legitimate interests in promoting our services to businesses/, // lawful basis
+    /Telephone Preference Service and Corporate Telephone Preference Service/, // PECR reg 21
+    /never hide our number/, // PECR reg 21(1)/24 caller identification
+    /only email sole traders and partnerships with their consent/, // PECR reg 22
+    /do-not-contact record/, // Art 21(3) objection honoured
+    /if it doesn’t lead to an enquiry or paid work/, // Art 14(1)(a)-(2)(a) retention
+  ])
+    assert.match(text, pattern, String(pattern));
+  // The old blanket statement would contradict outbound calling.
+  assert.doesNotMatch(text, /send marketing emails\./);
+  dom.window.close();
+});
+
 test('the terms make the required trader disclosures and consumer information available', async () => {
   const dom = await page('/terms/');
   const doc = dom.window.document;

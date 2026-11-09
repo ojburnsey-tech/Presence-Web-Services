@@ -12,7 +12,7 @@
 import LegalLayout from '../layouts/LegalLayout.astro';
 import { business } from '../config/business';
 
-const updated = '7 November 2026';
+const updated = '10 November 2026';
 const sections = [
   { id: 'summary', label: 'Summary' },
   { id: 'who-we-are', label: 'Who we are' },
@@ -44,7 +44,10 @@ const phoneHref = business.telephone.replace(/[^\d+]/g, '');
         We collect what you give us when you request an audit or contact us, and use it to reply,
         carry out the audit and, if you want, provide our services.
       </li>
-      <li>We don’t sell your information, use it for advertising or send marketing emails.</li>
+      <li>
+        We don’t sell your information or use it for advertising. We may phone, visit or, where the
+        law allows, email businesses to offer our services, and we stop as soon as you ask.
+      </li>
       <li>
         This website uses no analytics, advertising or tracking cookies. The only cookie we set is a
         ten-minute cookie that confirms your request was received.
@@ -96,7 +99,10 @@ const phoneHref = business.telephone.replace(/[^\d+]/g, '');
       <li>people who request a free audit or contact us by form, email or phone;</li>
       <li>
         people whose information appears in public material we review during an audit, such as a
-        business website or Google Business Profile; and
+        business website or Google Business Profile;
+      </li>
+      <li>
+        people at businesses we contact to offer our services, by phone, in person or by email; and
       </li>
       <li>the contacts at businesses we quote for or work with.</li>
     </ul>
@@ -160,6 +166,13 @@ const phoneHref = business.telephone.replace(/[^\d+]/g, '');
       people who have left reviews. We only use it to assess how your business appears online and to
       advise you.
     </p>
+    <p>
+      To find businesses we might be able to help, we also collect business contact details that
+      businesses publish themselves, such as the business name, the owner’s or manager’s name, and
+      the phone number and email address shown on the business’s website, Google Business Profile or
+      directory listings. We keep brief notes of any conversation, including whether you are
+      interested and whether you have asked us not to contact you again.
+    </p>
   </section>
 
   <section id="use">
@@ -218,6 +231,22 @@ const phoneHref = business.telephone.replace(/[^\d+]/g, '');
             <td role="cell" data-label="Lawful basis">
               Performing our contract with you (6(1)(b)), or, where our client is your employer or
               organisation, our legitimate interests in working with them (6(1)(f))
+            </td>
+          </tr>
+          <tr role="row">
+            <th scope="row" role="rowheader">
+              Contacting businesses to offer our services, and keeping a record of anyone who has
+              asked us not to contact them
+            </th>
+            <td role="cell" data-label="Information used">
+              Business name, contact name, published business phone number and email address, public
+              information about the business, notes of our contact
+            </td>
+            <td role="cell" data-label="Lawful basis">
+              Legitimate interests in promoting our services to businesses, which the law recognises
+              as an example of a legitimate interest (6(1)(f)). Keeping a do-not-contact record is
+              also needed to comply with the Privacy and Electronic Communications Regulations
+              (6(1)(c)).
             </td>
           </tr>
           <tr role="row">
@@ -289,9 +318,16 @@ const phoneHref = business.telephone.replace(/[^\d+]/g, '');
     <ul>
       <li>We don’t sell or rent personal information, or share it for anyone else’s marketing.</li>
       <li>
-        We don’t send marketing emails or add you to a mailing list. If we ever want to, we will
-        only do so in line with the law, with your consent where it is required, and every message
-        will include a simple way to opt out.
+        We don’t add you to a mailing list or send newsletters. When we contact a business to offer
+        our services, we follow the Privacy and Electronic Communications Regulations: we check
+        phone numbers against the Telephone Preference Service and Corporate Telephone Preference
+        Service registers before calling, unless you have told us we may call; we never hide our
+        number; we only email sole traders and partnerships with their consent; and every marketing
+        email we send includes a simple way to opt out.
+      </li>
+      <li>
+        If you ask us not to contact you again, by phone, email or in person, we stop straight away
+        and add your business to our do-not-contact record.
       </li>
       <li>
         We don’t make decisions about you based solely on automated processing, including profiling,
@@ -415,6 +451,25 @@ const phoneHref = business.telephone.replace(/[^\d+]/g, '');
             </th>
             <td role="cell" data-label="How long we keep it">
               Deleted within 12 months of our last contact with you.
+            </td>
+          </tr>
+          <tr role="row">
+            <th scope="row" role="rowheader">
+              Business contact details and notes from contacting businesses
+            </th>
+            <td role="cell" data-label="How long we keep it">
+              Deleted within 12 months of our last contact if it doesn’t lead to an enquiry or paid
+              work.
+            </td>
+          </tr>
+          <tr role="row">
+            <th scope="row" role="rowheader">
+              Do-not-contact record
+            </th>
+            <td role="cell" data-label="How long we keep it">
+              For as long as we contact businesses, so that we never contact you again by mistake.
+              We keep only the business name, the number or address you asked us not to use, and the
+              date.
             </td>
           </tr>
           <tr role="row">
