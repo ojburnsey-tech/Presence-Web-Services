@@ -14,13 +14,34 @@ const { title, description, noindex = false } = Astro.props;
 const canonical = Astro.site ? new URL(Astro.url.pathname, Astro.site) : undefined;
 const socialImage = Astro.site ? new URL('/social-preview.png', Astro.site).href : undefined;
 const allowIndexing = business.launchReady && !noindex;
+/**
+ * Structured data. A ProfessionalService (a LocalBusiness subtype) lets Google match the website
+ * to the Google Business Profile: same name, phone and area, with the profile in `sameAs`.
+ * Only the town is given, matching the profile, which hides the home address. Empty optional
+ * details are left out rather than published blank.
+ */
 const schema = JSON.stringify({
   '@context': 'https://schema.org',
-  '@type': 'Organization',
+  '@type': 'ProfessionalService',
   name: business.name,
   url: business.siteUrl,
   email: business.email,
+  ...(business.telephone && { telephone: business.telephone }),
   logo: `${business.siteUrl}/wordmark.svg`,
+  image: `${business.siteUrl}/social-preview.png`,
+  description: business.description,
+  founder: { '@type': 'Person', name: business.founder.name },
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: 'Belfast',
+    addressRegion: 'Northern Ireland',
+    addressCountry: 'GB',
+  },
+  areaServed: [
+    { '@type': 'AdministrativeArea', name: 'Northern Ireland' },
+    { '@type': 'Country', name: 'United Kingdom' },
+  ],
+  ...(business.googleProfileUrl && { sameAs: [business.googleProfileUrl] }),
 }).replaceAll('<', '\\u003c');
 ---
 

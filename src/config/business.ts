@@ -15,6 +15,11 @@ export interface BusinessConfig {
   telephone: string;
   /** ICO data protection fee registration number (for example "ZA123456"), once paid. */
   icoRegistration: string;
+  /**
+   * Public link to the verified Google Business Profile (the "Share" link from Google Maps).
+   * Added to the structured data so Google can connect the website and the profile.
+   */
+  googleProfileUrl: string;
   legalName: string;
   legalStatus: string;
   correspondenceAddress: string;
@@ -48,6 +53,7 @@ export const business: BusinessConfig = {
   enquiryRetentionDays: 365,
   telephone: '', // A business phone number is legally required before public launch.
   icoRegistration: '', // Add once the ICO data protection fee has been paid.
+  googleProfileUrl: '', // Add once the Google Business Profile is verified.
   legalName: 'Oliver James Burns',
   legalStatus: 'Sole trader, trading as Presence Web Services',
   correspondenceAddress: '279 Lower Braniel Road, Belfast BT5 7NS',
