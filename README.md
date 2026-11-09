@@ -64,4 +64,4 @@ Use one hosting route: existing OpenAI Sites, with its managed Cloudflare Worker
 
 The intended production origin is https://presencewebservices.co.uk, but it is not approved or verified as this app's live domain. `business.launchReady=false` keeps staging noindex, omits production canonical/social URLs and emits an empty sitemap. Public release requires both an approved source build and runtime approval. The build rejects missing legal/retention details. Keep all secrets in Sites runtime settings; `.env.example` contains names only.
 
-Prices are indicative: one-off from £149, ongoing from £129/month, websites separately quoted. Any chosen scope, tax treatment, third-party charges and cancellation/payment conditions require a separate written proposal. Never add invented testimonials, results, affiliations or legal details.
+Prices are indicative: one-off from £249, ongoing from £179/month, websites separately quoted. Any chosen scope, tax treatment, third-party charges and cancellation/payment conditions require a separate written proposal. Never add invented testimonials, results, affiliations or legal details.

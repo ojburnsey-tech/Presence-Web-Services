@@ -543,8 +543,8 @@ test('all six service areas have an enquiry route and pricing retains scope qual
   const prices = [...pricing.window.document.querySelectorAll('.price')].map((node) =>
     node.textContent.trim(),
   );
-  assert.match(prices[0], /149/);
-  assert.match(prices[1], /129/);
+  assert.match(prices[0], /249/);
+  assert.match(prices[1], /179/);
   const websiteCard = pricing.window.document.querySelectorAll('.price-card')[2];
   assert.match(websiteCard.textContent, /separate quote/);
   assert.equal(

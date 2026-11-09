@@ -58,7 +58,7 @@ export const business: BusinessConfig = {
   privacyRetention:
     'Enquiries sent through the website are deleted automatically 12 months after they are received. If an enquiry does not lead to paid work, related emails are deleted from our inbox within 12 months of our last contact with you.',
   launchReady: false, // Keeps every page noindex and robots disallowed until reviewed.
-  prices: { oneOff: 149, ongoing: 129 },
+  prices: { oneOff: 249, ongoing: 179 },
   founder: {
     name: 'Oliver Burns',
     role: 'Founder',
