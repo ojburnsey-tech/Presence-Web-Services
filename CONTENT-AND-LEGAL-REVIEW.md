@@ -10,7 +10,7 @@ This records the implemented wording and remaining decisions. It is not legal ce
 - Inbound Cloudflare Email Routing forwards to the owner's personal Gmail inbox; successful forwarding is owner-reported. No outbound mailbox/SMTP or form email integration has been verified.
 - Northern Ireland and wider UK audience. No fictional office address or Google Business Profile eligibility is claimed.
 - New independent business: no customers, testimonials, staff, years of experience, credentials or commercial results are invented.
-- One-off improvements from £149, ongoing from £129/month; full websites separately quoted. No invented minimum term, setup fee, cancellation policy or unlimited development.
+- One-off improvements from £249, ongoing from £179/month; full websites separately quoted. No invented minimum term, setup fee, cancellation policy or unlimited development.
 - Free audit: thorough within publicly available information, manual assessment, no account access, no invasive testing, no guarantee of results or obligation to buy.
 
 The homepage states the actual paid services early, then explains the enquiry process and indicative prices. Services, Pricing and About retain distinct content. The illustrative audit is explicitly labelled “Illustrative example. Not a client project.” No invented percentages or before/after customer claims appear. Paid work requires an individual written proposal. The terms describe website use and the audit; they are not a complete client-services contract.

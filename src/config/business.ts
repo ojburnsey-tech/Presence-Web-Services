@@ -11,7 +11,15 @@ export interface BusinessConfig {
   mailFrom: string;
   /** How long the website keeps enquiries, in days. Must match ENQUIRY_RETENTION_DAYS. */
   enquiryRetentionDays: number;
+  /** Required on the website by the Provision of Services Regulations 2009, reg 7(2)(b). */
   telephone: string;
+  /** ICO data protection fee registration number (for example "ZA123456"), once paid. */
+  icoRegistration: string;
+  /**
+   * Public link to the verified Google Business Profile (the "Share" link from Google Maps).
+   * Added to the structured data so Google can connect the website and the profile.
+   */
+  googleProfileUrl: string;
   legalName: string;
   legalStatus: string;
   correspondenceAddress: string;
@@ -43,21 +51,24 @@ export const business: BusinessConfig = {
   email: 'contact@presencewebservices.co.uk',
   mailFrom: 'Presence Web Services <audits@mail.presencewebservices.co.uk>',
   enquiryRetentionDays: 365,
-  telephone: '',
-  legalName: '',
-  legalStatus: '',
-  correspondenceAddress: '',
+  telephone: '', // A business phone number is legally required before public launch.
+  icoRegistration: '', // Add once the ICO data protection fee has been paid.
+  googleProfileUrl: '', // Add once the Google Business Profile is verified.
+  legalName: 'Oliver James Burns',
+  legalStatus: 'Sole trader, trading as Presence Web Services',
+  correspondenceAddress: '279 Lower Braniel Road, Belfast BT5 7NS',
   companyNumber: '',
   vatNumber: '',
-  vatStatement: '', // Confirm tax treatment before accepting paid work.
+  vatStatement:
+    'Presence Web Services is not registered for VAT, so no VAT is added to our prices.',
   privacyRetention:
-    'Enquiries sent through the website are deleted automatically 12 months after they are received. Emails about an enquiry are deleted from our inbox once they are no longer needed to respond to you or to manage work you have agreed.',
+    'Enquiries sent through the website are deleted automatically 12 months after they are received. If an enquiry does not lead to paid work, related emails are deleted from our inbox within 12 months of our last contact with you.',
   launchReady: false, // Keeps every page noindex and robots disallowed until reviewed.
-  prices: { oneOff: 149, ongoing: 129 },
+  prices: { oneOff: 249, ongoing: 179 },
   founder: {
     name: 'Oliver Burns',
     role: 'Founder',
-    region: 'Northern Ireland', // Change to 'Belfast' if that is where the business is based.
+    region: 'Belfast',
     photo: '', // Add a real, natural photo to public/ and set its path and pixel size here.
     photoWidth: 1200,
     photoHeight: 1500,
@@ -74,6 +85,7 @@ if (business.launchReady) {
     'legalStatus',
     'correspondenceAddress',
     'email',
+    'telephone',
     'vatStatement',
     'privacyRetention',
   ] as const;

@@ -543,8 +543,8 @@ test('all six service areas have an enquiry route and pricing retains scope qual
   const prices = [...pricing.window.document.querySelectorAll('.price')].map((node) =>
     node.textContent.trim(),
   );
-  assert.match(prices[0], /149/);
-  assert.match(prices[1], /129/);
+  assert.match(prices[0], /249/);
+  assert.match(prices[1], /179/);
   const websiteCard = pricing.window.document.querySelectorAll('.price-card')[2];
   assert.match(websiteCard.textContent, /separate quote/);
   assert.equal(
@@ -578,4 +578,89 @@ test('self-hosted font files reach the browser through the Sites Worker', async 
     );
     assert.match(response.headers.get('Cache-Control'), /immutable/);
   }
+});
+
+test('the privacy policy contains every UK GDPR Article 13 element and matches the code', async () => {
+  const dom = await page('/privacy/');
+  const text = dom.window.document.querySelector('main').textContent.replace(/\s+/g, ' ');
+  const required = [
+    /controller/i, // Art 13(1)(a) identity and contact details
+    /contact@presencewebservices\.co\.uk/,
+    /data protection officer/i, // Art 13(1)(b) (none required, stated)
+    /Article 6\(1\)\(b\)/, // Art 13(1)(c) purposes and lawful bases
+    /legitimate interests/i, // Art 13(1)(d)
+    /Resend/, // Art 13(1)(e) recipients
+    /Data Privacy Framework/, // Art 13(1)(f) transfers and safeguards
+    /copy of it/i,
+    /12 months/, // Art 13(2)(a) retention
+    /Rectification/, // Art 13(2)(b) rights
+    /Data portability/,
+    /acknowledge your complaint within 30 days/, // Art 13(2)(ca), DPA 2018 s.164A
+    /ico\.org\.uk/, // Art 13(2)(d) complaint to the regulator
+    /not under any legal or contractual obligation/, // Art 13(2)(e)
+    /solely on automated processing/, // Art 13(2)(f)
+  ];
+  for (const pattern of required) assert.match(text, pattern, String(pattern));
+  // The cookie described must be the one the server actually sets.
+  const runtime = await readFile('server/runtime.ts', 'utf8');
+  const cookie = runtime.match(/const cookieName = '([^']+)'/)[1];
+  assert.match(text, new RegExp(cookie));
+  assert.match(runtime, /Max-Age=600/);
+  assert.match(text, /10 minutes/);
+  // The stated retention must match the configured retention.
+  const config = await readFile('src/config/business.ts', 'utf8');
+  assert.match(config, /enquiryRetentionDays: 365/);
+  dom.window.close();
+});
+
+test('the privacy policy covers contacting businesses, as PECR and Article 14 require', async () => {
+  const dom = await page('/privacy/');
+  const text = dom.window.document.querySelector('main').textContent.replace(/\s+/g, ' ');
+  for (const pattern of [
+    /people at businesses we contact to offer our services/, // scope
+    /business contact details that businesses publish themselves/, // Art 14(1)(d), 14(2)(f) source
+    /Legitimate interests in promoting our services to businesses/, // lawful basis
+    /Telephone Preference Service and Corporate Telephone Preference Service/, // PECR reg 21
+    /never hide our number/, // PECR reg 21(1)/24 caller identification
+    /only email sole traders and partnerships with their consent/, // PECR reg 22
+    /do-not-contact record/, // Art 21(3) objection honoured
+    /if it doesn’t lead to an enquiry or paid work/, // Art 14(1)(a)-(2)(a) retention
+  ])
+    assert.match(text, pattern, String(pattern));
+  // The old blanket statement would contradict outbound calling.
+  assert.doesNotMatch(text, /send marketing emails\./);
+  dom.window.close();
+});
+
+test('the terms make the required trader disclosures and consumer information available', async () => {
+  const dom = await page('/terms/');
+  const doc = dom.window.document;
+  const text = doc.querySelector('main').textContent.replace(/\s+/g, ' ');
+  for (const pattern of [
+    /Oliver James Burns/, // PSR reg 8(1)(a), E-Commerce reg 6(1)(a)
+    /sole trader/, // PSR reg 8(1)(b)
+    /279 Lower Braniel Road/, // PSR reg 8(1)(c), E-Commerce reg 6(1)(b)
+    /not registered for VAT/, // PSR reg 8(1)(g), E-Commerce reg 6(2)
+    /law of Northern Ireland/, // PSR reg 8(1)(j)
+    /after-sales warranty/, // PSR reg 8(1)(k)
+    /cancel the contract within 14 days/, // Consumer Contracts Regulations 2013
+    /not a member of any alternative dispute resolution scheme/, // DMCC Act 2024 s.308
+    /Late Payment of Commercial Debts/,
+    /death or personal injury caused by our negligence/, // UCTA 1977 s.2(1)
+    /Contracts \(Rights of Third Parties\) Act 1999 does not apply/,
+  ])
+    assert.match(text, pattern, String(pattern));
+  // UK GDPR Article 28(3)(a) to (h): all eight processor obligations are listed.
+  assert.equal(doc.querySelectorAll('#data-processing ol > li').length, 8);
+  assert.match(
+    doc.getElementById('cancellation-form').textContent,
+    /hereby give notice that I cancel/,
+  );
+  dom.window.close();
+});
+
+test('public launch is blocked until a business phone number is configured', async () => {
+  const config = await readFile('src/config/business.ts', 'utf8');
+  const required = config.slice(config.indexOf('const required = ['), config.indexOf('] as const'));
+  assert.match(required, /'telephone'/);
 });

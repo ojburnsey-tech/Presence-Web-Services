@@ -1,159 +1,700 @@
 ---
+/**
+ * Privacy policy.
+ *
+ * Written against UK GDPR Articles 12 to 14 (as amended by the Data (Use and Access) Act 2025),
+ * section 164A of the Data Protection Act 2018 (complaints to the controller, in force
+ * 19 June 2026), and PECR Schedule A1 (storage and access technologies, in force 5 February 2026).
+ *
+ * Every factual statement here describes how this codebase actually behaves. If the code,
+ * providers or retention periods change, this page must change in the same commit.
+ */
 import LegalLayout from '../layouts/LegalLayout.astro';
 import { business } from '../config/business';
+
+const updated = '10 November 2026';
 const sections = [
-  { id: 'responsibility', label: 'Who is responsible' },
-  { id: 'information', label: 'Information collected' },
-  { id: 'purpose', label: 'How information is used' },
-  { id: 'providers', label: 'Storage and providers' },
-  { id: 'retention', label: 'Retention' },
+  { id: 'summary', label: 'Summary' },
+  { id: 'who-we-are', label: 'Who we are' },
+  { id: 'scope', label: 'What this policy covers' },
+  { id: 'information', label: 'Information we collect' },
+  { id: 'use', label: 'How and why we use it' },
+  { id: 'sharing', label: 'Who we share it with' },
+  { id: 'transfers', label: 'Transfers outside the UK' },
+  { id: 'retention', label: 'How long we keep it' },
   { id: 'rights', label: 'Your rights' },
-  { id: 'cookies', label: 'Cookies and changes' },
+  { id: 'complaints', label: 'Complaints' },
+  { id: 'cookies', label: 'Cookies' },
+  { id: 'security', label: 'Security' },
+  { id: 'other', label: 'Children, links and changes' },
 ];
+const phoneHref = business.telephone.replace(/[^\d+]/g, '');
 ---
 
 <LegalLayout
   title="Privacy policy"
-  description="How Presence Web Services handles information shared through an enquiry, and the choices you have about your personal information."
+  description="How Presence Web Services collects, uses, shares and protects personal information, how long it is kept, and the rights you have over it."
   sections={sections}
+  updated={updated}
 >
-  <section id="responsibility">
-    <h2>1. Who is responsible</h2>
+  <section id="summary" class="legal-summary" aria-labelledby="summary-heading">
+    <h2 id="summary-heading">Summary</h2>
+    <ul>
+      <li>
+        We collect what you give us when you request an audit or contact us, and use it to reply,
+        carry out the audit and, if you want, provide our services.
+      </li>
+      <li>
+        We don’t sell your information or use it for advertising. We may phone, visit or, where the
+        law allows, email businesses to offer our services, and we stop as soon as you ask.
+      </li>
+      <li>
+        This website uses no analytics, advertising or tracking cookies. The only cookie we set is a
+        ten-minute cookie that confirms your request was received.
+      </li>
+      <li>
+        Website enquiries are deleted automatically after 12 months unless they lead to paid work.
+      </li>
+      <li>
+        You can ask to see, correct or delete your information, or complain, at any time. Details
+        are below.
+      </li>
+    </ul>
+  </section>
+
+  <section id="who-we-are">
+    <h2>1. Who we are</h2>
     <p>
-      Presence Web Services uses enquiry information to respond to people asking about its website
-      and online presence services. This policy covers enquiries through this website, rather than
-      the processing arrangements for a paid client project.
+      Presence Web Services is the trading name of {business.legalName || 'its owner'}, a sole
+      trader. In this policy, “we”, “us” and “our” mean {business.legalName || 'the owner'} trading
+      as Presence Web Services. We are the controller of the personal information described here,
+      which means we decide how and why it is used and are responsible for protecting it.
     </p>
-    {business.legalName && (
-      <p>
-        The data controller is {business.legalName}
-        {business.correspondenceAddress && `, ${business.correspondenceAddress}`}.
-      </p>
-    )}
-    <p>
-      For privacy questions, use the{' '}
-      <a class="inline-link" href="/contact/">
-        contact form
-      </a>
-      {business.email && (
-        <>
-          {' '}
-          or email{' '}
-          <a class="inline-link" href={`mailto:${business.email}`}>
-            {business.email}
-          </a>
-        </>
+    <ul>
+      {business.correspondenceAddress && <li>Address: {business.correspondenceAddress}</li>}
+      <li>
+        Email: <a href={`mailto:${business.email}`}>{business.email}</a>
+      </li>
+      {business.telephone && (
+        <li>
+          Telephone: <a href={`tel:${phoneHref}`}>{business.telephone}</a>
+        </li>
       )}
-      . Explain that your message concerns personal information. Do not include identity documents,
-      passwords or sensitive information in the form.
+      {business.icoRegistration && (
+        <li>Information Commission registration number: {business.icoRegistration}</li>
+      )}
+    </ul>
+    <p>
+      We are a one-person business and are not required to appoint a data protection officer.{' '}
+      {business.founder.name} is responsible for how personal information is handled and is the
+      person you will deal with about any privacy question.
     </p>
   </section>
+
+  <section id="scope">
+    <h2>2. What this policy covers</h2>
+    <p>This policy explains how we handle personal information about:</p>
+    <ul>
+      <li>people who visit this website;</li>
+      <li>people who request a free audit or contact us by form, email or phone;</li>
+      <li>
+        people whose information appears in public material we review during an audit, such as a
+        business website or Google Business Profile;
+      </li>
+      <li>
+        people at businesses we contact to offer our services, by phone, in person or by email; and
+      </li>
+      <li>the contacts at businesses we quote for or work with.</li>
+    </ul>
+    <p>
+      When we work on a client’s website or accounts, we may handle personal information about that
+      client’s own customers, such as messages sent through their contact form. In that case the
+      client is the controller and we act as their processor, following their instructions under the
+      data processing terms in our <a href="/terms/#data-processing">terms of service</a>. The
+      client’s own privacy notice applies to that information, not this one.
+    </p>
+  </section>
+
   <section id="information">
-    <h2>2. Information collected</h2>
+    <h2>3. Information we collect</h2>
+    <h3>Information you give us</h3>
+    <p>When you request an audit through the form on this website, we ask for:</p>
+    <ul>
+      <li>your name, your business name, your email address and your phone number (required);</li>
+      <li>what you would like to improve (required);</li>
+      <li>
+        your website address, a link to your Google listing, your town or area, and the kind of help
+        you are interested in (optional).
+      </li>
+    </ul>
     <p>
-      The enquiry form asks for your contact name, business name, email address and main goal or
-      concern. You may also choose to provide a website address, Google Business Profile or Maps
-      link, location, service preference and telephone number.
+      We need the required details to reply to you and carry out the audit. If you don’t provide
+      them, we can’t process the request through the form, but you can still email us. You are not
+      under any legal or contractual obligation to give us this information.
     </p>
     <p>
-      If you request a review, Presence may look at publicly available business information that you
-      identify, such as your website and Google profile. Correspondence and notes relevant to your
-      enquiry may be kept with your submission.
+      We also keep what you tell us in emails, phone calls and meetings, and any information you
+      give us so that we can quote for or carry out work, such as access details for your website or
+      Google account, content and photographs, and your invoicing details.
     </p>
     <p>
-      The hosting infrastructure may process IP addresses and request details. The application uses
-      a keyed hash of the request IP for short-lived rate limits and does not store the raw IP with
-      enquiries. Please only share personal information you are entitled to provide.
+      Please don’t send us passwords, identity documents or sensitive information, such as details
+      about health, ethnicity, religion, politics, trade union membership, sexuality or criminal
+      records. We don’t ask for it and don’t need it.
+    </p>
+
+    <h3>Information collected automatically</h3>
+    <p>
+      This website does not use analytics or tracking. When you use it, our hosting providers
+      automatically process technical information needed to deliver and protect the website, such as
+      your IP address, browser type and the pages requested. We don’t use this to identify you.
+    </p>
+    <p>
+      When you submit the form, the website turns your IP address into a scrambled code using a
+      secret key, and uses that code to limit how many requests can be sent in a short time. It does
+      the same with your email address to limit how many confirmation emails one address can
+      receive. Your actual IP address is not stored, and these codes are deleted once they are more
+      than 24 hours old (see section 7).
+    </p>
+
+    <h3>Information from public sources</h3>
+    <p>
+      When we carry out an audit, we look at information you point us to and information that is
+      publicly available about your business, such as your website, your Google Business Profile,
+      online reviews, business directories and search results. This can include personal
+      information, for example the name of a sole trader, staff names on a website or the names of
+      people who have left reviews. We only use it to assess how your business appears online and to
+      advise you.
+    </p>
+    <p>
+      To find businesses we might be able to help, we also collect business contact details that
+      businesses publish themselves, such as the business name, the owner’s or manager’s name, and
+      the phone number and email address shown on the business’s website, Google Business Profile or
+      directory listings. We keep brief notes of any conversation, including whether you are
+      interested and whether you have asked us not to contact you again.
     </p>
   </section>
-  <section id="purpose">
-    <h2>3. How and why information is used</h2>
+
+  <section id="use">
+    <h2>4. How and why we use your information</h2>
     <p>
-      Information is used to respond to your message, carry out a requested public audit, discuss
-      suitable support and prepare a proposal if you want one. It is also used where necessary to
-      keep the service secure or meet a legal obligation.
+      Data protection law requires us to have a lawful basis for each use of personal information.
+      These are the purposes we use it for and the basis we rely on.
     </p>
+    <div class="legal-table" role="region" aria-label="Purposes and lawful bases" tabindex="0">
+      <table role="table">
+        <thead role="rowgroup">
+          <tr role="row">
+            <th scope="col" role="columnheader">
+              What we use it for
+            </th>
+            <th scope="col" role="columnheader">
+              Information used
+            </th>
+            <th scope="col" role="columnheader">
+              Lawful basis
+            </th>
+          </tr>
+        </thead>
+        <tbody role="rowgroup">
+          <tr role="row">
+            <th scope="row" role="rowheader">
+              Replying to your enquiry and carrying out the free audit
+            </th>
+            <td role="cell" data-label="Information used">
+              Form details, correspondence, public information about your business
+            </td>
+            <td role="cell" data-label="Lawful basis">
+              Taking steps at your request before entering into a contract, where you are enquiring
+              for yourself, for example as a sole trader (Article 6(1)(b)). Otherwise, our
+              legitimate interests in responding to business enquiries (Article 6(1)(f)).
+            </td>
+          </tr>
+          <tr role="row">
+            <th scope="row" role="rowheader">
+              Emailing you to confirm we received your request
+            </th>
+            <td role="cell" data-label="Information used">
+              Email address
+            </td>
+            <td role="cell" data-label="Lawful basis">
+              Legitimate interests in confirming receipt and setting expectations (6(1)(f))
+            </td>
+          </tr>
+          <tr role="row">
+            <th scope="row" role="rowheader">
+              Preparing a quote and providing our services
+            </th>
+            <td role="cell" data-label="Information used">
+              Contact details, project information, access details, correspondence
+            </td>
+            <td role="cell" data-label="Lawful basis">
+              Performing our contract with you (6(1)(b)), or, where our client is your employer or
+              organisation, our legitimate interests in working with them (6(1)(f))
+            </td>
+          </tr>
+          <tr role="row">
+            <th scope="row" role="rowheader">
+              Contacting businesses to offer our services, and keeping a record of anyone who has
+              asked us not to contact them
+            </th>
+            <td role="cell" data-label="Information used">
+              Business name, contact name, published business phone number and email address, public
+              information about the business, notes of our contact
+            </td>
+            <td role="cell" data-label="Lawful basis">
+              Legitimate interests in promoting our services to businesses, which the law recognises
+              as an example of a legitimate interest (6(1)(f)). Keeping a do-not-contact record is
+              also needed to comply with the Privacy and Electronic Communications Regulations
+              (6(1)(c)).
+            </td>
+          </tr>
+          <tr role="row">
+            <th scope="row" role="rowheader">
+              Invoicing, accounts and tax
+            </th>
+            <td role="cell" data-label="Information used">
+              Name, business and contact details, invoices and payments
+            </td>
+            <td role="cell" data-label="Lawful basis">
+              Compliance with our legal obligations, including tax law (6(1)(c))
+            </td>
+          </tr>
+          <tr role="row">
+            <th scope="row" role="rowheader">
+              Keeping a record of enquiries and following up on a request you made
+            </th>
+            <td role="cell" data-label="Information used">
+              Form details and correspondence
+            </td>
+            <td role="cell" data-label="Lawful basis">
+              Legitimate interests in keeping accurate records of what was asked and agreed
+              (6(1)(f))
+            </td>
+          </tr>
+          <tr role="row">
+            <th scope="row" role="rowheader">
+              Protecting the website and preventing spam and abuse
+            </th>
+            <td role="cell" data-label="Information used">
+              Scrambled IP and email codes, technical information
+            </td>
+            <td role="cell" data-label="Lawful basis">
+              Legitimate interests in keeping the website and our systems secure, which the law
+              recognises as an example of a legitimate interest (6(1)(f))
+            </td>
+          </tr>
+          <tr role="row">
+            <th scope="row" role="rowheader">
+              Establishing, exercising or defending legal claims
+            </th>
+            <td role="cell" data-label="Information used">
+              Any relevant records
+            </td>
+            <td role="cell" data-label="Lawful basis">
+              Legitimate interests in protecting our legal position (6(1)(f))
+            </td>
+          </tr>
+          <tr role="row">
+            <th scope="row" role="rowheader">
+              Responding to requests from regulators, courts or law enforcement
+            </th>
+            <td role="cell" data-label="Information used">
+              Any relevant records
+            </td>
+            <td role="cell" data-label="Lawful basis">
+              Compliance with a legal obligation (6(1)(c))
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
     <p>
-      Where you enquire on your own behalf about a possible contract, the lawful basis is taking
-      steps at your request before entering a contract. For business enquiries made on behalf of an
-      organisation, and for appropriate record keeping and security, Presence relies on legitimate
-      interests in responding to relevant enquiries and running a safe service, balanced against
-      your rights. Legal obligations apply where records must be retained by law.
+      Where we rely on legitimate interests, we have considered whether our use is necessary and
+      whether it is outweighed by your interests and rights. You can ask us for more detail about
+      that assessment, and you have the right to object (see section 8).
     </p>
+    <h3>What we don’t do</h3>
+    <ul>
+      <li>We don’t sell or rent personal information, or share it for anyone else’s marketing.</li>
+      <li>
+        We don’t add you to a mailing list or send newsletters. When we contact a business to offer
+        our services, we follow the Privacy and Electronic Communications Regulations: we check
+        phone numbers against the Telephone Preference Service and Corporate Telephone Preference
+        Service registers before calling, unless you have told us we may call; we never hide our
+        number; we only email sole traders and partnerships with their consent; and every marketing
+        email we send includes a simple way to opt out.
+      </li>
+      <li>
+        If you ask us not to contact you again, by phone, email or in person, we stop straight away
+        and add your business to our do-not-contact record.
+      </li>
+      <li>
+        We don’t make decisions about you based solely on automated processing, including profiling,
+        that have legal or similarly significant effects.
+      </li>
+      <li>
+        We may use AI-assisted tools to help analyse public information during an audit or to help
+        draft and review work. We don’t enter your contact details, or confidential information or
+        personal data you give us, into those tools without your agreement, and a person reviews
+        everything we send you.
+      </li>
+    </ul>
     <p>
-      Sending an enquiry does not sign you up to marketing. Presence does not sell enquiry
-      information or use it to make automated decisions with legal or similarly significant effects.
+      If we want to use your information for a new purpose that isn’t compatible with the purpose we
+      collected it for, we will tell you before we do.
     </p>
   </section>
-  <section id="providers">
-    <h2>4. Storage, service providers and transfers</h2>
+
+  <section id="sharing">
+    <h2>5. Who we share it with</h2>
     <p>
-      This website runs on OpenAI Sites using Cloudflare hosting and a Cloudflare D1 database. Valid
-      enquiry details are saved in that database. Only authorised owner access can retrieve or
-      delete them.
+      We use a small number of service providers to run this website and our email. They process
+      personal information on our behalf, under contracts that require them to keep it secure and
+      use it only as we instruct:
     </p>
+    <ul>
+      <li>
+        <strong>OpenAI</strong>, which provides the platform this website is built and hosted on.
+      </li>
+      <li>
+        <strong>Cloudflare</strong>, which provides the hosting network, the database that stores
+        website enquiries, security protection and the forwarding of email sent to our address.
+      </li>
+      <li>
+        <strong>Resend</strong> (Plus Five Five, Inc.), which sends the email we receive about your
+        request and the confirmation email we send to you.
+      </li>
+      <li>
+        <strong>Google</strong>, which provides the Gmail inbox where our email is kept.
+      </li>
+    </ul>
+    <p>We may also share information:</p>
+    <ul>
+      <li>
+        with professional advisers, such as an accountant or solicitor, who are bound by duties of
+        confidentiality;
+      </li>
+      <li>
+        with a subcontractor helping with your project, only if you have agreed to it in advance and
+        under a written contract that protects your information;
+      </li>
+      <li>
+        with HM Revenue and Customs, regulators, courts or law enforcement where the law requires
+        it, or where it is needed to establish, exercise or defend legal claims; and
+      </li>
+      <li>
+        with a buyer or successor if the business is ever sold or transferred, who would have to use
+        it in line with this policy.
+      </li>
+    </ul>
+  </section>
+
+  <section id="transfers">
+    <h2>6. Transfers outside the UK</h2>
     <p>
-      When you submit the form, the details you enter are emailed to Presence through Resend, an
-      email delivery service, and Resend also sends you a confirmation that your request arrived.
-      Email to contact@presencewebservices.co.uk, including those enquiry emails, is forwarded by
-      Cloudflare Email Routing to the owner's Gmail inbox. OpenAI, Cloudflare, Resend and Google
-      process information under their own applicable service terms. Information may be processed
-      outside the UK under those providers’ safeguards.
+      Some of our service providers are based in, or use servers in, the United States and other
+      countries outside the UK. When personal information is transferred outside the UK, it is
+      protected in one of the ways UK data protection law allows:
     </p>
+    <ul>
+      <li>
+        the country or organisation is covered by UK adequacy regulations, including the UK
+        Extension to the EU-US Data Privacy Framework (sometimes called the UK-US data bridge) for
+        US organisations certified under it; or
+      </li>
+      <li>
+        the transfer is covered by the UK’s approved contract terms, either the International Data
+        Transfer Agreement or the UK Addendum to the EU Standard Contractual Clauses, included in
+        the provider’s data processing terms.
+      </li>
+    </ul>
     <p>
-      Presence limits access to information to what is needed for the enquiry or agreed work. No
-      enquiry information is published on this website, and the form does not store your details in
-      browser storage.
+      For example, Resend’s data processing terms state that its main processing takes place in the
+      United States and that UK transfers are made under the UK Addendum to the EU Standard
+      Contractual Clauses, and Resend states that it is certified under the Data Privacy Framework.
+      You can ask us for more information about the safeguard used for any provider, and for a copy
+      of it.
     </p>
   </section>
+
   <section id="retention">
-    <h2>5. Keeping and deleting information</h2>
+    <h2>7. How long we keep it</h2>
+    <p>
+      We keep personal information only for as long as we need it for the purposes above, and then
+      delete it.
+    </p>
+    <div class="legal-table" role="region" aria-label="Retention periods" tabindex="0">
+      <table role="table">
+        <thead role="rowgroup">
+          <tr role="row">
+            <th scope="col" role="columnheader">
+              Information
+            </th>
+            <th scope="col" role="columnheader">
+              How long we keep it
+            </th>
+          </tr>
+        </thead>
+        <tbody role="rowgroup">
+          <tr role="row">
+            <th scope="row" role="rowheader">
+              Enquiries stored by the website
+            </th>
+            <td role="cell" data-label="How long we keep it">
+              12 months from when you send them, then deleted by the website’s automatic clean-up.
+            </td>
+          </tr>
+          <tr role="row">
+            <th scope="row" role="rowheader">
+              Emails and notes about an enquiry that doesn’t lead to paid work
+            </th>
+            <td role="cell" data-label="How long we keep it">
+              Deleted within 12 months of our last contact with you.
+            </td>
+          </tr>
+          <tr role="row">
+            <th scope="row" role="rowheader">
+              Business contact details and notes from contacting businesses
+            </th>
+            <td role="cell" data-label="How long we keep it">
+              Deleted within 12 months of our last contact if it doesn’t lead to an enquiry or paid
+              work.
+            </td>
+          </tr>
+          <tr role="row">
+            <th scope="row" role="rowheader">
+              Do-not-contact record
+            </th>
+            <td role="cell" data-label="How long we keep it">
+              For as long as we contact businesses, so that we never contact you again by mistake.
+              We keep only the business name, the number or address you asked us not to use, and the
+              date.
+            </td>
+          </tr>
+          <tr role="row">
+            <th scope="row" role="rowheader">
+              Client records, contracts and project correspondence
+            </th>
+            <td role="cell" data-label="How long we keep it">
+              Six years after our work together ends, which is the time limit for most contract
+              claims in Northern Ireland.
+            </td>
+          </tr>
+          <tr role="row">
+            <th scope="row" role="rowheader">
+              Invoices, payments and other accounting records
+            </th>
+            <td role="cell" data-label="How long we keep it">
+              At least five years after the 31 January filing deadline for the tax year they relate
+              to, as HM Revenue and Customs requires, and in any case no less than the six years
+              above.
+            </td>
+          </tr>
+          <tr role="row">
+            <th scope="row" role="rowheader">
+              Scrambled IP and email codes used to prevent abuse
+            </th>
+            <td role="cell" data-label="How long we keep it">
+              Deleted by the automatic clean-up once they are more than 24 hours old.
+            </td>
+          </tr>
+          <tr role="row">
+            <th scope="row" role="rowheader">
+              Request confirmation cookie
+            </th>
+            <td role="cell" data-label="How long we keep it">
+              Ten minutes.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
     {business.privacyRetention && <p>{business.privacyRetention}</p>}
     <p>
-      When information is no longer needed, it should be deleted from the database and any related
-      correspondence, subject to provider backup cycles and legal obligations. If you become a
-      client, a separate agreement may explain the records needed for the paid service.
+      The website’s automatic clean-up runs whenever a request is submitted and whenever we review
+      enquiries, and we review them regularly, so expired records do not build up.
+    </p>
+    <p>
+      We may keep information for longer if we must by law, or if it is needed for a complaint or
+      legal claim, and only for as long as that requires. Deleted information may remain in our
+      providers’ secure backups for a limited period until it is overwritten in their normal backup
+      cycle. Resend, for example, deletes data within 90 days of an account being closed.
     </p>
   </section>
+
   <section id="rights">
-    <h2>6. Your rights</h2>
+    <h2>8. Your rights</h2>
+    <p>Under data protection law you have the right to:</p>
+    <ul>
+      <li>
+        <strong>Access</strong> your personal information and receive a copy of it.
+      </li>
+      <li>
+        <strong>Rectification</strong>: have inaccurate information corrected or incomplete
+        information completed.
+      </li>
+      <li>
+        <strong>Erasure</strong>: have your information deleted, for example where we no longer need
+        it or you object and we have no overriding reason to keep it.
+      </li>
+      <li>
+        <strong>Restriction</strong>: ask us to limit how we use your information, for example while
+        we check its accuracy.
+      </li>
+      <li>
+        <strong>Object</strong> to our use of your information where we rely on legitimate
+        interests. We will stop unless we have compelling legitimate grounds that override your
+        interests, or we need it for a legal claim. You can always object to direct marketing, and
+        we will then stop.
+      </li>
+      <li>
+        <strong>Data portability</strong>: receive information you gave us in a structured, commonly
+        used, machine-readable format, or have it sent to someone else, where we use it on the basis
+        of a contract and by automated means.
+      </li>
+      <li>
+        <strong>Complain</strong> to us and to the Information Commission (see section 9).
+      </li>
+    </ul>
     <p>
-      Depending on the circumstances, you may request access to your personal information,
-      correction of inaccurate information, erasure, restriction or portability. You may object to
-      processing based on legitimate interests. These rights have legal limits and may not apply to
-      every record.
+      Some rights only apply in certain circumstances, and the law sets some exceptions. If we can’t
+      do what you ask, we will explain why.
+    </p>
+    <h3>How to use your rights</h3>
+    <p>
+      Email <a href={`mailto:${business.email}`}>{business.email}</a>
+      {business.correspondenceAddress && `, write to us at ${business.correspondenceAddress},`} or
+      use the <a href="/contact/">contact form</a>. You don’t need to use particular words. It helps
+      if you tell us the email address you used so we can find your information.
     </p>
     <p>
-      Use the{' '}
-      <a class="inline-link" href="/contact/">
-        contact form
-      </a>{' '}
-      to make a request, with enough information to locate your enquiry. Proportionate identity
-      verification may be needed before information is disclosed. A request will be handled within
-      the applicable statutory time limit.
-    </p>
-    <p>
-      You can also complain to the UK Information Commissioner’s Office. Visit{' '}
-      <a class="inline-link" href="https://ico.org.uk/make-a-complaint/" rel="external">
-        ico.org.uk
-      </a>{' '}
-      for information about raising a data protection concern.
+      There is no charge. We will respond without undue delay and within one month. If your request
+      is complex, or you make a number of requests, we can extend this by up to two more months and
+      will tell you why within the first month. If we need more information to confirm your
+      identity, the time limit starts when we receive it. If we need you to clarify what you are
+      asking for, the time limit is paused until you reply. We may charge a reasonable fee, or
+      refuse, only if a request is manifestly unfounded or excessive, and we will explain why.
     </p>
   </section>
-  <section id="cookies">
-    <h2>7. Cookies and policy changes</h2>
+
+  <section id="complaints">
+    <h2>9. Complaints</h2>
     <p>
-      This website does not include advertising trackers or analytics scripts. After a saved
-      enquiry, an essential, signed receipt cookie lasts ten minutes so the confirmation page can
-      show a genuine receipt. It contains an opaque record identifier, expiry and signature, not the
-      enquiry details. It is HttpOnly, SameSite=Lax and Secure over HTTPS. The private hosting
-      sign-in service may set its own authentication cookies. Hosting infrastructure may use
-      technical measures needed to deliver and secure the service. If optional analytics or other
-      tracking is introduced, this policy and any required consent controls must be updated first.
+      If you are unhappy with how we have handled your personal information, please tell us first.
+      You can complain online by emailing <a href={`mailto:${business.email}`}>{business.email}</a>
+      {business.correspondenceAddress && ` or by writing to ${business.correspondenceAddress}`}. We
+      will acknowledge your complaint within 30 days, look into it without undue delay, keep you
+      updated and tell you the outcome.
     </p>
     <p>
-      The policy should be reviewed when the website, enquiry process or service providers change.
-      The version available on this page describes the current website implementation.
+      You also have the right to complain to the Information Commission, the UK’s data protection
+      regulator, which is still known as the ICO:
+    </p>
+    <ul>
+      <li>
+        Online:{' '}
+        <a href="https://ico.org.uk/make-a-complaint/" rel="external">
+          ico.org.uk/make-a-complaint
+        </a>
+      </li>
+      <li>Helpline: 0303 123 1113</li>
+    </ul>
+    <p>
+      The ICO usually expects you to raise a complaint with the organisation first, but you don’t
+      have to wait for our response before contacting it.
+    </p>
+  </section>
+
+  <section id="cookies">
+    <h2>10. Cookies and similar technologies</h2>
+    <p>
+      This website uses no analytics, advertising, social media or tracking cookies, and loads no
+      fonts, scripts or images from third parties. Because the only cookie we set is strictly
+      necessary, the law does not require us to ask for your consent, so there is no cookie banner.
+    </p>
+    <div class="legal-table" role="region" aria-label="Cookies used" tabindex="0">
+      <table role="table">
+        <thead role="rowgroup">
+          <tr role="row">
+            <th scope="col" role="columnheader">
+              Cookie
+            </th>
+            <th scope="col" role="columnheader">
+              Purpose
+            </th>
+            <th scope="col" role="columnheader">
+              Lasts
+            </th>
+          </tr>
+        </thead>
+        <tbody role="rowgroup">
+          <tr role="row">
+            <th scope="row" role="rowheader">
+              <code>presence_receipt</code>
+            </th>
+            <td role="cell" data-label="Purpose">
+              Set only after your request has been saved, so the confirmation page can show that it
+              was received. It contains a random reference and a security signature, not your
+              details. It can only be read by our website, only on the confirmation page, and not by
+              scripts in your browser.
+            </td>
+            <td role="cell" data-label="Lasts">
+              10 minutes
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p>
+      Our hosting provider, Cloudflare, may also set strictly necessary security cookies to protect
+      the website from automated attacks. These do not track you across other websites.
+    </p>
+    <p>
+      You can block or delete cookies in your browser settings. If you block the confirmation
+      cookie, your request will still be sent, but the confirmation page will show a general message
+      instead. If we ever want to use cookies that are not strictly necessary, we will update this
+      policy first and ask for your consent where the law requires it.
+    </p>
+  </section>
+
+  <section id="security">
+    <h2>11. How we protect your information</h2>
+    <p>We use technical and organisational measures appropriate to the risk, including:</p>
+    <ul>
+      <li>encrypted connections (HTTPS) for the whole website;</li>
+      <li>
+        storing enquiries in a database that only we can read, using a secret key or our own
+        password-protected hosting account, with no public way to view them;
+      </li>
+      <li>limiting what we collect, and deleting it on a fixed schedule;</li>
+      <li>protections against spam, automated abuse and malicious input; and</li>
+      <li>
+        using delegated, permission-based access to client accounts wherever the platform allows,
+        instead of sharing passwords.
+      </li>
+    </ul>
+    <p>
+      No system is completely secure. If a personal data breach happens that is likely to put your
+      rights at risk, we will report it to the Information Commission within 72 hours of becoming
+      aware of it, and, where the risk to you is high, we will tell you without undue delay.
+    </p>
+  </section>
+
+  <section id="other">
+    <h2>12. Children, other websites and changes</h2>
+    <p>
+      Our services are for businesses and are not aimed at children. We don’t knowingly collect
+      information from anyone under 18.
+    </p>
+    <p>
+      This website links to other websites, such as Google and the Information Commission. We are
+      not responsible for their privacy practices, so please read their own policies.
+    </p>
+    <p>
+      We will update this policy when our practices, providers or the law change. The date at the
+      top shows when it was last changed. If we make a significant change that affects how we use
+      information we already hold about you, we will tell you directly where we can.
     </p>
   </section>
 </LegalLayout>
